@@ -1,3 +1,4 @@
+import 'package:deltasports_app/utilis/global.colors.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -25,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text(
                   'Bem-vindo(a)',
                   style: TextStyle(
+                    color: GlobalColors.textColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
                   ),
@@ -40,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text(
                   'Faça o login ou cadastre-se para continuar',
                   style: TextStyle(
+                    color: GlobalColors.textColor,
                     fontWeight: FontWeight.normal,
                     fontSize: 16,
                   ),
@@ -104,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Color(0XFFa52502),
+                    color: GlobalColors.red,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow:  [
                     BoxShadow(
@@ -143,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Color(0xFF154B52)),
+                  border: Border.all(color: GlobalColors.blue),
                   boxShadow:  [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -157,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     'Voltar',
                     style: TextStyle(
-                      color: Color.fromARGB(255, 12, 46, 42),
+                      color: GlobalColors.textColor,
                       fontWeight: FontWeight.normal,
                       fontSize: 20,
                     ),
