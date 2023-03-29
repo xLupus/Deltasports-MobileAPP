@@ -1,5 +1,7 @@
+import 'package:deltasports_app/index.dart';
+import 'package:deltasports_app/login_page.dart';
+import 'package:deltasports_app/sing_up.dart';
 import 'package:flutter/material.dart';
-import 'login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,8 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/':(context)           => HomePage(),
+        '/Registrar':(context)  => RegisterPage(),
+        '/Login':(context)      => LoginPage()
+      },
+      initialRoute: '/',
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
     );
   }
 }

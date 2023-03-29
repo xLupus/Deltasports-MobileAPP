@@ -15,9 +15,8 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Center(
           child: Column(children: [
-            Image.asset('imagens/logo.png',
-            width: 120,
-            height: 100),
+            Image.network('https://i.imgur.com/aSEadiB.png'),
+          
 
             SizedBox(height: 75),
 
@@ -62,9 +61,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
-                  child: TextField(
+                  child: TextFormField(
                     decoration: InputDecoration(
-                      hintText: 'Email',
+                      labelText: 'Email',
                     ),
                   ),
                 ),
@@ -83,10 +82,10 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
-                  child: TextField(
+                  child: TextFormField(
                     obscureText: true,
                     decoration: InputDecoration(
-                      hintText: 'Senha',
+                      labelText: 'Senha',
                     ),
                   ),
                 ),
@@ -98,19 +97,34 @@ class _LoginPageState extends State<LoginPage> {
             //Btn entrar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Color(0XFFa52502),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Center(
-                  child: Text(
-                    'Entrar',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+              child: GestureDetector(
+                onTap: () => {
+                  Navigator.of(context).pushReplacementNamed(
+                    '/'
+                  )
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Color(0XFFa52502),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow:  [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 1,
+                      offset: Offset(0, 5), // changes position of shadow
+                    ),
+                  ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Entrar',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ),
@@ -119,26 +133,40 @@ class _LoginPageState extends State<LoginPage> {
 
             SizedBox(height: 20),
 
+            //Btn voltar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Container(
-                padding: EdgeInsets.all(20),
+              child: GestureDetector(
+                onTap: () => {
+                  Navigator.of(context).pushNamed('/'),
+                },
+                child: Container(
+                padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Color(0xFF154b52)),
+                  border: Border.all(color: Color(0xFF154B52)),
+                  boxShadow:  [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 1,
+                      offset: Offset(0, 5), // changes position of shadow
+                    ),
+                  ],
                 ),
                 child: Center(
                   child: Text(
                     'Voltar',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Color.fromARGB(255, 12, 46, 42),
                       fontWeight: FontWeight.normal,
                       fontSize: 20,
                     ),
                   ),
                 ),
               ),
+            ),
             ),
           ]),
         ),
