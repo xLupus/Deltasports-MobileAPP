@@ -16,8 +16,6 @@ class _LoginPageState extends State<LoginPage> {
         child: Center(
           child: Column(children: [
             Image.network('https://i.imgur.com/aSEadiB.png'),
-          
-
             SizedBox(height: 75),
 
             //BemVindo
