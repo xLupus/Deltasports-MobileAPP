@@ -1,8 +1,6 @@
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
