@@ -1,18 +1,18 @@
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 
-class IndexPage extends StatefulWidget {
-  const IndexPage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<IndexPage> createState() => _IndexPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _IndexPageState extends State<IndexPage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: GlobalColors.white,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: Column(children: [

@@ -1,18 +1,18 @@
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 
-class IndexPage extends StatefulWidget {
-  const IndexPage({Key? key}) : super(key: key);
+class ProdutosPage extends StatefulWidget {
+  const ProdutosPage({Key? key}) : super(key: key);
 
   @override
-  State<IndexPage> createState() => _IndexPageState();
+  State<ProdutosPage> createState() => _ProdutosPageState();
 }
 
-class _IndexPageState extends State<IndexPage> {
+class _ProdutosPageState extends State<ProdutosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: GlobalColors.white,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: Column(children: [
@@ -26,7 +26,7 @@ class _IndexPageState extends State<IndexPage> {
               child: GestureDetector(
                 onTap: () => {
                   Navigator.of(context).pushReplacementNamed(
-                    '/Login'
+                    '/Categorias'
                   )
                 },
                 child: Container(

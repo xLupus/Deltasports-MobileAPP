@@ -1,3 +1,4 @@
+import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: GlobalColors.white,
       body: SafeArea(
         child: Center(
           child: Column(children: [
@@ -58,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: GlobalColors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
@@ -85,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: GlobalColors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
@@ -108,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: GlobalColors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
@@ -130,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: GlobalColors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
@@ -147,12 +148,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
             SizedBox(height: 18),
 
-            //SenhaConfirmar
+            //Senha Confirmar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: GlobalColors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
@@ -181,7 +182,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Color(0XFFa52502),
+                    color: GlobalColors.red,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow:  [
                     BoxShadow(
@@ -196,7 +197,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Text(
                       'Entrar',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: GlobalColors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
@@ -220,9 +221,9 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: GlobalColors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Color(0xFF154B52)),
+                  border: Border.all(color: GlobalColors.blue),
                   boxShadow:  [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -236,7 +237,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Text(
                     'Voltar',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: GlobalColors.black,
                       fontWeight: FontWeight.normal,
                       fontSize: 20,
                     ),

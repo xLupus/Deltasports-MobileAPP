@@ -1,3 +1,4 @@
+import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,14 +12,15 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: GlobalColors.white,
       body: SafeArea(
         child: Center(
           child: Column(children: [
+            SizedBox(height: 10),
             Image.network('https://i.imgur.com/aSEadiB.png'),
           
 
-            SizedBox(height: 75),
+            SizedBox(height: 40),
 
             //BemVindo
             Container(
@@ -56,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: GlobalColors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
@@ -77,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: GlobalColors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
@@ -100,13 +102,13 @@ class _LoginPageState extends State<LoginPage> {
               child: GestureDetector(
                 onTap: () => {
                   Navigator.of(context).pushReplacementNamed(
-                    '/'
+                    '/Produtos'
                   )
                 },
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Color(0XFFa52502),
+                    color: GlobalColors.red,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow:  [
                     BoxShadow(
@@ -121,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       'Entrar',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: GlobalColors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
@@ -131,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 35),
 
             //Btn voltar
             Padding(
@@ -143,9 +145,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: GlobalColors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Color(0xFF154B52)),
+                  border: Border.all(color: GlobalColors.blue),
                   boxShadow:  [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -159,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     'Voltar',
                     style: TextStyle(
-                      color: Color.fromARGB(255, 12, 46, 42),
+                      color: GlobalColors.black,
                       fontWeight: FontWeight.normal,
                       fontSize: 20,
                     ),
