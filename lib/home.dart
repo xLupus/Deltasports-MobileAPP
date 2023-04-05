@@ -12,13 +12,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+
+
+      backgroundColor: GlobalColors.white,
       body: SafeArea(
         child: Center(
           child: Column(children: [
             SizedBox(height: 150),
             Image.network('https://i.imgur.com/aSEadiB.png'),
-            SizedBox(height: 205),
+            SizedBox(height: 150),
 
             //Btn Login
             Padding(
