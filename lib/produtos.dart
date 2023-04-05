@@ -1,6 +1,5 @@
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:deltasports_app/utilis/footer.dart';
 
 
 class ProdutosPage extends StatefulWidget {
@@ -14,7 +13,8 @@ class _ProdutosPageState extends State<ProdutosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      
+      backgroundColor: GlobalColors.white,
       body: SafeArea(
         child: Center(
           child: Column(children: [
@@ -22,13 +22,13 @@ class _ProdutosPageState extends State<ProdutosPage> {
 
             //Logo E Search
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Image.network('https://i.imgur.com/ell1sHu.png'),
                 Icon(
                   Icons.search,
                   color: GlobalColors.red,
-                  size: 45.0,
+                  size: 35.0,
                 ),
               ],
             ),
@@ -37,10 +37,10 @@ class _ProdutosPageState extends State<ProdutosPage> {
             SizedBox(height: 50),
             //Titulo "Produtos e ADD"
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Produtos',
+                  'Categorias',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
@@ -49,16 +49,17 @@ class _ProdutosPageState extends State<ProdutosPage> {
                 Icon(
                   Icons.add,
                   color: GlobalColors.red,
-                  size: 45.0,
+                  size: 30.0,
                 ),
               ],
             ),
 
 
             SizedBox(height: 10),
+
             //Categorias
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceAround, // Deslizar na horizontal
               children: <Widget>[
                 //Tênis
                 Padding(
@@ -178,13 +179,17 @@ class _ProdutosPageState extends State<ProdutosPage> {
             ),
 
 
-//Footer
-
-
-  
-//Final Footer
-
-
+        //Footer
+        NavigationBar(
+          destinations: [
+            NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+            NavigationDestination(icon: Icon(Icons.settings), label: 'Configuração'),
+            NavigationDestination(icon: Icon(Icons.add_shopping_cart), label: 'Carrinho'),
+            NavigationDestination(icon: Icon(Icons.person), label: 'Perfil')
+          ],
+          backgroundColor: GlobalColors.red
+        )
+        //Final Footer
 
           ]),
         ),
