@@ -1,6 +1,8 @@
+import 'package:deltasports_app/login_page.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import '';
 
 class ProdutosPage extends StatefulWidget {
   const ProdutosPage({Key? key}) : super(key: key);
@@ -10,6 +12,26 @@ class ProdutosPage extends StatefulWidget {
 }
 
 class _ProdutosPageState extends State<ProdutosPage> {
+ 
+ @override
+ void initState() {
+  super.initState();
+  verificarToker().then((value) {
+    if(value){
+      Navigator.pushReplacement(context, 
+      MaterialPageRoute(builder: (context) => ProdutosPage(),
+      )
+      );
+    }else{
+      Navigator.pushReplacement(context, 
+      MaterialPageRoute(builder: (context) => LoginPage(),
+      ),
+      );
+    }
+  });
+ }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,9 +200,13 @@ class _ProdutosPageState extends State<ProdutosPage> {
               ],
             ),
 
+        SizedBox(height: 10),
 
-        //Footer
-        NavigationBar(
+          ]),
+        ),
+      ),
+
+      bottomNavigationBar: NavigationBar(
           destinations: [
             NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
             NavigationDestination(icon: Icon(Icons.settings), label: 'Configuração'),
@@ -188,12 +214,17 @@ class _ProdutosPageState extends State<ProdutosPage> {
             NavigationDestination(icon: Icon(Icons.person), label: 'Perfil')
           ],
           backgroundColor: GlobalColors.red
-        )
-        //Final Footer
-
-          ]),
         ),
-      ),
     );
   }
+
+  Future<bool>verificarToker() async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    if(sharedPreference.getString('token') != null){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
 }

@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -9,12 +12,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final _formkey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _senhaController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       
       backgroundColor: GlobalColors.white,
-      body: SafeArea(
+      body: Form(
+        key: _formkey,
         child: Center(
           child: Column(children: [
             SizedBox(height: 10),
@@ -65,6 +75,17 @@ class _LoginPageState extends State<LoginPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
+                    controller: _emailController,
+                    validator: (email){
+                      if(email == null || email.isEmpty){
+                        return 'Por favor, digite seu e-mail';
+                      }else if (!RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(_emailController.text)) {
+                      return 'Por favor, digite um e-mail correto';
+                    }
+                    return null;
+                    },
                     decoration: InputDecoration(
                       labelText: 'Email',
                     ),
@@ -86,11 +107,20 @@ class _LoginPageState extends State<LoginPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
+                    controller: _senhaController,
+                    validator: (senha){
+                      if(senha == null || senha.isEmpty){
+                        return 'Por favor, digite sua senha';
+                      }
+                      return null;
+                    },
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Senha',
                     ),
                   ),
+
+                  
                 ),
               ),
             ),
@@ -122,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: Center(
                     child: Text(
-                      'Entrar',
+                      'Logar',
                       style: TextStyle(
                         color: GlobalColors.white,
                         fontWeight: FontWeight.bold,
@@ -176,4 +206,24 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+   Future<bool> login() async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    var url = Uri.parse('https://pokeapi.co/api/v2/pokemon/ditto');
+    var resposta = await http.post(url,
+    body: {
+      'USUARIO_EMAIL': _emailController.text,
+      'USUARIO_SENHA': _senhaController.text,
+
+    }
+    );
+    if(resposta.statusCode == 200){
+      print(jsonDecode(resposta.body)['token']);
+      return true;
+    }else{
+      print(jsonDecode(resposta.body));
+      return false;
+    }
+  }
+
 }
