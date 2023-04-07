@@ -2,7 +2,6 @@ import 'package:deltasports_app/login_page.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '';
 
 class ProdutosPage extends StatefulWidget {
   const ProdutosPage({Key? key}) : super(key: key);
@@ -39,7 +38,8 @@ class _ProdutosPageState extends State<ProdutosPage> {
       backgroundColor: GlobalColors.white,
       body: SafeArea(
         child: Center(
-          child: Column(children: [
+          child: 
+          Column(children: [
             SizedBox(height: 20),
 
             //Logo E Search
