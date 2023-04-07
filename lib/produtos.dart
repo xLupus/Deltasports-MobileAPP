@@ -2,7 +2,7 @@ import 'package:deltasports_app/login_page.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '';
+import 'index.dart';
 
 class ProdutosPage extends StatefulWidget {
   const ProdutosPage({Key? key}) : super(key: key);
@@ -211,7 +211,17 @@ class _ProdutosPageState extends State<ProdutosPage> {
             NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
             NavigationDestination(icon: Icon(Icons.settings), label: 'Configuração'),
             NavigationDestination(icon: Icon(Icons.add_shopping_cart), label: 'Carrinho'),
-            NavigationDestination(icon: Icon(Icons.person), label: 'Perfil')
+            NavigationDestination(icon: Icon(Icons.person), label: 'Perfil'),
+            TextButton(onPressed: () async{
+              bool saiu = await sair();
+              if(saiu){
+                Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => IndexPage(),
+                ),
+                );
+              }
+            }, child: Text('Sair'),
+            ),
           ],
           backgroundColor: GlobalColors.red
         ),
@@ -225,6 +235,12 @@ class _ProdutosPageState extends State<ProdutosPage> {
     }else{
       return false;
     }
+  }
+
+  Future<bool> sair() async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.clear();
+    return true;
   }
 
 }

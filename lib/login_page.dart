@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -130,11 +130,26 @@ class _LoginPageState extends State<LoginPage> {
             //Btn entrar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: GestureDetector(
-                onTap: () => {
-                  Navigator.of(context).pushReplacementNamed(
-                    '/Produtos'
-                  )
+              child: ElevatedButton(
+                onPressed: () async {
+                  FocusScopeNode currentFocus = FocusScope.of(context);
+                  if(_formkey.currentState!.validate()){
+                    bool certo = await login();
+                    if(!currentFocus.hasFocus){
+                      currentFocus.unfocus();
+                    }
+                    if(certo){
+                      Navigator.pushReplacement(
+                        context, 
+                        MaterialPageRoute(
+                          builder:(context) => LoginPage()
+                          ),
+                      );  
+                    }else{
+                      _senhaController.clear();
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  }
                 },
                 child: Container(
                   padding: EdgeInsets.all(10),
@@ -161,10 +176,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+              ), 
               ),
-            ),
-
-            SizedBox(height: 35),
+              SizedBox(height: 35),
 
             //Btn voltar
             Padding(
@@ -203,27 +217,31 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ]),
         ),
-      ),
-    );
-  }
+        ),
+      );
+    }
+
+    final snackBar = SnackBar(content: Text('e-mail ou senha são inválidos', textAlign: TextAlign.center,), backgroundColor: GlobalColors.blue,);
+
 
    Future<bool> login() async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
     var url = Uri.parse('https://pokeapi.co/api/v2/pokemon/ditto');
     var resposta = await http.post(url,
-    body: {
-      'USUARIO_EMAIL': _emailController.text,
-      'USUARIO_SENHA': _senhaController.text,
-
+      body: {
+        'USUARIO_EMAIL': _emailController.text,
+        'USUARIO_SENHA': _senhaController.text,
     }
     );
     if(resposta.statusCode == 200){
-      print(jsonDecode(resposta.body)['token']);
+      await sharedPreference.setString('token', "Token ${jsonDecode(resposta.body)['token']}");
       return true;
     }else{
       print(jsonDecode(resposta.body));
       return false;
     }
   }
-
 }
+
+  
+

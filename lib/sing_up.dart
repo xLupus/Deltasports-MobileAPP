@@ -9,8 +9,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
             //Registre-se
             Container(
               child: Align(
-                alignment: Alignment(-0.75,0.0),
+                alignment: Alignment(-0.75, 0.0),
                 child: Text(
                   'Registre-se',
                   style: TextStyle(
@@ -39,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
             Container(
               child: Align(
-                alignment: Alignment(-0.75,0.0),
+                alignment: Alignment(-0.75, 0.0),
                 child: Text(
                   'Crie uma nova conta.',
                   style: TextStyle(
@@ -77,26 +75,23 @@ class _RegisterPageState extends State<RegisterPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: GestureDetector(
-                onTap: () => {
-                  Navigator.of(context).pushReplacementNamed(
-                    '/Login'
-                  )
-                },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: GlobalColors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: TextFormField(
-                    keyboardType:TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'CPF',
+                onTap: () =>
+                    {Navigator.of(context).pushReplacementNamed('/Login')},
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: GlobalColors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: 'CPF',
+                      ),
                     ),
                   ),
                 ),
-              ),
               ),
             ),
 
@@ -113,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
-                    keyboardType:TextInputType.emailAddress,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: 'Email',
                     ),
@@ -172,24 +167,21 @@ class _RegisterPageState extends State<RegisterPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: GestureDetector(
-                onTap: () => {
-                  Navigator.of(context).pushReplacementNamed(
-                    '/Login'
-                  )
-                },
+                onTap: () =>
+                    {Navigator.of(context).pushReplacementNamed('/Login')},
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: GlobalColors.red,
                     borderRadius: BorderRadius.circular(12),
-                    boxShadow:  [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: Offset(0, 5), // changes position of shadow
-                    ),
-                  ],
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: Offset(0, 5), // changes position of shadow
+                      ),
+                    ],
                   ),
                   child: Center(
                     child: Text(
@@ -212,37 +204,35 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: GestureDetector(
                 onTap: () => {
-                  Navigator.of(context).pushNamed(
-                    '/'
-                  ),
+                  Navigator.of(context).pushNamed('/'),
                 },
-              child: Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: GlobalColors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: GlobalColors.blue),
-                  boxShadow:  [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: Offset(0, 5), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Text(
-                    'Voltar',
-                    style: TextStyle(
-                      color: GlobalColors.black,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 20,
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: GlobalColors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: GlobalColors.blue),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: Offset(0, 5), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Voltar',
+                      style: TextStyle(
+                        color: GlobalColors.black,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
             ),
           ]),
         ),
