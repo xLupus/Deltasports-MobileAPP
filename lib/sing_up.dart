@@ -9,6 +9,13 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+
+  final _formkey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _senhaController = TextEditingController();
+  final _confirmarSenhaController = TextEditingController();
+  final _cpfController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +92,17 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: TextFormField(
+                      controller: _cpfController,
+                      validator: (cpf){
+                        if(cpf == null || cpf.isEmpty){
+                          return 'Por favor, digite seu CPF';
+                        }else if (!RegExp(
+                            r"^[/^\d{3}\.\d{3}\.\d{3}-\d{2}$/]+")
+                        .hasMatch(_cpfController.text)) {
+                      return 'Por favor, digite um CPF correto';
+                    }
+                    return null;
+                    },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         labelText: 'CPF',
@@ -97,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
             SizedBox(height: 18),
 
-            //Email 0xFF1C8394
+            //Email
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Container(
@@ -108,6 +126,17 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
+                    controller: _emailController,
+                    validator: (email){
+                      if(email == null || email.isEmpty){
+                        return 'Por favor, digite seu e-mail';
+                      }else if (!RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(_emailController.text)) {
+                      return 'Por favor, digite um e-mail correto';
+                    }
+                    return null;
+                    },
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: 'Email',
@@ -130,6 +159,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
+                    controller: _senhaController,
+                    validator: (senha){
+                      if(senha == null || senha.isEmpty){
+                        return 'Por favor, digite sua senha';
+                      }
+                      return null;
+                    },
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Senha',
@@ -152,6 +188,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
+                    controller: _confirmarSenhaController,
+                    validator: (confirmarSenha){
+
+                    },
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Confirmar Senha',
@@ -240,3 +280,20 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 }
+
+
+/*
+void _submitForm() {
+  if (_formKey.currentState.validate()) {
+    final senha = _passwordController.text;
+    final confirmarSenha = _confirmPasswordController.text;
+    if (senha != confirmarSenha) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('As senhas não correspondem.'),
+      ));
+    } else {
+      // As senhas correspondem, faça algo com os valores aqui.
+    }
+  }
+}
+*/

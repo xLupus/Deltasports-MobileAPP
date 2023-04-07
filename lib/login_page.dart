@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:deltasports_app/produtos.dart';
 import 'package:http/http.dart' as http;
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
@@ -142,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pushReplacement(
                         context, 
                         MaterialPageRoute(
-                          builder:(context) => LoginPage()
+                          builder:(context) => ProdutosPage()
                           ),
                       );  
                     }else{
@@ -221,17 +222,14 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
-    final snackBar = SnackBar(content: Text('e-mail ou senha são inválidos', textAlign: TextAlign.center,), backgroundColor: GlobalColors.blue,);
+    final snackBar = SnackBar(content: Text('e-mail ou senha são inválidos', textAlign: TextAlign.end,), backgroundColor: GlobalColors.blue,);
 
 
    Future<bool> login() async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
     var url = Uri.parse('https://pokeapi.co/api/v2/pokemon/ditto');
-    var resposta = await http.post(url,
-      body: {
-        'USUARIO_EMAIL': _emailController.text,
-        'USUARIO_SENHA': _senhaController.text,
-    }
+    var resposta = await http.get(url,
+     
     );
     if(resposta.statusCode == 200){
       await sharedPreference.setString('token', "Token ${jsonDecode(resposta.body)['token']}");
