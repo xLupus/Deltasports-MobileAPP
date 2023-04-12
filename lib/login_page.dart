@@ -13,16 +13,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final _formkey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _senhaController = TextEditingController();
-
+  String? _emailController; 
+  setLogin(String value) => _emailController = value;
+  String? _senhaController;
+  setSenha(String value) => _senhaController = value;
+  final snackBar = SnackBar(
+    content: Text(
+      'e-mail ou senha são inválidos',
+      textAlign: TextAlign.end,
+    ),
+    backgroundColor: GlobalColors.blue,
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       backgroundColor: GlobalColors.white,
       body: Form(
         key: _formkey,
@@ -30,14 +36,13 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(children: [
             SizedBox(height: 10),
             Image.network('https://i.imgur.com/aSEadiB.png'),
-          
 
             SizedBox(height: 40),
 
             //BemVindo
             Container(
               child: Align(
-                alignment: Alignment(-0.75,0.0),
+                alignment: Alignment(-0.75, 0.0),
                 child: Text(
                   'Bem-vindo(a)',
                   style: TextStyle(
@@ -52,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
 
             Container(
               child: Align(
-                alignment: Alignment(-0.4,0.0),
+                alignment: Alignment(-0.4, 0.0),
                 child: Text(
                   'Faça o login ou cadastre-se para continuar',
                   style: TextStyle(
@@ -76,16 +81,16 @@ class _LoginPageState extends State<LoginPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
-                    controller: _emailController,
-                    validator: (email){
-                      if(email == null || email.isEmpty){
+                    onChanged: setLogin,
+                    validator: (email) {
+                      if (email == null || email.isEmpty) {
                         return 'Por favor, digite seu e-mail';
-                      }else if (!RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(_emailController.text)) {
-                      return 'Por favor, digite um e-mail correto';
-                    }
-                    return null;
+                      } else if (!RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(_emailController.toString())) {
+                        return 'Por favor, digite um e-mail correto';
+                      }
+                      return null;
                     },
                     decoration: InputDecoration(
                       labelText: 'Email',
@@ -108,9 +113,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
-                    controller: _senhaController,
-                    validator: (senha){
-                      if(senha == null || senha.isEmpty){
+                    onChanged: setSenha,
+                    validator: (senha) {
+                      if (senha == null || senha.isEmpty) {
                         return 'Por favor, digite sua senha';
                       }
                       return null;
@@ -120,8 +125,6 @@ class _LoginPageState extends State<LoginPage> {
                       labelText: 'Senha',
                     ),
                   ),
-
-                  
                 ),
               ),
             ),
@@ -132,23 +135,12 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: ElevatedButton(
-                onPressed: () async {
+                onPressed: () {
                   FocusScopeNode currentFocus = FocusScope.of(context);
-                  if(_formkey.currentState!.validate()){
-                    bool certo = await login();
-                    if(!currentFocus.hasFocus){
+                  if (_formkey.currentState!.validate()) {
+                      login();
+                    if (!currentFocus.hasFocus) {
                       currentFocus.unfocus();
-                    }
-                    if(certo){
-                      Navigator.pushReplacement(
-                        context, 
-                        MaterialPageRoute(
-                          builder:(context) => ProdutosPage()
-                          ),
-                      );  
-                    }else{
-                      _senhaController.clear();
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
                   }
                 },
@@ -157,14 +149,14 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: BoxDecoration(
                     color: GlobalColors.red,
                     borderRadius: BorderRadius.circular(12),
-                    boxShadow:  [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: Offset(0, 5), // changes position of shadow
-                    ),
-                  ],
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: Offset(0, 5), // changes position of shadow
+                      ),
+                    ],
                   ),
                   child: Center(
                     child: Text(
@@ -177,9 +169,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-              ), 
               ),
-              SizedBox(height: 35),
+            ),
+            SizedBox(height: 35),
 
             //Btn voltar
             Padding(
@@ -189,57 +181,64 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.of(context).pushNamed('/'),
                 },
                 child: Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: GlobalColors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: GlobalColors.blue),
-                  boxShadow:  [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: Offset(0, 5), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Text(
-                    'Voltar',
-                    style: TextStyle(
-                      color: GlobalColors.black,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 20,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: GlobalColors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: GlobalColors.blue),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: Offset(0, 5), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Voltar',
+                      style: TextStyle(
+                        color: GlobalColors.black,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-            ),
           ]),
         ),
-        ),
-      );
-    }
-
-    final snackBar = SnackBar(content: Text('e-mail ou senha são inválidos', textAlign: TextAlign.end,), backgroundColor: GlobalColors.blue,);
-
-
-   Future<bool> login() async {
-    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-    var url = Uri.parse('https://pokeapi.co/api/v2/pokemon/ditto');
-    var resposta = await http.get(url,
-     
+      ),
     );
-    if(resposta.statusCode == 200){
-      await sharedPreference.setString('token', "Token ${jsonDecode(resposta.body)['token']}");
+  }
+
+  Future<bool> login() async {
+    var client = http.Client();
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    var url = Uri.parse('http://10.0.2.2:8000/api/auth/login');
+    var resposta = await client.post(
+      url, 
+      body: {
+      'email': _emailController,
+      'password': _senhaController,
+    });
+    if (resposta.statusCode == 200) {
+      await sharedPreference.setString(
+          'token', "Token ${jsonDecode(resposta.body)['token']}");
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ProdutosPage()),
+      );
+  
       return true;
-    }else{
+    } else {
+      //_senhaController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       print(jsonDecode(resposta.body));
       return false;
     }
   }
 }
-
-  
-

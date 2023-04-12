@@ -242,5 +242,4 @@ class _ProdutosPageState extends State<ProdutosPage> {
     await sharedPreferences.clear();
     return true;
   }
-
 }
