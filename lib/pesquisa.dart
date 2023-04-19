@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:convert' as convert;
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -37,7 +37,7 @@ class PesquisaPage extends SearchDelegate<String>{
         if(snapshot.hasData){
           return ListView(
             children: [
-              Image.network(snapshot.data!['foto']),
+              Image.network(snapshot.data!['images'][0]),
               Padding(padding: EdgeInsets.all(12), 
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -46,16 +46,16 @@ class PesquisaPage extends SearchDelegate<String>{
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(snapshot.data!['name'], style: TextStyle(fontWeight: FontWeight.bold),),
-                      Text(snapshot.data!['priencig']),
+                      Text(snapshot.data!['price'] - snapshot.data!['discount']),
                     ],
                   ),
                   Text(snapshot.data!['category'], style: TextStyle(fontStyle: FontStyle.italic),),
-                  Text(snapshot.data!['descrition']),
+                  Text(snapshot.data!['description']),
                 ]),),
             ],
           );
         }else if (snapshot.hasError){
-          return Center(child: Text('Erro ao pegar o produto'),);
+          return Center(child: Text('Nenhum produto encontrado'),);
         }
         return Center(child: CircularProgressIndicator(),
         );
@@ -71,15 +71,16 @@ class PesquisaPage extends SearchDelegate<String>{
     return FutureBuilder<List>(
       future: sugestoes(),
       builder: (context, snapshot){
+        print(snapshot);
         if(snapshot.hasData){
           return ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               return ListTile(
-                leading: Image.network(snapshot.data![index]['foto']),
+                leading: Image.network(snapshot.data![index]['images'][0]),
                 title: Text(snapshot.data![index]['name']),
                 subtitle: Text(snapshot.data![index]['category']),
-                trailing: Text(snapshot.data![index]['priecing']),
+                trailing: Text(snapshot.data![index]['price']),
                 onTap: (){
                   query = snapshot.data![index]['id'].toString();
                   showResults(context);
@@ -99,25 +100,32 @@ class PesquisaPage extends SearchDelegate<String>{
 
 
   Future<List> sugestoes() async {
-    var url = Uri.parse('api');
+    var url = Uri.parse('http://127.0.0.1:8000/api/products');
+
     Map<String, String> headers ={
       'Authorization': 'Token ...',
     };
-    var response = await http.get(url, headers: headers);
+
+    var response = await http.get(url/* , headers: headers */);
+
     if(response.statusCode == 200){
-      return json.decode(response.body).map((produto) => produto).toList();
+      return convert.jsonDecode(response.body).map((produto) => produto).toList();
     }
+
     throw Exception('Erro ao solicitar o produto presquisa');
   }
 
+
   Future<Map<String, dynamic>> resultado(String id) async{
-    var url = Uri.parse('api/$id');
+    var url = Uri.parse('http://127.0.0.1:8000/api/product/$id');
+    
     Map<String, String> headers ={
       'Authorization': 'Token ...',
     };
-    var response = await http.get(url, headers: headers);
+
+    var response = await http.get(url/* , headers: headers */);
     if(response.statusCode == 200){
-      return json.decode(response.body);
+      return convert.jsonDecode(response.body);
     }
     throw Exception('Erro ao solicitar o produto presquisa');
   }

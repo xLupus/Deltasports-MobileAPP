@@ -17,13 +17,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
   void initState() {
     super.initState();
     verificarToker().then((value) {
-      if (value) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ProdutosPage(),
-            ));
-      } else {
+      if (!value) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

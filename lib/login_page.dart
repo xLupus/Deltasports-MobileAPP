@@ -14,16 +14,19 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formkey = GlobalKey<FormState>();
+
   String? _emailController;
   setLogin(String value) => _emailController = value;
+
   String? _senhaController;
   setSenha(String value) => _senhaController = value;
+
   final snackBar = SnackBar(
     content: Text(
       'e-mail ou senha são inválidos',
-      textAlign: TextAlign.end,
+      textAlign: TextAlign.center,
     ),
-    backgroundColor: GlobalColors.blue,
+    backgroundColor: GlobalColors.red,
   );
 
   @override
@@ -134,8 +137,8 @@ class _LoginPageState extends State<LoginPage> {
             //Btn entrar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: ElevatedButton(
-                onPressed: () {
+              child: GestureDetector(
+                onTap: () {
                   FocusScopeNode currentFocus = FocusScope.of(context);
                   if (_formkey.currentState!.validate()) {
                     login();
@@ -145,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                   }
                 },
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: GlobalColors.red,
                     borderRadius: BorderRadius.circular(12),
@@ -217,35 +220,26 @@ class _LoginPageState extends State<LoginPage> {
   Future<bool> login() async {
     var client = http.Client();
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-    final url = Uri.https(
-    'fakestoreapi.com',
-    '/products',
-  );
-    //var url = Uri.http('10.0.2.2:8000', '/api/auth/login');
+    final url = Uri.parse('http://127.0.0.1:8000/api/auth/login');
 
-    /* var resposta = await client.post(url, body: {
+    var resposta = await client.post(url, body: {
       'email': _emailController,
-      'password': _senhaController,
-    }); */
+      'password': _senhaController
+    });
 
-    final resposta = await client.post(url, body: {
-    'title': 'test product',
-    'price': '13.5',
-    'description': 'lorem ipsum set',
-    'image': 'https://i.pravatar.cc/',
-    'category': 'electronic'
-  });
+
 
     if (resposta.statusCode == 200) {
       await sharedPreference.setString(
           'token', "Token ${convert.jsonDecode(resposta.body)['token']}");
 
-      /* Navigator.pushReplacement(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => ProdutosPage()),
-      ); */
+      );
 
       print(convert.jsonDecode(resposta.body));
+
       return true;
     } else {
       //_senhaController.clear();
