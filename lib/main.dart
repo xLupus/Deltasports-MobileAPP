@@ -4,7 +4,7 @@ import 'package:deltasports_app/produtos.dart';
 import 'package:deltasports_app/sing_up.dart';
 import 'package:flutter/material.dart';
 import 'package:deltasports_app/home.dart';
-
+import 'package:deltasports_app/produto.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -21,13 +21,13 @@ class MyApp extends StatelessWidget {
         '/Login':(context)      => LoginPage(),
         '/Home':(context)       => HomePage(),
         '/Produtos':(context)   => ProdutosPage(),
+        '/Produto':(context)       => ProdutoPage(foto: {},),
         /*'/Categorias':(context)       => HomePage(),
         '/Perfil':(context)       => HomePage(),
         '/EditarPerfil':(context)       => HomePage(),
         '/Endereços':(context)       => HomePage(),
         '/NovoEnd':(context)       => HomePage(),
         '/Filtros':(context)       => HomePage(),
-        '/Produto':(context)       => HomePage(),
         '/Carrinho':(context)       => HomePage(),
         '/Checkout':(context)       => HomePage(),
         '/MeusPedidos':(context)       => HomePage(),
