@@ -8,8 +8,6 @@ class PesquisaPage extends SearchDelegate<String>{
   @override
   String get searchFieldLabel => 'ex: nome, marca';
 
-
-
   @override
   List<Widget>? buildActions(BuildContext context) {
     // TODO: implement buildActions
@@ -33,7 +31,7 @@ class PesquisaPage extends SearchDelegate<String>{
     // TODO: implement buildResults
     return FutureBuilder<Map<String, dynamic>>(
       future: resultado(query),
-      builder: (context, snapshot) {
+      builder: (context, snapshot) {        print(snapshot.hasData);
         if(snapshot.hasData){
           return ListView(
             children: [
@@ -71,7 +69,6 @@ class PesquisaPage extends SearchDelegate<String>{
     return FutureBuilder<List>(
       future: sugestoes(),
       builder: (context, snapshot){
-        print(snapshot);
         if(snapshot.hasData){
           return ListView.builder(
             itemCount: snapshot.data!.length,
@@ -100,7 +97,7 @@ class PesquisaPage extends SearchDelegate<String>{
 
 
   Future<List> sugestoes() async {
-    var url = Uri.parse('http://127.0.0.1:8000/api/products');
+    var url = Uri.parse('http://127.0.0.1:8000/api/product/search/$query');
 
     Map<String, String> headers ={
       'Authorization': 'Token ...',
@@ -124,6 +121,7 @@ class PesquisaPage extends SearchDelegate<String>{
     };
 
     var response = await http.get(url/* , headers: headers */);
+
     if(response.statusCode == 200){
       return convert.jsonDecode(response.body);
     }
