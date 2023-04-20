@@ -48,7 +48,8 @@ class _ProdutosPageState extends State<ProdutosPage> {
       backgroundColor: GlobalColors.white,
       body: SafeArea(
         child: Center(
-          child: Column(children: [
+          child: Column(
+            children: [
             SizedBox(height: 20),
 
             //Logo E Search
@@ -97,7 +98,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 05.0),
                   child: GestureDetector(
                     onTap: () => {
-                      Navigator.of(context).pushReplacementNamed('/Registrar')
+                      Navigator.of(context).pushReplacementNamed('/Teste')
                     },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -199,10 +200,12 @@ class _ProdutosPageState extends State<ProdutosPage> {
                 //Adicionar restante da categoria
               ],
             ),
-
             SizedBox(height: 10),
-
             
+         
+
+
+
           ]),
         ),
       ),
@@ -242,7 +245,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
 
 
   Future<List> pegarFotos() async {
-    var url = Uri.parse('url');
+    var url = Uri.parse('http://127.0.0.1:8000/api/products');
     var response = await http.get(url);
     if(response.statusCode == 200) {
       return json.decode(response.body).map((foto) => foto).toList();
@@ -257,7 +260,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
   }
 }
 
-/*body: FutureBuilder<Lis>(
+/* body: FutureBuilder<List>(
   future: listaFotos,
   builder: (context, snapshot) {
     if (snapshot.hasData){
@@ -279,7 +282,6 @@ class _ProdutosPageState extends State<ProdutosPage> {
                   DetalhePage(foto: snapshot.data![index]),
                   fullscreenDialog: true,
                 ),
-
               );
             },
             child: Container(
@@ -306,5 +308,5 @@ class _ProdutosPageState extends State<ProdutosPage> {
       child: CircularProgressIndicator(),
     );
   },
-);
-*/
+); */
+

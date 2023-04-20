@@ -227,8 +227,6 @@ class _LoginPageState extends State<LoginPage> {
       'password': _senhaController
     });
 
-
-
     if (resposta.statusCode == 200) {
       await sharedPreference.setString(
           'token', "Token ${convert.jsonDecode(resposta.body)['token']}");
@@ -242,7 +240,6 @@ class _LoginPageState extends State<LoginPage> {
 
       return true;
     } else {
-      //_senhaController.clear();
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       print(convert.jsonDecode(resposta.body));
       return false;

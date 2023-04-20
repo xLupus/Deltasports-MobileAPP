@@ -29,13 +29,14 @@ class PesquisaPage extends SearchDelegate<String>{
   @override
   Widget buildResults(BuildContext context) {
     // TODO: implement buildResults
-    return FutureBuilder<Map<String, dynamic>>(
+    return FutureBuilder<Map<dynamic, dynamic>>(
       future: resultado(query),
-      builder: (context, snapshot) {        print(snapshot.hasData);
+      builder: (context, snapshot) {        
+        print(snapshot.hasData);
         if(snapshot.hasData){
           return ListView(
             children: [
-              Image.network(snapshot.data!['images'][0]),
+              Image.network(snapshot.data!['images']),
               Padding(padding: EdgeInsets.all(12), 
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -100,10 +101,10 @@ class PesquisaPage extends SearchDelegate<String>{
     var url = Uri.parse('http://127.0.0.1:8000/api/product/search/$query');
 
     Map<String, String> headers ={
-      'Authorization': 'Token ...',
+      'Authorization': '',
     };
 
-    var response = await http.get(url/* , headers: headers */);
+    var response = await http.get(url, headers: headers);
 
     if(response.statusCode == 200){
       return convert.jsonDecode(response.body).map((produto) => produto).toList();
@@ -113,14 +114,14 @@ class PesquisaPage extends SearchDelegate<String>{
   }
 
 
-  Future<Map<String, dynamic>> resultado(String id) async{
+  Future<Map<dynamic, dynamic>> resultado(String id) async{
     var url = Uri.parse('http://127.0.0.1:8000/api/product/$id');
     
     Map<String, String> headers ={
-      'Authorization': 'Token ...',
+      'Authorization': '',
     };
 
-    var response = await http.get(url/* , headers: headers */);
+    var response = await http.get(url, headers: headers);
 
     if(response.statusCode == 200){
       return convert.jsonDecode(response.body);
