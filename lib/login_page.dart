@@ -95,6 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                       }
                       return null;
                     },
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: 'Email',
                     ),

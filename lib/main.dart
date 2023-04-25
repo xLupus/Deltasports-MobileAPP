@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         '/Home':(context)       => HomePage(),
         '/Produtos':(context)   => ProdutosPage(),
         '/Produto':(context)       => ProdutoPage(foto: {},),
-        '/Teste':(context) => TestePage(foto: null,),
+        '/Teste':(context) => TestePage(foto: {},),
         /*'/Categorias':(context)       => HomePage(),
         '/Perfil':(context)       => HomePage(),
         '/EditarPerfil':(context)       => HomePage(),

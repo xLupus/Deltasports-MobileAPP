@@ -124,7 +124,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 05.0),
                   child: GestureDetector(
                     onTap: () => {
-                      Navigator.of(context).pushReplacementNamed('/Registrar')
+                      Navigator.of(context).pushReplacementNamed('/Teste')
                     },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -150,7 +150,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 05.0),
                   child: GestureDetector(
                     onTap: () => {
-                      Navigator.of(context).pushReplacementNamed('/Registrar')
+                      Navigator.of(context).pushReplacementNamed('/Teste')
                     },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -176,7 +176,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 05.0),
                   child: GestureDetector(
                     onTap: () => {
-                      Navigator.of(context).pushReplacementNamed('/Registrar')
+                      Navigator.of(context).pushReplacementNamed('/Teste')
                     },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -204,17 +204,13 @@ class _ProdutosPageState extends State<ProdutosPage> {
             
          
 
-
-
           ]),
         ),
       ),
       bottomNavigationBar: NavigationBar(destinations: [
         NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-        NavigationDestination(
-            icon: Icon(Icons.settings), label: 'Configuração'),
-        NavigationDestination(
-            icon: Icon(Icons.add_shopping_cart), label: 'Carrinho'),
+        NavigationDestination(icon: Icon(Icons.settings), label: 'Configuração'),
+        NavigationDestination(icon: Icon(Icons.add_shopping_cart), label: 'Carrinho'),
         NavigationDestination(icon: Icon(Icons.person), label: 'Perfil'),
         TextButton(
           onPressed: () async {
@@ -259,54 +255,3 @@ class _ProdutosPageState extends State<ProdutosPage> {
     return true;
   }
 }
-
-/* body: FutureBuilder<List>(
-  future: listaFotos,
-  builder: (context, snapshot) {
-    if (snapshot.hasData){
-      return GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          childAspectRatio: 1,
-        ),
-        itemCount: Snapshot.data!.length,
-        itemBuilder: (context, index){
-          return GestureDetector(
-            ontTap: (){
-              Navigator.push(
-                context, 
-                MaterialPageRoute(
-                  builder: (context)=> 
-                  DetalhePage(foto: snapshot.data![index]),
-                  fullscreenDialog: true,
-                ),
-              );
-            },
-            child: Container(
-            padding: EdgeInsets.all(8),
-            color: Colors.grey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-            children:[
-              Text(snapshot.data![index]['id'].toString());
-              Text(snapshot.data![index]['title']);
-            ],
-          ),
-         ), 
-        );
-      },
-    );
-    }else if(snapshot.hasError){
-      return const Center(
-        child: Text('Erro ao carregar dados),
-      );
-    }
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  },
-); */
-

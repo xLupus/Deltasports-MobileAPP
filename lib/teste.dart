@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:deltasports_app/login_page.dart';
 import 'package:deltasports_app/pesquisa.dart';
+import 'package:deltasports_app/produto.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,14 +50,14 @@ class _TestePageState extends State<TestePage> {
                 context, 
                 MaterialPageRoute(
                   builder: (context)=> 
-                  TestePage(foto: snapshot.data![index]),
+                  ProdutoPage(foto: snapshot.data![index]),
                   fullscreenDialog: true,
                 ),
               );
             },
             child: Container(
             padding: const EdgeInsets.all(8),
-            color: Colors.grey,
+            color: Color.fromARGB(192, 218, 217, 217),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,

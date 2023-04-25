@@ -1,5 +1,10 @@
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert' as convert;
+
+import 'login_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -11,10 +16,23 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
 
   final _formkey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _senhaController = TextEditingController();
+
+  String? _emailController;
+  setLogin(String value) => _emailController = value;
+
+  String? _senhaController;
+  setSenha(String value) => _senhaController = value;
+
   final _confirmarSenhaController = TextEditingController();
   final _cpfController = TextEditingController();
+
+  final snackBar = SnackBar(
+    content: Text(
+      'Usuario já cadastrado',
+      textAlign: TextAlign.center,
+    ),
+    backgroundColor: GlobalColors.red,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -126,13 +144,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
-                    controller: _emailController,
+                    onChanged: setLogin,
                     validator: (email){
                       if(email == null || email.isEmpty){
                         return 'Por favor, digite seu e-mail';
                       }else if (!RegExp(
                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(_emailController.text)) {
+                        .hasMatch(_emailController.toString())) {
                       return 'Por favor, digite um e-mail correto';
                     }
                     return null;
@@ -159,7 +177,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
-                    controller: _senhaController,
+                    onChanged: setSenha,
                     validator: (senha){
                       if(senha == null || senha.isEmpty){
                         return 'Por favor, digite sua senha';
@@ -207,8 +225,15 @@ class _RegisterPageState extends State<RegisterPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: GestureDetector(
-                onTap: () =>
-                    {Navigator.of(context).pushReplacementNamed('/Login')},
+                onTap: () {
+                  FocusScopeNode currentFocus = FocusScope.of(context);
+                  if (_formkey.currentState!.validate()) {
+                    registrar();
+                    if (!currentFocus.hasFocus) {
+                      currentFocus.unfocus();
+                    }
+                  }
+                },
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -279,6 +304,36 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
+
+  Future<bool> registrar() async {
+    var client = http.Client();
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    final url = Uri.parse('http://127.0.0.1:8000/api/auth/register');
+
+    var resposta = await client.post(url, body: {
+      'email': _emailController,
+      'password': _senhaController
+    });
+
+    if (resposta.statusCode == 200) {
+      await sharedPreference.setString(
+          'token', "Token ${convert.jsonDecode(resposta.body)['token']}");
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+
+      print(convert.jsonDecode(resposta.body));
+
+      return true;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      print(convert.jsonDecode(resposta.body));
+      return false;
+    }
+  }
+  
 }
 
 

@@ -21,7 +21,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
       ),
       body: ListView(
         children: [
-          Image.network(widget.foto['url'], fit: BoxFit.cover,),
+          Image.network(widget.foto['http://127.0.0.1:8000/api/products'], fit: BoxFit.cover,),
           Text(widget.foto['title']),
         ],
       ),
