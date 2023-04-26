@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                       return null;
                     },
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Senha',
                     ),
                   ),
@@ -133,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
-            SizedBox(height: 80),
+           const SizedBox(height: 80),
 
             //Btn entrar
             Padding(
@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                   }
                 },
                 child: Container(
-                  padding: EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: GlobalColors.red,
                     borderRadius: BorderRadius.circular(12),
