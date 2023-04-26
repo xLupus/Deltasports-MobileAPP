@@ -10,14 +10,14 @@ import 'index.dart';
 import 'package:http/http.dart' as http;
 
 
-class TestePage extends StatefulWidget {
-  const TestePage({Key? key, required foto}) : super(key: key);
+class ListagemPage extends StatefulWidget {
+  const ListagemPage({Key? key, required foto}) : super(key: key);
 
   @override
-  State<TestePage> createState() => _TestePageState();
+  State<ListagemPage> createState() => _ListagemPageState();
 }
 
-class _TestePageState extends State<TestePage> {
+class _ListagemPageState extends State<ListagemPage> {
 
   late Future<List> listaFotos;
 

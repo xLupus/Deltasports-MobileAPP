@@ -54,7 +54,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
 
             //Logo E Search
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Image.network('https://i.imgur.com/ell1sHu.png'),
                 IconButton(
@@ -69,24 +69,19 @@ class _ProdutosPageState extends State<ProdutosPage> {
             SizedBox(height: 50),
             //Titulo "Produtos e ADD"
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Categorias',
+                  'Produtos / Categorias',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
                   ),
                 ),
-                Icon(
-                  Icons.add,
-                  color: GlobalColors.red,
-                  size: 30.0,
-                ),
               ],
             ),
 
-            SizedBox(height: 10),
+            SizedBox(height: 15),
 
             //Categorias
             Row(
@@ -202,7 +197,9 @@ class _ProdutosPageState extends State<ProdutosPage> {
             ),
             SizedBox(height: 10),
             
-         
+            Container(
+              
+            )
 
           ]),
         ),

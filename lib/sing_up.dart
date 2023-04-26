@@ -27,7 +27,8 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _cpfController;
   setCpf(String value) => _cpfController = value;
 
-  final _confirmarSenhaController = TextEditingController();
+  String? _confirmPasswordController;
+  setConfirmPassword(String value) => _confirmPasswordController = value;
 
   final snackBar = SnackBar(
     content: const Text(
@@ -41,7 +42,8 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GlobalColors.white,
-      body: SafeArea(
+      body: Form(        
+        key: _formkey,
         child: Center(
           child: Column(children: [
             Image.network('https://i.imgur.com/aSEadiB.png'),
@@ -121,7 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     validator: (cpf) {
                       if (cpf == null || cpf.isEmpty) {
                         return 'Por favor, digite seu CPF';
-                      } else if (!RegExp(r"^[/^\d{3}\.\d{3}\.\d{3}-\d{2}$/]+")
+                      } else if (!RegExp(r"([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")
                           .hasMatch(_cpfController.toString())) {
                         return 'Por favor, digite um CPF correto';
                       }
@@ -211,6 +213,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
+                    onChanged: setConfirmPassword,
+                    validator: (confsenha) {
+                      if (confsenha == null || confsenha.isEmpty) {
+                        return 'Por favor, confirme sua senha';
+                      }
+                      return null;
+                    },
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: 'Confirmar Senha',
@@ -228,10 +237,9 @@ class _RegisterPageState extends State<RegisterPage> {
               child: GestureDetector(
                 onTap: () {
                   var validated = _formkey.currentState!.validate();
-                  print(validated);
-/*                   if (_formkey.currentState!.validate()) {
+                  if (validated && _confirmarSenha(_formkey)) {
                     registrar();
-                  } */
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
@@ -312,9 +320,10 @@ class _RegisterPageState extends State<RegisterPage> {
       'name': _nomeController,
       'email': _emailController,
       'password': _senhaController,
+      'password_confirmation': _confirmPasswordController,
       'cpf': _cpfController,
     });
-
+print(resposta);
     if (resposta.statusCode == 200) {
       Navigator.pushReplacement(
         context,
@@ -330,21 +339,15 @@ class _RegisterPageState extends State<RegisterPage> {
       return false;
     }
   }
-}
 
-
-/*
-void _submitForm() {
-  if (_formKey.currentState.validate()) {
-    final senha = _passwordController.text;
-    final confirmarSenha = _confirmPasswordController.text;
-    if (senha != confirmarSenha) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  bool _confirmarSenha(GlobalKey<FormState> _formKey) {    
+    if (_senhaController != _confirmPasswordController) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('As senhas não correspondem.'),
       ));
+      return false;
     } else {
-      // As senhas correspondem, faça algo com os valores aqui.
-    }
+      return true;
+    }    
   }
 }
-*/

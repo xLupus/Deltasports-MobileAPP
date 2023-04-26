@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:deltasports_app/produto.dart';
+import 'dart:convert' as convert;
 
-/*void main() => runApp(MyApp());
+void main() => runApp(MyApp());
 
 
 class MyApp extends StatelessWidget {
@@ -11,7 +15,7 @@ class MyApp extends StatelessWidget {
       home: Carrinho(),
     );
   }
-} */
+} 
 
 class Carrinho extends StatefulWidget {
   @override
@@ -21,7 +25,9 @@ class Carrinho extends StatefulWidget {
 class _CarrinhoState extends State<Carrinho> {
   final List<Product> _items = [
     Product(name: 'Item 1', price: 10.0, quantity: 1),
+    
     Product(name: 'Item 2', price: 15.0, quantity: 1),
+    
     Product(name: 'Item 3', price: 20.0, quantity: 1),
   ];
   double _totalPrice = 45.0;
