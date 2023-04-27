@@ -42,7 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GlobalColors.white,
-      body: Form(        
+      body: Form(
         key: _formkey,
         child: Center(
           child: Column(children: [
@@ -123,7 +123,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     validator: (cpf) {
                       if (cpf == null || cpf.isEmpty) {
                         return 'Por favor, digite seu CPF';
-                      } else if (!RegExp(r"([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")
+                      } else if (!RegExp(
+                              r"([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")
                           .hasMatch(_cpfController.toString())) {
                         return 'Por favor, digite um CPF correto';
                       }
@@ -251,7 +252,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 1,
                         blurRadius: 1,
-                        offset: const Offset(0, 5), // changes position of shadow
+                        offset:
+                            const Offset(0, 5), // changes position of shadow
                       ),
                     ],
                   ),
@@ -323,7 +325,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'password_confirmation': _confirmPasswordController,
       'cpf': _cpfController,
     });
-print(resposta);
+    print(resposta);
     if (resposta.statusCode == 200) {
       Navigator.pushReplacement(
         context,
@@ -340,14 +342,16 @@ print(resposta);
     }
   }
 
-  bool _confirmarSenha(GlobalKey<FormState> _formKey) {    
+  bool _confirmarSenha(GlobalKey<FormState> _formKey) {
     if (_senhaController != _confirmPasswordController) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('As senhas não correspondem.'),
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content:
+            Text('As senhas não correspondem.', textAlign: TextAlign.center),
+        backgroundColor: GlobalColors.red,
       ));
       return false;
     } else {
       return true;
-    }    
+    }
   }
 }
