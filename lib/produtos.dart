@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:deltasports_app/home.dart';
+import 'package:deltasports_app/carrinho.dart';
 import 'package:deltasports_app/login_page.dart';
 import 'package:deltasports_app/pesquisa.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
@@ -207,11 +209,54 @@ class _ProdutosPageState extends State<ProdutosPage> {
           ]),
         ),
       ),
+
+      //Footer
       bottomNavigationBar: NavigationBar(destinations: [
-        NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-        NavigationDestination(icon: Icon(Icons.settings), label: 'Configuração'),
-        NavigationDestination(icon: Icon(Icons.add_shopping_cart), label: 'Carrinho'),
-        NavigationDestination(icon: Icon(Icons.person), label: 'Perfil'),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutosPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.home),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutosPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.settings),
+        ), 
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CartScreen(),
+              ),
+            );
+          },
+          child: Icon(Icons.add_shopping_cart),
+        ),        
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutosPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.person),
+        ),
+          
         TextButton(
           onPressed: () async {
             bool saiu = await sair();
@@ -226,7 +271,10 @@ class _ProdutosPageState extends State<ProdutosPage> {
           },
           child: Text('Sair'),
         ),
-      ], backgroundColor: GlobalColors.red),
+      ],
+       backgroundColor: GlobalColors.red,
+       )
+
     );
   }
 
