@@ -232,7 +232,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
               ),
             );
           },
-          child: Icon(Icons.settings),
+          child: Icon(Icons.category),
         ), 
         InkWell(
           onTap: () {
@@ -273,7 +273,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
         ),
       ],
        backgroundColor: GlobalColors.red,
-       )
+       ) 
 
     );
   }

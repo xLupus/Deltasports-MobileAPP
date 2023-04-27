@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
 } */
 
 class CartScreen extends StatefulWidget {
+  const CartScreen({Key? key}) : super(key: key);
   @override
   _CartScreenState createState() => _CartScreenState();
 }
@@ -66,8 +67,8 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Carrinho de Compras')),
-      backgroundColor: GlobalColors.red,
+      appBar: AppBar(title: Text('Carrinho de Compras'),backgroundColor: GlobalColors.red),
+      
       body: Column(
         children: [
           Expanded(
@@ -197,18 +198,15 @@ class _CartScreenState extends State<CartScreen> {
           },
           child: Text('Sair'),
         ),
-      ],
+      ], backgroundColor: GlobalColors.red
        
-       ),
+       ), //fimFooter
 
        
     );      
     
 
   }
-
-
-
 }
 
 
@@ -226,51 +224,115 @@ class Product {
     required this.quantity,
     required this.description,
     required this.image,
-});
+  });
 
 double get totalPrice => price * quantity;
 
-void updateTotalPrice() {
-totalPrice;
-}
+  void updateTotalPrice() {
+    totalPrice;
+  }
 }
 
 class ProductDetailScreen extends StatelessWidget {
-final Product product;
+  final Product product;
 
-ProductDetailScreen({required this.product});
+  ProductDetailScreen({required this.product});
 
 @override
 Widget build(BuildContext context) {
 return Scaffold(
-appBar: AppBar(
-title: Text('Detalhes do Produto'),
-),
-body: Column(
-children: [
-Image.network(
-product.image,
-height: 200.0,
-width: double.infinity,
-fit: BoxFit.cover,
-),
-SizedBox(height: 16.0),
-Text(
-product.name,
-style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-),
-SizedBox(height: 16.0),
-Text(
-product.description,
-style: TextStyle(fontSize: 18.0),
-),
-SizedBox(height: 16.0),
-Text(
-'Reais: ${product.price.toStringAsFixed(2)}',
-style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-),
-],
-),
+  appBar: AppBar(
+  title: Text('Detalhes do Produto' ),backgroundColor: GlobalColors.red,
+  ),body: Column(
+      children: [
+        Image.network(
+          product.image,
+          height: 200.0,
+          width: double.infinity,
+          fit: BoxFit.cover,
+        ),
+      SizedBox(height: 16.0),
+        Text(
+          product.name,
+          style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+        ),
+      SizedBox(height: 16.0),
+        Text(
+          product.description,
+          style: TextStyle(fontSize: 18.0),
+        ),
+      SizedBox(height: 16.0),
+        Text(
+          'Reais: ${product.price.toStringAsFixed(2)}',
+          style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+        ),
+      ],
+    ),
+
+    //Footer
+    bottomNavigationBar: NavigationBar(destinations: [
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutosPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.home),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutosPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.category),
+        ), 
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CartScreen(),
+              ),
+            );
+          },
+          child: Icon(Icons.add_shopping_cart),
+        ),        
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutosPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.person),
+        ),
+          
+        TextButton(
+          onPressed: () async {
+            bool saiu = await sair();
+            if (saiu) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => IndexPage(),
+                ),
+              );
+            }
+          },
+          child: Text('Sair'),
+        ),
+      ], backgroundColor: GlobalColors.red
+       
+       ), //fimFooter
 );
 }
 
