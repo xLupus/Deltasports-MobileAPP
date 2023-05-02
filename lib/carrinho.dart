@@ -75,7 +75,20 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
               itemCount: _items.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(_items[index].name),
+                  title: Row(
+                    children: [
+                      Text(_items[index].name),
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          setState(() {
+                            _items.removeAt(index);
+                            _updateTotalPrice();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -122,7 +135,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(140.0),
+            padding: EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -133,6 +146,32 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                 ),
               ],
             ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+              _items.clear();
+              _totalPrice = 0.0;
+            });
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Compra Finalizada'),
+                  content: Text('Obrigado por comprar conosco!'),
+                  actions: [
+                    TextButton(
+                      child: Text('OK'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+            },
+            child: Text('Finalizar compra'),
           ),
         ],
       ),
@@ -156,15 +195,15 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
               ],
             )),
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProdutosPage(),
-              ),
-            );
-          },
-          child: Column(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProdutosPage(),
+                ),
+              );
+            },
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.category),
@@ -172,15 +211,15 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
               ],
             )),
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CarrinhoPage(),
-              ),
-            );
-          },
-          child: Column(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CarrinhoPage(),
+                ),
+              );
+            },
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.add_shopping_cart),
@@ -188,15 +227,15 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
               ],
             )),
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProdutosPage(),
-              ),
-            );
-          },
-          child: Column(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProdutosPage(),
+                ),
+              );
+            },
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.person),
