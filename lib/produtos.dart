@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:deltasports_app/home.dart';
+import 'package:deltasports_app/carrinho.dart';
 import 'package:deltasports_app/login_page.dart';
 import 'package:deltasports_app/pesquisa.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
@@ -7,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'index.dart';
 import 'package:http/http.dart' as http;
-
 
 class ProdutosPage extends StatefulWidget {
   const ProdutosPage({Key? key}) : super(key: key);
@@ -17,7 +18,6 @@ class ProdutosPage extends StatefulWidget {
 }
 
 class _ProdutosPageState extends State<ProdutosPage> {
-
   late Future<List> listaFotos;
 
   /* @override
@@ -48,8 +48,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
       backgroundColor: GlobalColors.white,
       body: SafeArea(
         child: Center(
-          child: Column(
-            children: [
+          child: Column(children: [
             SizedBox(height: 20),
 
             //Logo E Search
@@ -196,19 +195,58 @@ class _ProdutosPageState extends State<ProdutosPage> {
               ],
             ),
             SizedBox(height: 10),
-            
-            Container(
 
-            )
-
+            Container()
           ]),
         ),
       ),
+
+      //Footer
       bottomNavigationBar: NavigationBar(destinations: [
-        NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-        NavigationDestination(icon: Icon(Icons.settings), label: 'Configuração'),
-        NavigationDestination(icon: Icon(Icons.add_shopping_cart), label: 'Carrinho'),
-        NavigationDestination(icon: Icon(Icons.person), label: 'Perfil'),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutosPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.home),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutosPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.category),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CarrinhoPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.add_shopping_cart),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutosPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.person),
+        ),
         TextButton(
           onPressed: () async {
             bool saiu = await sair();
@@ -236,11 +274,10 @@ class _ProdutosPageState extends State<ProdutosPage> {
     }
   }
 
-
   Future<List> pegarFotos() async {
     var url = Uri.parse('http://127.0.0.1:8000/api/products');
     var response = await http.get(url);
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       return json.decode(response.body).map((foto) => foto).toList();
     }
     throw Exception('Erro ao carregar foto');

@@ -6,8 +6,11 @@ import 'package:deltasports_app/produto.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'carrinho.dart';
 import 'index.dart';
 import 'package:http/http.dart' as http;
+
+import 'produtos.dart';
 
 
 class ListagemPage extends StatefulWidget {
@@ -68,6 +71,7 @@ class _ListagemPageState extends State<ListagemPage> {
               Text(snapshot.data![index]['price'].toString()),
             ],
           ),
+          
          ), 
         );
       },
@@ -82,13 +86,53 @@ class _ListagemPageState extends State<ListagemPage> {
     );
   },
 ),
-      bottomNavigationBar: NavigationBar(destinations: [
-        NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-        NavigationDestination(
-            icon: Icon(Icons.settings), label: 'Configuração'),
-        NavigationDestination(
-            icon: Icon(Icons.add_shopping_cart), label: 'Carrinho'),
-        NavigationDestination(icon: Icon(Icons.person), label: 'Perfil'),
+    //Footer
+    bottomNavigationBar: NavigationBar(destinations: [
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutosPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.home),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutosPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.category),
+        ), 
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CarrinhoPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.add_shopping_cart),
+        ),        
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutosPage(),
+              ),
+            );
+          },
+          child: Icon(Icons.person),
+        ),
+          
         TextButton(
           onPressed: () async {
             bool saiu = await sair();
@@ -103,7 +147,9 @@ class _ListagemPageState extends State<ListagemPage> {
           },
           child: Text('Sair'),
         ),
-      ], backgroundColor: GlobalColors.red),
+      ], backgroundColor: GlobalColors.red
+       
+       ), //fimFooter
     );
   }
 
