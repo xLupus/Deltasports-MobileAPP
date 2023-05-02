@@ -89,16 +89,21 @@ class _ListagemPageState extends State<ListagemPage> {
     //Footer
     bottomNavigationBar: NavigationBar(destinations: [
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProdutosPage(),
-              ),
-            );
-          },
-          child: Icon(Icons.home),
-        ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProdutosPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.home),
+                Text('Home'),
+              ],
+            )),
         InkWell(
           onTap: () {
             Navigator.push(
@@ -108,8 +113,13 @@ class _ListagemPageState extends State<ListagemPage> {
               ),
             );
           },
-          child: Icon(Icons.category),
-        ), 
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.category),
+                Text('Categoria'),
+              ],
+            )),
         InkWell(
           onTap: () {
             Navigator.push(
@@ -119,8 +129,13 @@ class _ListagemPageState extends State<ListagemPage> {
               ),
             );
           },
-          child: Icon(Icons.add_shopping_cart),
-        ),        
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.add_shopping_cart),
+                Text('Carrinho'),
+              ],
+            )),
         InkWell(
           onTap: () {
             Navigator.push(
@@ -130,8 +145,13 @@ class _ListagemPageState extends State<ListagemPage> {
               ),
             );
           },
-          child: Icon(Icons.person),
-        ),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.person),
+                Text('Perfil'),
+              ],
+            )),
           
         TextButton(
           onPressed: () async {
