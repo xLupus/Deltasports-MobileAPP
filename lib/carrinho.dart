@@ -75,20 +75,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
               itemCount: _items.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Row(
-                    children: [
-                      Text(_items[index].name),
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          setState(() {
-                            _items.removeAt(index);
-                            _updateTotalPrice();
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+                  title: Text(_items[index].name),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -99,6 +86,9 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                             if (_items[index].quantity > 1) {
                               _items[index].quantity--;
                               _items[index].updateTotalPrice();
+                              _updateTotalPrice();
+                            } else {
+                              _items.removeAt(index);
                               _updateTotalPrice();
                             }
                           });
@@ -135,7 +125,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(140.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -147,32 +137,66 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
               ],
             ),
           ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-              _items.clear();
-              _totalPrice = 0.0;
-            });
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text('Compra Finalizada'),
-                  content: Text('Obrigado por comprar conosco!'),
-                  actions: [
-                    TextButton(
-                      child: Text('OK'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                );
-              },
-            );
-            },
-            child: Text('Finalizar compra'),
+          Column(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Confirmar Compra'),
+                        content: Text('Deseja confirmar a compra?'),
+                        actions: [
+                          TextButton(
+                            child: Text('Cancelar'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: Text('Confirmar'),
+                            onPressed: () {
+                              setState(() {
+                                _items.clear();
+                                _totalPrice = 0.0;
+                              });
+                              Navigator.of(context).pop();
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Compra Realizada'),
+                                    content: Text(
+                                        'Sua compra foi realizada com sucesso!'),
+                                    actions: [
+                                      TextButton(
+                                        child: Text('OK'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Text('Confirmar Compra', style: TextStyle(fontSize: 20)),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                  backgroundColor: GlobalColors.blue,
+                ),
+              ),
+              SizedBox(height: 30),
+            ],
           ),
+          //Final Botão de Confirmação de Compra
         ],
       ),
 
