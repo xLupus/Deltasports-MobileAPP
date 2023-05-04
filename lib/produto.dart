@@ -4,9 +4,9 @@ import 'package:deltasports_app/login_page.dart';
 
 class ProdutoPage extends StatefulWidget {
 
-  Map<String, dynamic> foto;
+  Map<String, dynamic> dados;
 
-  ProdutoPage({Key? key, required this.foto}) : super(key: key);
+  ProdutoPage({Key? key, required this.dados}) : super(key: key);
 
   @override
   State<ProdutoPage> createState() => _ProdutoPageState();
@@ -17,14 +17,23 @@ class _ProdutoPageState extends State<ProdutoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.foto['title']),
+        title: Text(widget.dados['name']),
       ),
       body: ListView(
         children: [
-          Image.network(widget.foto['http://127.0.0.1:8000/api/products'], fit: BoxFit.cover,),
-          Text(widget.foto['title']),
+          Image(image: obterImagem(widget.dados['images'])),
+          Text(widget.dados['description']),
         ],
       ),
     );
+  }
+
+  dynamic obterImagem(dynamic url) {
+    if (url.length > 0 && url[0] != null && url[0]['url'] != '') {
+      return NetworkImage(url[0]['url']);
+    }
+    else {
+      return const AssetImage('images/no_image.png');
+    }
   }
 }

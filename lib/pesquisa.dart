@@ -37,7 +37,6 @@ class PesquisaPage extends SearchDelegate<String> {
     return FutureBuilder<Map<dynamic, dynamic>>(
         future: resultado(query),
         builder: (context, snapshot) {
-          print(snapshot.hasData);
           if (snapshot.hasData) {
             return ListView(
               children: [

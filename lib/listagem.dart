@@ -52,15 +52,17 @@ class _ListagemPageState extends State<ListagemPage> {
               Navigator.push(
                 context, 
                 MaterialPageRoute(
-                  builder: (context)=> 
-                  ProdutoPage(foto: snapshot.data![index]),
-                  fullscreenDialog: true,
+                  builder: (context) => 
+                    ProdutoPage(dados: snapshot.data![index]),
+                  fullscreenDialog: true,                  
                 ),
+                
               );
             },
             child: Container(
+              decoration: BoxDecoration(image: DecorationImage(image: obterImagem(snapshot.data![index]['images']), fit: BoxFit.cover)),
             padding: const EdgeInsets.all(8),
-            color: Color.fromARGB(192, 218, 217, 217),
+            
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -172,6 +174,17 @@ class _ListagemPageState extends State<ListagemPage> {
        ), //fimFooter
     );
   }
+
+  
+  dynamic obterImagem(dynamic url) {
+    if (url.length > 0 && url[0] != null && url[0]['url'] != '') {
+      return NetworkImage(url[0]['url']);
+    }
+    else {
+      return const AssetImage('images/no_image.png');
+    }
+  }
+
 
   Future<bool> verificarToker() async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
