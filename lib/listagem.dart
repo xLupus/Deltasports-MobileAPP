@@ -111,7 +111,7 @@ class _ListagemPageState extends State<ListagemPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProdutosPage(),
+                builder: (context) => ListagemPage(foto: {}),
               ),
             );
           },
@@ -119,7 +119,7 @@ class _ListagemPageState extends State<ListagemPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.category),
-                Text('Categoria'),
+                Text('Produtos'),
               ],
             )),
         InkWell(

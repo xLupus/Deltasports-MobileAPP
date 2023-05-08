@@ -27,11 +27,9 @@ class MyApp extends StatelessWidget {
         '/Listagem':(context)      => ListagemPage(foto: {},),
         '/Carrinho':(context)   => CarrinhoPage(),
         /*'/Categorias':(context)       => HomePage(),
-        '/Perfil':(context)       => HomePage(),
-        '/EditarPerfil':(context)       => HomePage(),
+        '/Perfil':(context)       => PerfilPage(),
         '/Endereços':(context)       => HomePage(),
         '/NovoEnd':(context)       => HomePage(),
-        '/Filtros':(context)       => HomePage(),
         '/Checkout':(context)       => HomePage(),
         '/MeusPedidos':(context)       => HomePage(),
         '/Pedido':(context)       => HomePage(),*/

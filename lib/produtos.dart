@@ -10,6 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'index.dart';
 import 'package:http/http.dart' as http;
 
+import 'listagem.dart';
+
 class ProdutosPage extends StatefulWidget {
   const ProdutosPage({Key? key}) : super(key: key);
 
@@ -224,7 +226,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProdutosPage(),
+                builder: (context) => const ListagemPage(foto: {}),
               ),
             );
           },
@@ -232,7 +234,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.category),
-                Text('Categoria'),
+                Text('Produtos'),
               ],
             )),
         InkWell(
