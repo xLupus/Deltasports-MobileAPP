@@ -22,17 +22,71 @@ class _ProdutoPageState extends State<ProdutoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.dados['name']),
+      appBar: AppBar( backgroundColor: GlobalColors.red,
+        title: Text(widget.dados['name'],),
       ),
-      //eslitizar 
       body: ListView(
         children: [
-          Image(image: obterImagem(widget.dados['images'])),
-          Text(widget.dados['description']),
-          Text(widget.dados['price'])
-        ],
+  Image(
+    image: obterImagem(widget.dados['images']),
+    height: 400,
+  ),
+
+  SizedBox(height: 10),
+  
+  Text(
+    widget.dados['name'],
+    style: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+
+  SizedBox(height: 4),
+
+  Row(
+    children: [
+      Text('Unidades:'),
+
+      SizedBox(width: 4),
+
+      IconButton(
+        icon: Icon(Icons.remove),
+        onPressed: () {
+          // TODO: decrementar a quantidade
+        },
       ),
+
+      Text('0'),
+
+      IconButton(
+        icon: Icon(Icons.add),
+        onPressed: () {
+          // TODO: incrementar a quantidade
+        },
+      ),
+    ],
+  ),
+
+  SizedBox(height: 4),
+
+  Text(
+    widget.dados['description'],
+  ),
+
+  SizedBox(height: 4),
+
+  Text(
+    widget.dados['price'],
+    style: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  SizedBox(height: 10),
+],
+      ),
+
 
 
       //Footter
