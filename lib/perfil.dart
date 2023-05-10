@@ -1,105 +1,267 @@
-import 'package:flutter/material.dart';
-import 'package:deltasports_app/login_page.dart';
+import 'dart:convert';
+
+import 'package:deltasports_app/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 
-void main() => runApp(ProfileScreen());
+import 'carrinho.dart';
+import 'index.dart';
+import 'listagem.dart';
 
+class PerfilPage extends StatefulWidget {
+  const PerfilPage({Key? key}) : super(key: key);
 
-class ProfileScreen extends StatefulWidget {
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  State<PerfilPage> createState() => _PerfilPageState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  late TextEditingController _nameController;
-  late TextEditingController _emailController;
-
-  @override
-  void initState() {
-    super.initState();
-    // Inicializa os controladores de texto com os valores atuais do usuário
-    _nameController = TextEditingController(text: 'John Doe');
-    _emailController = TextEditingController(text: 'johndoe@gmail.com');
-  }
-
-  @override
-  void dispose() {
-    // Descarta os controladores de texto quando a tela é fechada
-    _nameController.dispose();
-    _emailController.dispose();
-    super.dispose();
-  }
+class _PerfilPageState extends State<PerfilPage> {
+  get child => null;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Perfil'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      backgroundColor: GlobalColors.white,
+      body: SafeArea(
+        child: Center(
+          child: Column(children: [
+            SizedBox(height: 100),
+            Image.network('https://i.imgur.com/ell1sHu.png'),
+            SizedBox(height: 50),
             Text(
-              'Nome',
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8.0),
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                hintText: 'Digite seu nome',
-                border: OutlineInputBorder(),
+              'teste',
+              style: TextStyle(
+                color: GlobalColors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
             ),
-            SizedBox(height: 16.0),
             Text(
-              'E-mail',
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8.0),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                hintText: 'Digite seu e-mail',
-                border: OutlineInputBorder(),
+              'email',
+              style: TextStyle(
+                color: GlobalColors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
             ),
-          ],
+            SizedBox(height: 150),
+
+            //Btn Editar Usuário
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 80.0),
+              child: GestureDetector(
+                onTap: () => {Navigator.of(context).pushReplacementNamed('/')},
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: GlobalColors.blue,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: Offset(0, 5), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Editar Usuário',
+                      style: TextStyle(
+                        color: GlobalColors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            SizedBox(height: 40),
+
+            //Btn Pedidos
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 80.0),
+              child: GestureDetector(
+                onTap: () => {Navigator.of(context).pushReplacementNamed('/')},
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: GlobalColors.blue,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: Offset(0, 5), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Pedidos',
+                      style: TextStyle(
+                        color: GlobalColors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            SizedBox(height: 40),
+
+            //Btn Endereços
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 80.0),
+              child: GestureDetector(
+                onTap: () => {Navigator.of(context).pushReplacementNamed('/')},
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: GlobalColors.blue,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: Offset(0, 5), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Endereços',
+                      style: TextStyle(
+                        color: GlobalColors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ]),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Salva as alterações do usuário
-          _saveChanges();
-          // Mostra uma mensagem de sucesso ao usuário
-          _showSuccessMessage();
-        },
-        child: Icon(Icons.save),
-      ),
+      bottomNavigationBar: NavigationBar(destinations: [
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProdutosPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.home),
+                Text('Home'),
+              ],
+            )),
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ListagemPage(foto: {}),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.category),
+                Text('Produtos'),
+              ],
+            )),
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CarrinhoPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.add_shopping_cart),
+                Text('Carrinho'),
+              ],
+            )),
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PerfilPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.person),
+                Text('Perfil'),
+              ],
+            )),
+        TextButton(
+          onPressed: () async {
+            bool saiu = await sair();
+            if (saiu) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => IndexPage(),
+                ),
+              );
+            }
+          },
+          child: Text('Sair'),
+        ),
+      ], backgroundColor: GlobalColors.red),
     );
   }
 
-  void _saveChanges() {
-    // Salva as alterações do usuário em algum lugar
-    String name = _nameController.text;
-    String email = _emailController.text;
-    // Por exemplo, você pode salvar em um banco de dados ou em uma API
-    // Aqui, vamos imprimir os valores no console para demonstração
-    print('Nome: $name');
-    print('E-mail: $email');
+  Future<bool> sair() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.clear();
+    return true;
   }
 
-  void _showSuccessMessage() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('As alterações foram salvas com sucesso.'),
-        duration: Duration(seconds: 2),
-      ),
-    );
+  /*Future<List> perfil() async {
+    var url = Uri.parse('http://127.0.0.1:8000/api/auth/user');
+
+    Map<String, String> headers = {
+      'Authorization': '',
+    };
+
+    var response = await http.get(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> nameJson = jsonDecode(response.body);
+
+      String name = nameJson['name'];
+      String email = emailJson['email'];
+    } else {
+      
+      print('Erro ao obter o nome da API.');
+    }
   }
+
+  */
 }

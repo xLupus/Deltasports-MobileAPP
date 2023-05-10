@@ -1,6 +1,7 @@
 import 'package:deltasports_app/carrinho.dart';
 import 'package:deltasports_app/index.dart';
 import 'package:deltasports_app/login_page.dart';
+import 'package:deltasports_app/perfil.dart';
 import 'package:deltasports_app/produtos.dart';
 import 'package:deltasports_app/sing_up.dart';
 import 'package:deltasports_app/listagem.dart';
@@ -26,8 +27,8 @@ class MyApp extends StatelessWidget {
         '/Produto':(context)    => ProdutoPage(dados: {},),
         '/Listagem':(context)      => ListagemPage(foto: {},),
         '/Carrinho':(context)   => CarrinhoPage(),
-        /*'/Categorias':(context)       => HomePage(),
         '/Perfil':(context)       => PerfilPage(),
+        /*'/Categorias':(context)       => HomePage(),
         '/Endereços':(context)       => HomePage(),
         '/NovoEnd':(context)       => HomePage(),
         '/Checkout':(context)       => HomePage(),

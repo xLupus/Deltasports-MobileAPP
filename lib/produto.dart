@@ -1,3 +1,4 @@
+import 'package:deltasports_app/perfil.dart';
 import 'package:deltasports_app/produtos.dart';
 import 'package:flutter/material.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
@@ -29,6 +30,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
         children: [
           Image(image: obterImagem(widget.dados['images'])),
           Text(widget.dados['description']),
+          Text(widget.dados['price']),
         ],
       ),
 
@@ -88,7 +90,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProdutosPage(),
+                builder: (context) => PerfilPage(),
               ),
             );
           },
