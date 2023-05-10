@@ -26,6 +26,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
       appBar: AppBar(
         title: Text(widget.dados['name']),
       ),
+      //eslitizar 
       body: ListView(
         children: [
           Image(image: obterImagem(widget.dados['images'])),

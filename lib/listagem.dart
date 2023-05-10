@@ -63,7 +63,7 @@ class _ListagemPageState extends State<ListagemPage> {
             child: Container(
               decoration: BoxDecoration(image: DecorationImage(image: obterImagem(snapshot.data![index]['images']), fit: BoxFit.cover)),
             padding: const EdgeInsets.all(8),
-            
+            //estilizar
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
