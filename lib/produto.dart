@@ -96,7 +96,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 80.0),
               child: GestureDetector(
-                onTap: () => {Navigator.of(context).pushReplacementNamed('/')},
+                onTap: () => {Navigator.of(context).pushReplacementNamed('/CarrinhoPage')},
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(

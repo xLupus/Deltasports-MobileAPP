@@ -8,6 +8,8 @@ import 'package:deltasports_app/listagem.dart';
 import 'package:flutter/material.dart';
 import 'package:deltasports_app/home.dart';
 import 'package:deltasports_app/produto.dart';
+
+import 'editperfil.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -28,12 +30,13 @@ class MyApp extends StatelessWidget {
         '/Listagem':(context)      => ListagemPage(foto: {},),
         '/Carrinho':(context)   => CarrinhoPage(),
         '/Perfil':(context)       => PerfilPage(),
+        '/Editperfil':(context) =>   EditperfilPage(),
         /*'/Categorias':(context)       => HomePage(),
-        '/Endereços':(context)       => HomePage(),
-        '/NovoEnd':(context)       => HomePage(),
+        '/Endereços':(context)       => EnderecoPage(),
+        '/NovoEnd':(context)       => NovoEndPage(),
         '/Checkout':(context)       => HomePage(),
-        '/MeusPedidos':(context)       => HomePage(),
-        '/Pedido':(context)       => HomePage(),*/
+        '/MeusPedidos':(context)       => PedidosPage(),
+        '/Pedido':(context)       => DetPedidosPage(),*/
       },
       initialRoute: '/',
       debugShowCheckedModeBanner: false,

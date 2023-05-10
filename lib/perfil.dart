@@ -53,7 +53,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 80.0),
               child: GestureDetector(
-                onTap: () => {Navigator.of(context).pushReplacementNamed('/')},
+                onTap: () => {Navigator.of(context).pushReplacementNamed('/Editperfil')},
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(

@@ -56,7 +56,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
 
             //Logo E Search
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Image.network('https://i.imgur.com/ell1sHu.png'),
                 IconButton(
