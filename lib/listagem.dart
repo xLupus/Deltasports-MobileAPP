@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:deltasports_app/login_page.dart';
+import 'package:deltasports_app/perfil.dart';
 import 'package:deltasports_app/pesquisa.dart';
 import 'package:deltasports_app/produto.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
@@ -169,7 +170,7 @@ class _ListagemPageState extends State<ListagemPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProdutosPage(),
+                builder: (context) => PerfilPage(),
               ),
             );
           },
