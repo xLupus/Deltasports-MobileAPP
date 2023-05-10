@@ -24,69 +24,110 @@ class _ProdutoPageState extends State<ProdutoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar( backgroundColor: GlobalColors.red,
-        title: Text(widget.dados['name'],),
+        title: Text(widget.dados['name'],
+        textAlign: TextAlign.center,),
       ),
-      body: ListView(
-        children: [
-  Image(
-    image: obterImagem(widget.dados['images']),
-    height: 400,
-  ),
-
-  SizedBox(height: 10),
-  
-  Text(
-    widget.dados['name'],
-    style: TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-
-  SizedBox(height: 4),
-
-  Row(
+      body: Center(
+  child: ListView(
     children: [
-      Text('Unidades:'),
-
-      SizedBox(width: 4),
-
-      IconButton(
-        icon: Icon(Icons.remove),
-        onPressed: () {
-          // TODO: decrementar a quantidade
-        },
+      Image(
+        image: obterImagem(widget.dados['images']),
+        height: 400,
       ),
 
-      Text('0'),
+      SizedBox(height: 50),
 
-      IconButton(
-        icon: Icon(Icons.add),
-        onPressed: () {
-          // TODO: incrementar a quantidade
-        },
+      Text(
+        widget.dados['name'],
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+        ),
       ),
+
+      SizedBox(height: 4),
+
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Unidades:'),
+
+          SizedBox(width: 4),
+
+          IconButton(
+            icon: Icon(Icons.remove),
+            onPressed: () {
+              // TODO: decrementar a quantidade
+            },
+          ),
+
+          Text('0'),
+
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              // TODO: incrementar a quantidade
+            },
+          ),
+        ],
+      ),
+
+      SizedBox(height: 4),
+
+      Text(
+        widget.dados['description'],
+        textAlign: TextAlign.center,
+      ),
+
+      SizedBox(height: 15),
+
+      Text(
+        widget.dados['price'],
+        style: TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+
+      SizedBox(height: 20),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 80.0),
+              child: GestureDetector(
+                onTap: () => {Navigator.of(context).pushReplacementNamed('/')},
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: GlobalColors.blue,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: Offset(0, 5), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Adicionar ao Carrinho',
+                      style: TextStyle(
+                        color: GlobalColors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
     ],
   ),
-
-  SizedBox(height: 4),
-
-  Text(
-    widget.dados['description'],
-  ),
-
-  SizedBox(height: 4),
-
-  Text(
-    widget.dados['price'],
-    style: TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-  SizedBox(height: 10),
-],
-      ),
+  
+),
 
 
 
