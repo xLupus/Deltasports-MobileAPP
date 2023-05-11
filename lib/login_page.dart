@@ -95,6 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                       }
                       return null;
                     },
+                    initialValue: 'testeT@teste.com',
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: 'Email',
@@ -124,6 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                       }
                       return null;
                     },
+                    initialValue: '12345678',
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: 'Senha',

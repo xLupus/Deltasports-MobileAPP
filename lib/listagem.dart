@@ -98,12 +98,7 @@ class _ListagemPageState extends State<ListagemPage> {
       ),
     ],
   ),
-),
-
-
-
-
-          
+),         
          ), 
         );
       },
