@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   setSenha(String value) => _senhaController = value;
 
   final snackBar = SnackBar(
-    content: Text(
+    content: const Text(
       'e-mail ou senha são inválidos',
       textAlign: TextAlign.center,
     ),
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     initialValue: 'testeT@teste.com',
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Email',
                     ),
                   ),
@@ -177,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            SizedBox(height: 35),
+            const SizedBox(height: 35),
 
             //Btn voltar
             Padding(
@@ -187,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.of(context).pushNamed('/'),
                 },
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: GlobalColors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -197,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 1,
                         blurRadius: 1,
-                        offset: Offset(0, 5), // changes position of shadow
+                        offset: const Offset(0, 5), // changes position of shadow
                       ),
                     ],
                   ),

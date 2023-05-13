@@ -15,89 +15,53 @@ class _IndexPageState extends State<IndexPage> {
       backgroundColor: GlobalColors.white,
       body: SafeArea(
         child: Center(
-          child: Column(children: [
-            SizedBox(height: 150),
-            Image.network('https://i.imgur.com/aSEadiB.png'),
-            SizedBox(height: 205),
+          child: Column(
+            children: [
+              const SizedBox(height: 277.0),
 
-            //Btn Login
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: GestureDetector(
-                onTap: () => {
-                  Navigator.of(context).pushReplacementNamed(
-                    '/Login'
-                  )
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: GlobalColors.red,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow:  [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: Offset(0, 5), // changes position of shadow
-                    ),
-                  ],
+              Image.network('https://i.imgur.com/aSEadiB.png'),     
+
+              const SizedBox(height: 242.0),
+
+              ElevatedButton(               
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: GlobalColors.red,
+                  padding: const EdgeInsets.all(10.0),
+                  fixedSize: const Size(355.0, 55.0),
+                  textStyle: const TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.w700,
                   ),
-                  child: Center(
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        color: GlobalColors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
+                  elevation: 20.0,
+                  shadowColor: const Color(0xD2000000),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                 ),
+                onPressed: () { Navigator.of(context).pushNamed('/Login'); }, 
+                child: const Text('Entrar'),
               ),
-            ),
+             
+              const SizedBox(height: 40.0),
 
-            SizedBox(height: 40),
-
-            //Btn Registrar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: GestureDetector(
-                onTap: () => {
-                  Navigator.of(context).pushReplacementNamed(
-                    '/Registrar'
-                  )
-                },
-              child: Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: GlobalColors.blue,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow:  [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: Offset(0, 5), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Text(
-                    'Registrar',
-                    style: TextStyle(
-                      color: GlobalColors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: GlobalColors.blue,
+                  padding: const EdgeInsets.all(10.0),
+                  fixedSize: const Size(355.0, 55.0),
+                  textStyle: const TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.w700,
                   ),
+                  elevation: 20.0,            
+                  shadowColor: const Color(0xD2000000),                
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                 ),
-              ),
-            ),
-            ),
-          ]),
-        ),
-      ),
+                onPressed: () { Navigator.of(context).pushNamed('/Registrar'); }, 
+                child: const Text('Registrar')
+              )
+            ]
+          )
+        )
+      )
     );
   }
 }
