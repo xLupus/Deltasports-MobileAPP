@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:deltasports_app/home.dart';
 import 'package:deltasports_app/carrinho.dart';
 import 'package:deltasports_app/login_page.dart';
+import 'package:deltasports_app/perfil.dart';
 import 'package:deltasports_app/pesquisa.dart';
 import 'package:deltasports_app/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
@@ -255,7 +256,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProdutosPage(),
+                  builder: (context) => PerfilPage(),
                 ),
               );
             },

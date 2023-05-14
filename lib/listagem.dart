@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:deltasports_app/login_page.dart';
+import 'package:deltasports_app/perfil.dart';
 import 'package:deltasports_app/pesquisa.dart';
 import 'package:deltasports_app/produto.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
@@ -60,20 +61,44 @@ class _ListagemPageState extends State<ListagemPage> {
               );
             },
             child: Container(
-              decoration: BoxDecoration(image: DecorationImage(image: obterImagem(snapshot.data![index]['images']), fit: BoxFit.cover)),
-            padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                image: DecorationImage(image: obterImagem(snapshot.data![index]['images']),
+                fit: BoxFit.cover)),
             
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-            children:[
-              Text(snapshot.data![index]['id'].toString()),
-              Text(snapshot.data![index]['name']),
-              Text(snapshot.data![index]['description']),
-              Text(snapshot.data![index]['price'].toString()),
-            ],
-          ),
-          
+            //estilizar
+            child: Container(
+  decoration: BoxDecoration(
+    color: Colors.white.withOpacity(0.5)),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      Text(
+        'ID: ${snapshot.data![index]['id'].toString()}',
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      SizedBox(height: 4),
+      Text(
+        snapshot.data![index]['name'],
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      SizedBox(height: 4),
+      Text(
+        'Preço: R\$ ${snapshot.data![index]['price'].toString()}',
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ],
+  ),
+),         
          ), 
         );
       },
@@ -143,7 +168,7 @@ class _ListagemPageState extends State<ListagemPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProdutosPage(),
+                builder: (context) => PerfilPage(),
               ),
             );
           },

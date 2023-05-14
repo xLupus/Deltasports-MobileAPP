@@ -1,19 +1,27 @@
 import 'dart:convert' as convert;
+import 'package:deltasports_app/perfil.dart';
 import 'package:deltasports_app/produtos.dart';
 import 'package:http/http.dart' as http;
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+import 'carrinho.dart';
+import 'index.dart';
+import 'listagem.dart';
+
+class EditperfilPage extends StatefulWidget {
+  const EditperfilPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<EditperfilPage> createState() => _EditperfilPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _EditperfilPageState extends State<EditperfilPage> {
   final _formkey = GlobalKey<FormState>();
+
+  String? _nomeController;
+  setName(String value) => _nomeController = value;
 
   String? _emailController;
   setLogin(String value) => _emailController = value;
@@ -37,17 +45,17 @@ class _LoginPageState extends State<LoginPage> {
         key: _formkey,
         child: Center(
           child: Column(children: [
-            SizedBox(height: 10),
-            Image.network('https://i.imgur.com/aSEadiB.png'),
+            SizedBox(height: 50),
+            Image.network('https://i.imgur.com/ell1sHu.png'),
 
-            SizedBox(height: 40),
+            SizedBox(height: 90),
 
             //BemVindo
             Container(
               child: Align(
                 alignment: Alignment(-0.75, 0.0),
                 child: Text(
-                  'Bem-vindo(a)',
+                  'Editar Usuário',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
@@ -56,16 +64,29 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
-            SizedBox(height: 10),
+            SizedBox(height: 50),
 
-            Container(
-              child: Align(
-                alignment: Alignment(-0.4, 0.0),
-                child: Text(
-                  'Faça o login ou cadastre-se para continuar',
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: GlobalColors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: TextFormField(
+                    onChanged: setName,
+                    validator: (nome) {
+                      if (nome == null || nome.isEmpty) {
+                        return 'Por favor, digite um nome';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Nome',
+                    ),
                   ),
                 ),
               ),
@@ -95,7 +116,6 @@ class _LoginPageState extends State<LoginPage> {
                       }
                       return null;
                     },
-                    initialValue: 'testeT@teste.com',
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: 'Email',
@@ -125,7 +145,6 @@ class _LoginPageState extends State<LoginPage> {
                       }
                       return null;
                     },
-                    initialValue: '12345678',
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: 'Senha',
@@ -135,16 +154,16 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
-           const SizedBox(height: 80),
+           const SizedBox(height: 100),
 
-            //Btn entrar
+            //Btn salvar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: GestureDetector(
                 onTap: () {
                   FocusScopeNode currentFocus = FocusScope.of(context);
                   if (_formkey.currentState!.validate()) {
-                    login();
+                    //SALVAR ALTERAÇÕES;
                     if (!currentFocus.hasFocus) {
                       currentFocus.unfocus();
                     }
@@ -153,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: GlobalColors.red,
+                    color: GlobalColors.blue,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
@@ -166,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: Center(
                     child: Text(
-                      'Logar',
+                      'Salvar',
                       style: TextStyle(
                         color: GlobalColors.white,
                         fontWeight: FontWeight.bold,
@@ -176,76 +195,97 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 35),
-
-            //Btn voltar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: GestureDetector(
-                onTap: () => {
-                  Navigator.of(context).pushNamed('/'),
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: GlobalColors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: GlobalColors.blue),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset: Offset(0, 5), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Voltar',
-                      style: TextStyle(
-                        color: GlobalColors.black,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            ),            
           ]),
         ),
       ),
+
+      bottomNavigationBar: NavigationBar(destinations: [
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProdutosPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.home),
+                Text('Home'),
+              ],
+            )),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ListagemPage(foto: {}),
+              ),
+            );
+          },
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.category),
+                Text('Produtos'),
+              ],
+            )),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CarrinhoPage(),
+              ),
+            );
+          },
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.add_shopping_cart),
+                Text('Carrinho'),
+              ],
+            )),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PerfilPage(),
+              ),
+            );
+          },
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.person),
+                Text('Perfil'),
+              ],
+            )),
+        TextButton(
+          onPressed: () async {
+            bool saiu = await sair();
+            if (saiu) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => IndexPage(),
+                ),
+              );
+            }
+          },
+          child: Text('Sair'),
+        ),
+      ], backgroundColor: GlobalColors.red),
     );
   }
 
-  Future<bool> login() async {
-    var client = http.Client();
-    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-    final url = Uri.parse('http://127.0.0.1:8000/api/auth/login');
-
-    var resposta = await client.post(url, body: {
-      'email': _emailController,
-      'password': _senhaController
-    });
-
-    if (resposta.statusCode == 200) {
-      await sharedPreference.setString(
-          'token', "Token ${convert.jsonDecode(resposta.body)['token']}");
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => ProdutosPage()),
-      );
-
-      print(convert.jsonDecode(resposta.body));
-
-      return true;
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      print(convert.jsonDecode(resposta.body));
-      return false;
-    }
+  Future<bool> sair() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.clear();
+    return true;
   }
 }

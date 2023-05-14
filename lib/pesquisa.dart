@@ -36,11 +36,12 @@ class PesquisaPage extends SearchDelegate<String> {
     // TODO: implement buildResults
     return FutureBuilder<Map<dynamic, dynamic>>(
         future: resultado(query),
-        builder: (context, snapshot) {
+        builder: (context, snapshot) {          
+          var products = snapshot.data!['data'];
           if (snapshot.hasData) {
             return ListView(
               children: [
-                Image.network(snapshot.data!['images']),
+                Image.network(products!['images']),
                 Padding(
                   padding: EdgeInsets.all(12),
                   child: Column(
@@ -50,18 +51,18 @@ class PesquisaPage extends SearchDelegate<String> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              snapshot.data!['name'],
+                              products!['name'],
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text(snapshot.data!['price'] -
-                                snapshot.data!['discount']),
+                            Text(products!['price'] -
+                                products!['discount']),
                           ],
                         ),
                         Text(
-                          snapshot.data!['category'],
+                          products!['category'],
                           style: TextStyle(fontStyle: FontStyle.italic),
                         ),
-                        Text(snapshot.data!['description']),
+                        Text(products!['description']),
                       ]),
                 ),
               ],
@@ -146,8 +147,7 @@ class PesquisaPage extends SearchDelegate<String> {
       print(json.decode(response.body));
 
       Map<String, dynamic> r = json.decode(response.body);
-      var products = r['data'];
-      return products;
+      return r;
     }
     throw Exception('Erro ao solicitar o produto presquisa');
   }
