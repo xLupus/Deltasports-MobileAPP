@@ -232,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (resposta.statusCode == 200) {
       await sharedPreference.setString(
-          'token', "Token ${convert.jsonDecode(resposta.body)['token']}");
+          'token', "Bearer ${convert.jsonDecode(resposta.body)['authorization']['token']}");
 
       Navigator.pushReplacement(
         context,
