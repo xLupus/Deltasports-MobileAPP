@@ -9,25 +9,27 @@ void main() => runApp(ProfileScreen());
 
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late TextEditingController _nameController;
-  late TextEditingController _emailController;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    // Inicializa os controladores de texto com os valores atuais do usuário
-    _nameController = TextEditingController(text: 'John Doe');
-    _emailController = TextEditingController(text: 'johndoe@gmail.com');
+
+    // Inicializa os controladores com valores padrão
+    _nameController.text = 'John Doe';
+    _emailController.text = 'johndoe@example.com';
   }
 
   @override
   void dispose() {
-    // Descarta os controladores de texto quando a tela é fechada
     _nameController.dispose();
     _emailController.dispose();
     super.dispose();
@@ -37,68 +39,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Perfil'),
+        title: const Text('Profile'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'Nome',
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 16.0),
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(
-                hintText: 'Digite seu nome',
+              decoration: const InputDecoration(
+                labelText: 'Name',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 16.0),
-            Text(
-              'E-mail',
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 16.0),
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(
-                hintText: 'Digite seu e-mail',
+              decoration: const InputDecoration(
+                labelText: 'Email',
                 border: OutlineInputBorder(),
               ),
+            ),
+            const SizedBox(height: 32.0),
+            ElevatedButton(
+              onPressed: () {
+                // Atualiza os valores do nome e e-mail com os valores nos controladores
+                final String name = _nameController.text;
+                final String email = _emailController.text;
+                // Aqui você pode fazer o que quiser com os valores atualizados, por exemplo, enviá-los para um servidor
+                // ou salvá-los localmente.
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Success'),
+                      content: const Text('Profile updated.'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: const Text('Save'),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Salva as alterações do usuário
-          _saveChanges();
-          // Mostra uma mensagem de sucesso ao usuário
-          _showSuccessMessage();
-        },
-        child: Icon(Icons.save),
-      ),
-    );
-  }
-
-  void _saveChanges() {
-    // Salva as alterações do usuário em algum lugar
-    String name = _nameController.text;
-    String email = _emailController.text;
-    // Por exemplo, você pode salvar em um banco de dados ou em uma API
-    // Aqui, vamos imprimir os valores no console para demonstração
-    print('Nome: $name');
-    print('E-mail: $email');
-  }
-
-  void _showSuccessMessage() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('As alterações foram salvas com sucesso.'),
-        duration: Duration(seconds: 2),
       ),
     );
   }
