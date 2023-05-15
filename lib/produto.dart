@@ -86,8 +86,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 15),
-            Text(
-              widget.dados['price'],
+            Text('R\$ ${widget.dados['price']}',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -232,18 +231,25 @@ class _ProdutoPageState extends State<ProdutoPage> {
   }
 
   Future<bool> AdicionarCart() async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
     var client = http.Client();
+    final headers = {
+      'Authorization': '${sharedPreference.getString("token")}',
+    };
     final url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
 
     print([widget.dados['id'], widget.dados['stock']]);
 
-    
-    var resposta = await client.post(url, body: {
-      'id': widget.dados['id'].toString(),
-      'qtd': _qtdController.toString()
-    }); 
-    
-    if (resposta.statusCode == 201) {
+    var resposta = await client.post(url,
+        body: {
+          'product': widget.dados['id'].toString(),
+          'qtd': _qtdController.toString()
+        },
+        headers: headers);
+
+    print(resposta);
+
+    if (resposta.statusCode == 200) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => CarrinhoPage()),
@@ -255,7 +261,5 @@ class _ProdutoPageState extends State<ProdutoPage> {
     } else {
       return false;
     }
-
-    
   }
 }
