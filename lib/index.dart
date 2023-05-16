@@ -23,7 +23,7 @@ class _IndexPageState extends State<IndexPage> {
             Center(
               child: Column(
                 children: [
-                  SizedBox(height: screenHeight * 0.35),
+                  SizedBox(height: screenHeight < 800 ? screenHeight * 0.3 : screenHeight * 0.35),
 
                   Image.network('https://i.imgur.com/aSEadiB.png'),
                 ],

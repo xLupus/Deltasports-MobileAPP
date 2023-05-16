@@ -218,7 +218,7 @@ class _ListagemPageState extends State<ListagemPage> {
     var url = Uri.parse('http://127.0.0.1:8000/api/products');
      final headers = {
     'Authorization': '${sharedPreference.getString("token")}',
-
+    'Content-Type': 'application/json'
   };
     var response = await http.get(url, headers: headers);
     print(response.statusCode);

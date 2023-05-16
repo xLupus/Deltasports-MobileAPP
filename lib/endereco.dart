@@ -1,33 +1,32 @@
-import 'dart:convert' as convert;
-import 'package:deltasports_app/produtos.dart';
-import 'package:http/http.dart' as http;
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+/* class EnderecoPage extends StatefulWidget {
+  const EnderecoPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<EnderecoPage> createState() => EnderecoPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class EnderecoPageState extends State<EnderecoPage> {
   final _formkey = GlobalKey<FormState>();
 
-  String? _emailController;
-  setLogin(String value) => _emailController = value;
+  @override
+  Widget build(BuildContext context) {
+    if(1 == 1) print('i');
+  }
+} */
 
-  String? _senhaController;
-  setSenha(String value) => _senhaController = value;
+class MostrarEnderecosPage extends StatefulWidget {
+  const MostrarEnderecosPage({Key? key}) : super(key: key);
 
-  final snackBar = SnackBar(
-    content: const Text(
-      'e-mail ou senha são inválidos',
-      textAlign: TextAlign.center,
-    ),
-    backgroundColor: GlobalColors.red,
-  );
+  @override
+  State<MostrarEnderecosPage> createState() => MostrarEnderecosPageState();
+}
+
+class MostrarEnderecosPageState extends State<MostrarEnderecosPage> {
+   final _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     SizedBox(height: screenHeight < 800 ? screenHeight * 0.3 : screenHeight * 0.07),
 
-                    Image.network('https://i.imgur.com/aSEadiB.png'),
+                    Image.network('https://i.imgur.com/ell1sHu.png'),
                   ],
                 ),
               ),
@@ -87,8 +86,8 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(height: screenHeight * 0.025),
 
                       TextFormField(
-                        onChanged: setLogin,
-                        validator: (email) {
+                       /*  onChanged: /*/ */, */
+                        /* validator: (email) {
                           if (email == null || email.isEmpty) {
                             return 'Preencha este campo';
                           } else if (!RegExp(
@@ -97,11 +96,11 @@ class _LoginPageState extends State<LoginPage> {
                             return 'O E-mail informado é inválido';
                           }
                           return null;
-                        },
+                        }, */
                         initialValue: 'testeT@teste.com',
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
-                          labelText: 'Email'
+                          labelText: 'Endereço Completo'
                         ),
                       ),
 
@@ -109,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       //Senha
                       TextFormField(
-                        onChanged: setSenha,
+               /*          onChanged: /*/ */, */
                         validator: (senha) {
                           if (senha == null || senha.isEmpty) {
                             return 'Preencha este campo';
@@ -119,7 +118,25 @@ class _LoginPageState extends State<LoginPage> {
                         initialValue: '12345678',
                         obscureText: true,
                         decoration: const InputDecoration(
-                          labelText: 'Senha',
+                          labelText: 'CEP',
+                        ),
+                      ),
+
+                       const SizedBox(height: 18),
+
+                      //Senha
+                      TextFormField(
+                    /*     onChanged: /*/ */, */
+                       /*  validator: (senha) {
+                          if (senha == null || senha.isEmpty) {
+                            return 'Preencha este campo';
+                          }
+                          return null;
+                        }, */
+                        initialValue: '12345678',
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          labelText: 'Tipo',
                         ),
                       ),
                     ],
@@ -134,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                      ElevatedButton(               
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: GlobalColors.red,
+                          backgroundColor: GlobalColors.blue,
                           padding: const EdgeInsets.all(10.0),
                           fixedSize: Size(screenWidth * 0.75, 55.0),
                           textStyle: const TextStyle(
@@ -145,33 +162,9 @@ class _LoginPageState extends State<LoginPage> {
                           shadowColor: const Color(0xD2000000),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                         ),
-                        onPressed: () { if (_formkey.currentState!.validate()) login(); }, 
-                        child: const Text('Entrar'),
+                        onPressed: () { /*if (_formkey.currentState!.validate()) login(); */ }, 
+                        child: const Text('Salvar'),
                       ),
-                      
-                      SizedBox(height: screenHeight * 0.045),
-
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 20.0),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: GlobalColors.white,
-                            padding: const EdgeInsets.all(10.0),
-                            fixedSize: Size(screenWidth * 0.75, 55.0),
-                            foregroundColor: GlobalColors.blue,
-                            textStyle: const TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            elevation: 20.0,            
-                            shadowColor: const Color(0xD2000000),                
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                            side: BorderSide(color: GlobalColors.blue, width: 3)
-                          ),
-                          onPressed: () { Navigator.of(context).pushNamed('/'); }, 
-                          child: const Text('Voltar')
-                        ),
-                      )
                     ],
                   ),
                 )
@@ -183,32 +176,4 @@ class _LoginPageState extends State<LoginPage> {
     ),
   );
 }
-
-  Future<bool> login() async {
-    var client = http.Client();
-    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-    final url = Uri.parse('http://127.0.0.1:8000/api/auth/login');
-
-    var resposta = await client.post(url, body: {
-      'email': _emailController,
-      'password': _senhaController
-    });
-
-    if (resposta.statusCode == 200) {
-      await sharedPreference.setString('token', "Bearer ${convert.jsonDecode(resposta.body)['authorization']['token']}");
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => ProdutosPage()),
-      );
-
-      print(convert.jsonDecode(resposta.body));
-
-      return true;
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      print(convert.jsonDecode(resposta.body));
-      return false;
-    }
-  }
 }

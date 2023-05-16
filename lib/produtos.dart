@@ -310,11 +310,19 @@ class _ProdutosPageState extends State<ProdutosPage> {
 
     
     print([response.statusCode, sharedPreference.getString("token")]);
-    if (response.statusCode == 200) {
-      print(json.decode(response.body));
-      return json.decode(response.body).map((foto) => foto).toList();
+   if (response.statusCode == 200) {
+    var jsonResponse = json.decode(response.body);
+    if (jsonResponse is List<dynamic>) {
+      return jsonResponse;
+    } else if (jsonResponse is Map<String, dynamic>) {
+      return [jsonResponse];
+    } else {
+      throw Exception('Resposta inválida da API');
     }
-    throw Exception('Erro ao carregar foto');
+  } else {
+      throw Exception('Erro ao carregar foto');
+}
+ 
   }
 
   Future<bool> sair() async {
