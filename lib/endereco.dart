@@ -50,101 +50,61 @@ class MostrarEnderecosPageState extends State<MostrarEnderecosPage> {
                     Image.network('https://i.imgur.com/ell1sHu.png'),
                   ],
                 ),
-              ),
+              ),           
               Form(
                 key: _formkey,
                 child:  Container(
                   width: screenWidth * 0.75,
                   margin: const EdgeInsets.only(top: 250),
-                  child: Column(
+                  child: Row(
                     children: [
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Bem-vindo(a)',
-                          style: TextStyle(
-                            color: Color(0xFF3D3D3D),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24
-                          ),
+                      Expanded(
+                        child:  
+                          Column(
+                            children: [
+                              TextFormField(
+                                initialValue: '12345678',
+                                decoration: const InputDecoration(
+                                  labelText: 'Senha',
+                                ),
+                              ),
+                            ],
+                          )
                         ),
+                        Expanded(
+                          child: 
+                          Column(
+                            children: [
+                            //Senha
+                            TextFormField(
+                              initialValue: '12345678',
+                              decoration: const InputDecoration(
+                                labelText: 'Senha',
+                              ),
+                            ),
+                          ],
+                        )
                       ),
-
-                      SizedBox(height: screenHeight * 0.01),
-
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Faça o login ou cadastre-se para continuar',
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 16
-                          ),
-                        ),
-                      ),
-
-                      SizedBox(height: screenHeight * 0.025),
-
-                      TextFormField(
-                       /*  onChanged: /*/ */, */
-                        /* validator: (email) {
-                          if (email == null || email.isEmpty) {
-                            return 'Preencha este campo';
-                          } else if (!RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(_emailController.toString())) {
-                            return 'O E-mail informado é inválido';
-                          }
-                          return null;
-                        }, */
-                        initialValue: 'testeT@teste.com',
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          labelText: 'Endereço Completo'
-                        ),
-                      ),
-
-                      const SizedBox(height: 18),
-
-                      //Senha
-                      TextFormField(
-               /*          onChanged: /*/ */, */
-                        validator: (senha) {
-                          if (senha == null || senha.isEmpty) {
-                            return 'Preencha este campo';
-                          }
-                          return null;
-                        },
-                        initialValue: '12345678',
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          labelText: 'CEP',
-                        ),
-                      ),
-
-                       const SizedBox(height: 18),
-
-                      //Senha
-                      TextFormField(
-                    /*     onChanged: /*/ */, */
-                       /*  validator: (senha) {
-                          if (senha == null || senha.isEmpty) {
-                            return 'Preencha este campo';
-                          }
-                          return null;
-                        }, */
-                        initialValue: '12345678',
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Tipo',
-                        ),
+                      Expanded(
+                          child: 
+                          Column(
+                            children: [
+                            //Senha
+                            TextFormField(
+                              initialValue: '12345678',
+                              decoration: const InputDecoration(
+                                labelText: 'Senha',
+                              ),
+                            ),
+                          ],
+                        )
                       ),
                     ],
                   ),
                 ),
               ),
               Positioned(
-                bottom: 20,
+                bottom: 230,
                 child: SizedBox(
                   width: screenWidth * 0.75,
                   child: Column(

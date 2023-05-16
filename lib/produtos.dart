@@ -321,7 +321,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
     }
   } else {
       throw Exception('Erro ao carregar foto');
-}
+  }
  
   }
 
