@@ -31,47 +31,49 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    
     return Scaffold(
       backgroundColor: GlobalColors.white,
-      body: Form(
+      body: SingleChildScrollView(
+        child: Form(
         key: _formkey,
         child: Center(
           child: Column(children: [
-            SizedBox(height: 10),
+            SizedBox(height: screenWidth * 0.15),
+            
             Image.network('https://i.imgur.com/aSEadiB.png'),
 
-            SizedBox(height: 40),
+            SizedBox(height: screenWidth * 0.1),
 
             //BemVindo
-            Container(
-              child: Align(
-                alignment: Alignment(-0.75, 0.0),
-                child: Text(
-                  'Bem-vindo(a)',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
+            Align(
+              alignment: Alignment(- screenWidth * 0.195 / 100, 0.0),
+              child: const Text(
+                'Bem-vindo(a)',
+                style: TextStyle(
+                  color: Color(0xFF3D3D3D),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
                 ),
               ),
             ),
 
-            SizedBox(height: 10),
+            SizedBox(height: screenHeight * 0.01),
 
-            Container(
-              child: Align(
-                alignment: Alignment(-0.4, 0.0),
-                child: Text(
-                  'Faça o login ou cadastre-se para continuar',
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
-                  ),
+            Align(
+              alignment: Alignment(- screenWidth * 0.195 / 100, 0.0),
+              child: const Text(
+                'Faça o login ou cadastre-se para continuar',
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 16,
                 ),
               ),
             ),
 
-            SizedBox(height: 18),
+            SizedBox(height: screenHeight * 0.025),
 
             //Email 0xFF1C8394
             Padding(
@@ -105,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
-            SizedBox(height: 18),
+            const SizedBox(height: 18),
 
             //Senha
             Padding(
@@ -135,88 +137,70 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
-           const SizedBox(height: 80),
+            SizedBox(height: screenHeight * 0.183),
 
-            //Btn entrar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: GestureDetector(
-                onTap: () {
-                  FocusScopeNode currentFocus = FocusScope.of(context);
-                  if (_formkey.currentState!.validate()) {
-                    login();
-                    if (!currentFocus.hasFocus) {
-                      currentFocus.unfocus();
-                    }
-                  }
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: GlobalColors.red,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset: const Offset(0, 5), // changes position of shadow
-                      ),
-                    ],
+            Stack(
+                children: [
+                  SizedBox(
+                    width: screenWidth * 0.75,
                   ),
-                  child: Center(
-                    child: Text(
-                      'Logar',
-                      style: TextStyle(
-                        color: GlobalColors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 35),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Column(
+                      children: [ 
+                        ElevatedButton(               
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: GlobalColors.red,
+                            padding: const EdgeInsets.all(10.0),
+                            fixedSize: Size(screenWidth * 0.75, 55.0),
+                            textStyle: const TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            elevation: 20.0,
+                            shadowColor: const Color(0xD2000000),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                          ),
+                          onPressed: () {
+                             if (_formkey.currentState!.validate()) {
+                              login();
+                          
+                            }
+                           }, 
+                          child: const Text('Entrar'),
+                        ),
 
-            //Btn voltar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: GestureDetector(
-                onTap: () => {
-                  Navigator.of(context).pushNamed('/'),
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: GlobalColors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: GlobalColors.blue),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset: const Offset(0, 5), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Voltar',
-                      style: TextStyle(
-                        color: GlobalColors.black,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ]),
+                        const SizedBox(height: 40.0),
+
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: GlobalColors.white,
+                            padding: const EdgeInsets.all(10.0),
+                            fixedSize: Size(screenWidth * 0.75, 55.0),
+                            foregroundColor: GlobalColors.blue,
+                            textStyle: const TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            elevation: 20.0,            
+                            shadowColor: const Color(0xD2000000),                
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                            side: BorderSide(color: GlobalColors.blue, width: 3)
+                          ),
+                          onPressed: () { Navigator.of(context).pushNamed('/'); }, 
+                          child: const Text('Voltar')
+                        ),
+                      ]
+                      
+                    )
+                  )
+                ]
+              )
+            ]
+          )
         ),
       ),
+      )
     );
   }
 
@@ -232,7 +216,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (resposta.statusCode == 200) {
       await sharedPreference.setString(
-          'token', "Token ${convert.jsonDecode(resposta.body)['token']}");
+          'token', "Bearer ${convert.jsonDecode(resposta.body)['authorization']['token']}");
 
       Navigator.pushReplacement(
         context,

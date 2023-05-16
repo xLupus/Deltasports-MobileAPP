@@ -11,56 +11,74 @@ class IndexPage extends StatefulWidget {
 class _IndexPageState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: GlobalColors.white,
       body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 277.0),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Center(
+              child: Column(
+                children: [
+                  SizedBox(height: screenHeight * 0.35),
 
-              Image.network('https://i.imgur.com/aSEadiB.png'),     
-
-              const SizedBox(height: 242.0),
-
-              ElevatedButton(               
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: GlobalColors.red,
-                  padding: const EdgeInsets.all(10.0),
-                  fixedSize: const Size(355.0, 55.0),
-                  textStyle: const TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  elevation: 20.0,
-                  shadowColor: const Color(0xD2000000),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
-                ),
-                onPressed: () { Navigator.of(context).pushNamed('/Login'); }, 
-                child: const Text('Entrar'),
+                  Image.network('https://i.imgur.com/aSEadiB.png'),
+                ],
               ),
-             
-              const SizedBox(height: 40.0),
+            ),
+            Positioned(
+              bottom: 20,
+              child: SizedBox(
+                width: screenWidth * 0.75,
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: GlobalColors.red,
+                        padding: const EdgeInsets.all(10.0),
+                        fixedSize: Size(screenWidth * 0.75, 55.0),
+                        textStyle: const TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        elevation: 20.0,
+                        shadowColor: const Color(0xD2000000),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                      ),
+                      onPressed: () { Navigator.of(context).pushNamed('/Login');  }, 
+                      child: const Text('Login'),
+                    ),
+                    
+                    SizedBox(height: screenHeight * 0.045),
 
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: GlobalColors.blue,
-                  padding: const EdgeInsets.all(10.0),
-                  fixedSize: const Size(355.0, 55.0),
-                  textStyle: const TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  elevation: 20.0,            
-                  shadowColor: const Color(0xD2000000),                
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 20.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: GlobalColors.blue,
+                          padding: const EdgeInsets.all(10.0),
+                          fixedSize: Size(screenWidth * 0.75, 55.0),
+                          textStyle: const TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          elevation: 20.0,
+                          shadowColor: const Color(0xD2000000),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                        ),
+                        onPressed: () { Navigator.of(context).pushNamed('/Registrar');  }, 
+                        child: const Text('Registrar'),
+                      )
+                    )
+                  ],
                 ),
-                onPressed: () { Navigator.of(context).pushNamed('/Registrar'); }, 
-                child: const Text('Registrar')
               )
-            ]
-          )
-        )
+            )
+          ]
+        ),
       )
     );
   }

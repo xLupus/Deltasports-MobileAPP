@@ -1,6 +1,6 @@
 import 'package:hexcolor/hexcolor.dart';
 
-class GlobalColors{
+class GlobalColors {
   static HexColor black     = HexColor('#444444');
   static HexColor white     = HexColor('#FFFFFF');
   static HexColor red       = HexColor('#A52502');

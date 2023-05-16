@@ -17,14 +17,6 @@ class Footer extends StatefulWidget {
 class _FooterState extends State<Footer> {
   int _selectedIndex = 0;
   final Color backgroundColor = GlobalColors.red;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    ListagemPage(foto: {}),
-    ProdutosPage(),
-    CarrinhoPage(),
-    PerfilPage(),
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -34,6 +26,15 @@ class _FooterState extends State<Footer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: const [
+          ListagemPage(foto: {}),
+          ProdutosPage(),
+          CarrinhoPage(),
+          PerfilPage()
+        ]
+      ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
           topRight: Radius.circular(20.0),
@@ -71,17 +72,3 @@ class _FooterState extends State<Footer> {
     );
   }
 }
-
-/* 
- Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => IndexPage(),
-                ),
-              );
-
-
-
-
-
- */
