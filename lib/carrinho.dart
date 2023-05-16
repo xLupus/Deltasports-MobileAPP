@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:js';
 
 import 'package:deltasports_app/home.dart';
 import 'package:deltasports_app/carrinho.dart';
@@ -146,11 +147,10 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                           TextButton(
                             child: Text('Confirmar'),
                             onPressed: () {
-                              setState(() {
-                                _items.clear();
-                                _totalPrice = 0.0;
-                              });
+                              checkout();
+
                               Navigator.of(context).pop();
+
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -429,25 +429,28 @@ Future<bool> sair() async {
 
 Future<bool> checkout() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
   var client = http.Client();
+
   final headers = {
     'Authorization': '${sharedPreferences.getString("token")}',
   };
-  final url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
 
-  var resposta = await client.post(url,
-      body: {
-        //'id': widget.dados['id'].toString(),
-        //'qtd': _qtdController.toString(),
-      },
-      headers: headers);
+  final url = Uri.parse('http://127.0.0.1:8000/api/order');
+
+  var resposta = await client.post(
+    url, 
+    body: {},
+    headers: headers
+    );
+
 
   if (resposta.statusCode == 200) {
-    /*Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MeusPedidos()),
-      );*/
-
+    /* Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MeusPedidos()),
+    ); */
+    print('Pedido realizado com sucesso');
     return true;
   } else {
     return false;
@@ -456,12 +459,16 @@ Future<bool> checkout() async {
 
 Future<List> produtos() async {
   SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+
   var url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
+
   final headers = {
     'Authorization': '${sharedPreference.getString("token")}',
     'Content-Type': 'application/json'
   };
+
   var response = await http.get(url, headers: headers);
+
   if (response.statusCode == 200) {
     print([response.statusCode, response.body]);
 
