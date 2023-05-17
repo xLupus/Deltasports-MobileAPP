@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:deltasports_app/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 import 'carrinho.dart';
 import 'index.dart';
 import 'listagem.dart';
 
 class ProdutoPage extends StatefulWidget {
-
   Map<String, dynamic> dados;
 
   ProdutoPage({Key? key, required this.dados}) : super(key: key);
@@ -20,83 +21,86 @@ class ProdutoPage extends StatefulWidget {
 }
 
 class _ProdutoPageState extends State<ProdutoPage> {
+  int _qtdController = 1;
+
   @override
   Widget build(BuildContext context) {
+    setQtd(int value) => setState(() {
+          _qtdController = value;
+        });
+
     return Scaffold(
-      appBar: AppBar( backgroundColor: GlobalColors.red,
-        title: Text(widget.dados['name'],
-        textAlign: TextAlign.center,),
+      appBar: AppBar(
+        backgroundColor: GlobalColors.red,
+        title: Text(
+          widget.dados['name'],
+          textAlign: TextAlign.center,
+        ),
       ),
       body: Center(
-  child: ListView(
-    children: [
-      Image(
-        image: obterImagem(widget.dados['images']),
-        height: 400,
-      ),
+        child: ListView(
+          children: [
+            Image(
+              image: obterImagem(widget.dados['images']),
+              height: 400,
+            ),
+            SizedBox(height: 50),
+            Text(
+              widget.dados['name'],
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Unidades:'),
+                SizedBox(width: 4),
+                IconButton(
+                  icon: Icon(Icons.remove),
+                  onPressed: () {
+                    if (_qtdController > 1) {
+                      setQtd(_qtdController - 1);
+                    }
+                  },
+                ),
+                Text('${_qtdController}'),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    if (_qtdController < widget.dados['stock']) {
+                      setQtd(_qtdController + 1);
+                    }
 
-      SizedBox(height: 50),
-
-      Text(
-        widget.dados['name'],
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-
-      SizedBox(height: 4),
-
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Unidades:'),
-
-          SizedBox(width: 4),
-
-          IconButton(
-            icon: Icon(Icons.remove),
-            onPressed: () {
-              // TODO: decrementar a quantidade
-            },
-          ),
-
-          Text('0'),
-
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              // TODO: incrementar a quantidade
-            },
-          ),
-        ],
-      ),
-
-      SizedBox(height: 4),
-
-      Text(
-        widget.dados['description'],
-        textAlign: TextAlign.center,
-      ),
-
-      SizedBox(height: 15),
-
-      Text(
-        widget.dados['price'],
-        style: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-        ),
-        textAlign: TextAlign.center,
-      ),
-
-      SizedBox(height: 20),
-
+                    print(_qtdController);
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 4),
+            Text(
+              widget.dados['description'],
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 15),
+            Text('R\$ ${widget.dados['price']}',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 80.0),
               child: GestureDetector(
-                onTap: () => {Navigator.of(context).pushReplacementNamed('/')},
+                onTap: () => {
+                  AdicionarCart()
+                  /* Navigator.of(context).pushReplacementNamed('/CarrinhoPage') */
+                },
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -124,12 +128,9 @@ class _ProdutoPageState extends State<ProdutoPage> {
                 ),
               ),
             ),
-    ],
-  ),
-  
-),
-
-
+          ],
+        ),
+      ),
 
       //Footter
       bottomNavigationBar: NavigationBar(destinations: [
@@ -150,15 +151,15 @@ class _ProdutoPageState extends State<ProdutoPage> {
               ],
             )),
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ListagemPage(foto: {}),
-              ),
-            );
-          },
-          child: Column(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ListagemPage(foto: {}),
+                ),
+              );
+            },
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.category),
@@ -166,15 +167,15 @@ class _ProdutoPageState extends State<ProdutoPage> {
               ],
             )),
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CarrinhoPage(),
-              ),
-            );
-          },
-          child: Column(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CarrinhoPage(),
+                ),
+              );
+            },
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.add_shopping_cart),
@@ -182,15 +183,15 @@ class _ProdutoPageState extends State<ProdutoPage> {
               ],
             )),
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PerfilPage(),
-              ),
-            );
-          },
-          child: Column(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PerfilPage(),
+                ),
+              );
+            },
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.person),
@@ -221,13 +222,44 @@ class _ProdutoPageState extends State<ProdutoPage> {
     return true;
   }
 
-
   dynamic obterImagem(dynamic url) {
     if (url.length > 0 && url[0] != null && url[0]['url'] != '') {
       return NetworkImage(url[0]['url']);
-    }
-    else {
+    } else {
       return const AssetImage('images/no_image.png');
+    }
+  }
+
+  Future<bool> AdicionarCart() async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    var client = http.Client();
+    final headers = {
+      'Authorization': '${sharedPreference.getString("token")}',
+    };
+    final url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
+
+    print([widget.dados['id'], widget.dados['stock']]);
+
+    var resposta = await client.post(url,
+        body: {
+          'product': widget.dados['id'].toString(),
+          'qtd': _qtdController.toString()
+        },
+        headers: headers);
+
+    print(resposta);
+
+    if (resposta.statusCode == 200) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => CarrinhoPage()),
+      );
+
+      print(convert.jsonDecode(resposta.body));
+
+      return true;
+    } else {
+      return false;
     }
   }
 }

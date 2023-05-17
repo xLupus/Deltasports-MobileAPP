@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:deltasports_app/home.dart';
 import 'package:deltasports_app/carrinho.dart';
@@ -56,7 +57,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
 
             //Logo E Search
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Image.network('https://i.imgur.com/ell1sHu.png'),
                 IconButton(
@@ -298,9 +299,19 @@ class _ProdutosPageState extends State<ProdutosPage> {
   }
 
   Future<List> pegarFotos() async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    var client =  http.Client();
     var url = Uri.parse('http://127.0.0.1:8000/api/products');
-    var response = await http.get(url);
+    final headers = {
+    'Authorization': '${sharedPreference.getString("token")}',
+    'Content-Type': 'application/json'
+  };
+    var response = await client.get(url, headers: headers);
+
+    
+    print([response.statusCode, sharedPreference.getString("token")]);
     if (response.statusCode == 200) {
+      print(json.decode(response.body));
       return json.decode(response.body).map((foto) => foto).toList();
     }
     throw Exception('Erro ao carregar foto');

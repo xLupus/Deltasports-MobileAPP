@@ -31,16 +31,16 @@ class _PerfilPageState extends State<PerfilPage> {
             SizedBox(height: 100),
             Image.network('https://i.imgur.com/ell1sHu.png'),
             SizedBox(height: 50),
-            Text(
-              'teste',
+            Text('',
+              //'${widget.name}',
               style: TextStyle(
                 color: GlobalColors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
             ),
-            Text(
-              'email',
+            Text('',
+              //'${widget.email}',
               style: TextStyle(
                 color: GlobalColors.black,
                 fontWeight: FontWeight.bold,
@@ -53,7 +53,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 80.0),
               child: GestureDetector(
-                onTap: () => {Navigator.of(context).pushReplacementNamed('/')},
+                onTap: () => {Navigator.of(context).pushReplacementNamed('/Editperfil')},
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -261,7 +261,7 @@ class _PerfilPageState extends State<PerfilPage> {
       
       print('Erro ao obter o nome da API.');
     }
-  }
+  }*/
 
-  */
+  
 }

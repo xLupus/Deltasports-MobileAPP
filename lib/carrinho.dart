@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:js';
 
 import 'package:deltasports_app/home.dart';
 import 'package:deltasports_app/carrinho.dart';
@@ -12,6 +13,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'index.dart';
 import 'package:http/http.dart' as http;
 
+import 'listagem.dart';
+
+/*void main() => runApp(MyApp());
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Carrinho de Compras',
+      home: Carrinho(),
+    );
+  }
+} */
+
 class CarrinhoPage extends StatefulWidget {
   const CarrinhoPage({Key? key}) : super(key: key);
   @override
@@ -21,24 +35,10 @@ class CarrinhoPage extends StatefulWidget {
 class _CarrinhoPageState extends State<CarrinhoPage> {
   final List<Product> _items = [
     Product(
-      name: 'Item 1',
+      name: 'oi',
       price: 10.0,
       quantity: 1,
       description: 'Descrição do Item 1',
-      image: 'https://picsum.photos/200',
-    ),
-    Product(
-      name: 'Item 2',
-      price: 15.0,
-      quantity: 1,
-      description: 'Descrição do Item 2',
-      image: 'https://picsum.photos/200',
-    ),
-    Product(
-      name: 'Item 3',
-      price: 20.0,
-      quantity: 1,
-      description: 'Descrição do Item 3',
       image: 'https://picsum.photos/200',
     ),
   ];
@@ -53,11 +53,11 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
 
   @override
   Widget build(BuildContext context) {
+    produtos();
     return Scaffold(
       appBar: AppBar(
           title: Text('Carrinho de Compras'),
           backgroundColor: GlobalColors.red),
-
       body: Column(
         children: [
           Expanded(
@@ -147,11 +147,10 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                           TextButton(
                             child: Text('Confirmar'),
                             onPressed: () {
-                              setState(() {
-                                _items.clear();
-                                _totalPrice = 0.0;
-                              });
+                              checkout();
+
                               Navigator.of(context).pop();
+
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -213,7 +212,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProdutosPage(),
+                  builder: (context) => const ListagemPage(foto: {}),
                 ),
               );
             },
@@ -221,7 +220,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.category),
-                Text('Categoria'),
+                Text('Produtos'),
               ],
             )),
         InkWell(
@@ -274,6 +273,8 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
     );
   }
 }
+
+// DETALHE DO ITEM NO CARRINHO
 
 class Product {
   final String name;
@@ -338,49 +339,69 @@ class ProductDetailScreen extends StatelessWidget {
       //Footer
       bottomNavigationBar: NavigationBar(destinations: [
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProdutosPage(),
-              ),
-            );
-          },
-          child: Icon(Icons.home),
-        ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProdutosPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.home),
+                Text('Home'),
+              ],
+            )),
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProdutosPage(),
-              ),
-            );
-          },
-          child: Icon(Icons.category),
-        ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ListagemPage(foto: {}),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.category),
+                Text('Produtos'),
+              ],
+            )),
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CarrinhoPage(),
-              ),
-            );
-          },
-          child: Icon(Icons.add_shopping_cart),
-        ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CarrinhoPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.add_shopping_cart),
+                Text('Carrinho'),
+              ],
+            )),
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProdutosPage(),
-              ),
-            );
-          },
-          child: Icon(Icons.person),
-        ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PerfilPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.person),
+                Text('Perfil'),
+              ],
+            )),
         TextButton(
           onPressed: () async {
             bool saiu = await sair();
@@ -404,4 +425,57 @@ Future<bool> sair() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   await sharedPreferences.clear();
   return true;
+}
+
+Future<bool> checkout() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+  var client = http.Client();
+
+  final headers = {
+    'Authorization': '${sharedPreferences.getString("token")}',
+  };
+
+  final url = Uri.parse('http://127.0.0.1:8000/api/order');
+
+  var resposta = await client.post(
+    url, 
+    body: {},
+    headers: headers
+    );
+
+
+  if (resposta.statusCode == 200) {
+    /* Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MeusPedidos()),
+    ); */
+    print('Pedido realizado com sucesso');
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Future<List> produtos() async {
+  SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+
+  var url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
+
+  final headers = {
+    'Authorization': '${sharedPreference.getString("token")}',
+    'Content-Type': 'application/json'
+  };
+
+  var response = await http.get(url, headers: headers);
+
+  if (response.statusCode == 200) {
+    print([response.statusCode, response.body]);
+
+    Map<String, dynamic> r = json.decode(response.body);
+    var _items = r['data'];
+    var resultado = '';
+    return _items;
+  }
+  throw Exception('Erro ao carregar foto');
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PesquisaPage extends SearchDelegate<String> {
   @override
@@ -36,11 +37,15 @@ class PesquisaPage extends SearchDelegate<String> {
     // TODO: implement buildResults
     return FutureBuilder<Map<dynamic, dynamic>>(
         future: resultado(query),
-        builder: (context, snapshot) {
+        builder: (context, snapshot) {          
+          var products = snapshot.data!['data'];
           if (snapshot.hasData) {
             return ListView(
               children: [
-                Image.network(snapshot.data!['images']),
+                //Image.network(products!['images']),
+
+               obterImagem(products!['images']),
+   
                 Padding(
                   padding: EdgeInsets.all(12),
                   child: Column(
@@ -50,18 +55,18 @@ class PesquisaPage extends SearchDelegate<String> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              snapshot.data!['name'],
+                              products!['name'],
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text(snapshot.data!['price'] -
-                                snapshot.data!['discount']),
+                            Text(products!['price'] -
+                                products!['discount']),
                           ],
                         ),
                         Text(
-                          snapshot.data!['category'],
+                          products!['category'],
                           style: TextStyle(fontStyle: FontStyle.italic),
                         ),
-                        Text(snapshot.data!['description']),
+                        Text(products!['description']),
                       ]),
                 ),
               ],
@@ -92,7 +97,8 @@ class PesquisaPage extends SearchDelegate<String> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     //erro aqui
-                    leading: Image.network(snapshot.data![index]['images'][0]['url'].toString()),
+                    //leading: Image.network(snapshot.data![index]['images'][0]['url'].toString()),
+                    leading: obterImagem(snapshot.data![index]['images']),
                     title: Text(snapshot.data![index]['name'].toString()),
                     subtitle: Text(snapshot.data![index]['category']['name'].toString()), 
                     trailing: Text(snapshot.data![index]['price'].toString()),
@@ -114,16 +120,18 @@ class PesquisaPage extends SearchDelegate<String> {
   }
 
   Future<List> sugestoes() async {
-    var url = Uri.parse('http://127.0.0.1:8000/api/product/search/$query');
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    var url = Uri.parse('http://127.0.0.1:8000/api/products/search/$query');
 
-    Map<String, String> headers = {
-      'Authorization': '',
-    };
+    final headers = {
+    'Authorization': '${sharedPreference.getString("token")}',
+    'Content-Type': 'application/json'
+  };
 
     var response = await http.get(url, headers: headers);
-
+      //print([query,response.statusCode]);
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
+      //print(json.decode(response.body));
 
       Map<String, dynamic> r = json.decode(response.body);
       var products = r['data'];
@@ -134,21 +142,32 @@ class PesquisaPage extends SearchDelegate<String> {
   }
 
   Future<Map<dynamic, dynamic>> resultado(String id) async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
     var url = Uri.parse('http://127.0.0.1:8000/api/product/$id');
 
-    Map<String, String> headers = {
-      'Authorization': '',
-    };
+    final headers = {
+    'Authorization': '${sharedPreference.getString("token")}',
+    'Content-Type': 'application/json'
+  };
 
     var response = await http.get(url, headers: headers);
 
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
+     // print(json.decode(response.body));
 
       Map<String, dynamic> r = json.decode(response.body);
-      var products = r['data'];
-      return products;
+      return r;
     }
     throw Exception('Erro ao solicitar o produto presquisa');
+  }
+
+  dynamic obterImagem(dynamic url) {
+    print([url,url.length]);
+    /*if (url.length > 0 && url[0] != null && url[0]['url'] != '') {
+      return NetworkImage(url[0]['url']);
+    } else {
+      return const AssetImage('images/no_image.png');
+    }*/
+    return const AssetImage('images/no_image.png');
   }
 }
