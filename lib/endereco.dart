@@ -37,103 +37,125 @@ class MostrarEnderecosPageState extends State<MostrarEnderecosPage> {
       backgroundColor: GlobalColors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child:  SizedBox(
-            height: screenHeight,
-            child: Stack(
+          child: Stack(
             alignment: Alignment.center,
             children: [
               Center(
                 child: Column(
                   children: [
-                    SizedBox(height: screenHeight < 800 ? screenHeight * 0.3 : screenHeight * 0.07),
+                    const SizedBox(height: 20),
 
                     Image.network('https://i.imgur.com/ell1sHu.png'),
                   ],
                 ),
-              ),           
+              ),
               Form(
                 key: _formkey,
-                child:  Container(
+                child: Container(
                   width: screenWidth * 0.75,
                   margin: const EdgeInsets.only(top: 250),
-                  child: Row(
+                  child: Column(
                     children: [
-                      Expanded(
-                        child:  
-                          Column(
-                            children: [
-                              TextFormField(
-                                initialValue: '12345678',
-                                decoration: const InputDecoration(
-                                  labelText: 'Senha',
+                      const Row(
+                        children: [
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Novo Endereço:',
+                                style: TextStyle(
+                                  color: Color(0xFF3D3D3D),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24
                                 ),
                               ),
-                            ],
+                            ),
                           )
-                        ),
-                        Expanded(
-                          child: 
-                          Column(
-                            children: [
-                            //Senha
-                            TextFormField(
-                              initialValue: '12345678',
-                              decoration: const InputDecoration(
-                                labelText: 'Senha',
-                              ),
-                            ),
-                          ],
-                        )
+                        ],
                       ),
-                      Expanded(
-                          child: 
-                          Column(
-                            children: [
-                            //Senha
-                            TextFormField(
-                              initialValue: '12345678',
+                      Row(
+                        children: [
+                          SizedBox(height: screenHeight * 0.025),
+                          Expanded(
+                            child: TextFormField(
                               decoration: const InputDecoration(
-                                labelText: 'Senha',
+                                  labelText: 'Logradouro',
+                              ),
+                            )
+                          ),
+                        ],
+                      ),
+                       Row(
+                        children: [
+                          SizedBox(height: screenHeight * 0.025),
+                          Expanded(
+                            flex: 4,
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                  labelText: 'Complemento',
+                              ),
+                            )
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                  labelText: 'CEP',
+                              ),
+                            )
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                  labelText: 'CEP',
+                              ),
+                            )
+                          ),
+                          const Spacer(),
+                          Expanded(
+                            flex: 2,
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                  labelText: 'Cidade',
+                              ),
+                            )
+                          ),
+                          const Spacer(),
+                          Expanded(
+                            flex: 3,
+                            child:  TextFormField(
+                              decoration: const InputDecoration(
+                                labelText: 'Estado',
                               ),
                             ),
-                          ],
-                        )
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(height: screenHeight * 0.025),
+                          Expanded(
+                            flex: 3,
+                            child:  TextFormField(
+                              decoration: const InputDecoration(
+                                labelText: 'Nome',
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
               ),
-              Positioned(
-                bottom: 230,
-                child: SizedBox(
-                  width: screenWidth * 0.75,
-                  child: Column(
-                    children: [
-                     ElevatedButton(               
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: GlobalColors.blue,
-                          padding: const EdgeInsets.all(10.0),
-                          fixedSize: Size(screenWidth * 0.75, 55.0),
-                          textStyle: const TextStyle(
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          elevation: 20.0,
-                          shadowColor: const Color(0xD2000000),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
-                        ),
-                        onPressed: () { /*if (_formkey.currentState!.validate()) login(); */ }, 
-                        child: const Text('Salvar'),
-                      ),
-                    ],
-                  ),
-                )
-              )
             ]
           ),
-       ),
-     ),
-    ),
-  );
-}
+        ),
+      )
+    );
+  }
 }
