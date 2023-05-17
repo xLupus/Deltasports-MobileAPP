@@ -12,17 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'index.dart';
 import 'package:http/http.dart' as http;
 
-/*void main() => runApp(MyApp());
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Carrinho de Compras',
-      home: Carrinho(),
-    );
-  }
-} */
-
 class CarrinhoPage extends StatefulWidget {
   const CarrinhoPage({Key? key}) : super(key: key);
   @override
