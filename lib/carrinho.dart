@@ -33,11 +33,20 @@ class CarrinhoPage extends StatefulWidget {
 }
 
 class _CarrinhoPageState extends State<CarrinhoPage> {
+  late Future<List> exibirCarrinho;
+
+  @override
+  initState() {
+    super.initState();
+    exibirCarrinho = produtos();
+    
+  }
+
   final List<Product> _items = [
     Product(
       name: 'oi',
       price: 10.0,
-      quantity: 1,
+      qtd: 1,
       description: 'Descrição do Item 1',
       image: 'https://picsum.photos/200',
     ),
@@ -53,7 +62,6 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
 
   @override
   Widget build(BuildContext context) {
-    produtos();
     return Scaffold(
       appBar: AppBar(
           title: Text('Carrinho de Compras'),
@@ -61,55 +69,76 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemCount: _items.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_items[index].name),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.remove),
-                        onPressed: () {
-                          setState(() {
-                            if (_items[index].quantity > 1) {
-                              _items[index].quantity--;
-                              _items[index].updateTotalPrice();
-                              _updateTotalPrice();
-                            } else {
-                              _items.removeAt(index);
-                              _updateTotalPrice();
-                            }
-                          });
+            child: FutureBuilder<List>(
+              future: exibirCarrinho,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  //print(snapshot.data);
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      //print(snapshot.data![index]);
+
+                      return ListTile(
+                        title: Text(snapshot.data![index]['name']),
+                        
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.remove),
+                              onPressed: () {
+                                setState(() {
+                                  if (_items[index].qtd > 1) {
+                                    _items[index].qtd--;
+                                    _items[index].updateTotalPrice();
+                                    _updateTotalPrice();
+                                  } else {
+                                    _items.removeAt(index);
+                                    _updateTotalPrice();
+                                  }
+                                });
+                              },
+                            ),
+                            Text('${snapshot.data![index]['qtd']}'),
+                            IconButton(
+                              icon: Icon(Icons.add),
+                              onPressed: () {
+                                setState(() {
+                                  _items[index].qtd++;
+                                  _items[index].updateTotalPrice();
+                                  _updateTotalPrice();
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        subtitle: Text(
+                          'R\$ ${snapshot.data![index]['price'].toString()}',
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ProductDetailScreen(product: _items[index]),
+                            ),
+                          );
                         },
-                      ),
-                      Text('${_items[index].quantity}'),
-                      IconButton(
-                        icon: Icon(Icons.add),
-                        onPressed: () {
-                          setState(() {
-                            _items[index].quantity++;
-                            _items[index].updateTotalPrice();
-                            _updateTotalPrice();
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  subtitle: Text(
-                    'R\$ ${_items[index].price.toStringAsFixed(2)}',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ProductDetailScreen(product: _items[index]),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  //print(snapshot.hasError);
+                  //print(snapshot.error);
+
+                  return const Center(
+                    child: Text('Carrinho Vazio'),
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
                 );
               },
             ),
@@ -279,19 +308,19 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
 class Product {
   final String name;
   final double price;
-  int quantity;
+  int qtd;
   final String description;
   final String image;
 
   Product({
     required this.name,
     required this.price,
-    required this.quantity,
+    required this.qtd,
     required this.description,
     required this.image,
   });
 
-  double get totalPrice => price * quantity;
+  double get totalPrice => price * qtd;
 
   void updateTotalPrice() {
     totalPrice;
@@ -438,12 +467,7 @@ Future<bool> checkout() async {
 
   final url = Uri.parse('http://127.0.0.1:8000/api/order');
 
-  var resposta = await client.post(
-    url, 
-    body: {},
-    headers: headers
-    );
-
+  var resposta = await client.post(url, body: {}, headers: headers);
 
   if (resposta.statusCode == 200) {
     /* Navigator.pushReplacement(
@@ -470,12 +494,13 @@ Future<List> produtos() async {
   var response = await http.get(url, headers: headers);
 
   if (response.statusCode == 200) {
-    print([response.statusCode, response.body]);
-
     Map<String, dynamic> r = json.decode(response.body);
-    var _items = r['data'];
-    var resultado = '';
-    return _items;
-  }
-  throw Exception('Erro ao carregar foto');
+    var items = r['data']['cart'];
+
+    //print(items);
+
+    return items;
+  } 
+
+  throw Exception('Erro ao carregar Carrinho');
 }
