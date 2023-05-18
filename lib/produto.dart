@@ -2,11 +2,9 @@ import 'package:deltasports_app/perfil.dart';
 import 'package:deltasports_app/produtos.dart';
 import 'package:flutter/material.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
-import 'package:deltasports_app/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-
 import 'carrinho.dart';
 import 'index.dart';
 import 'listagem.dart';
@@ -29,6 +27,14 @@ class _ProdutoPageState extends State<ProdutoPage> {
           _qtdController = value;
         });
 
+    var textStyle = TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              );
+    var textStyle2 = TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: GlobalColors.red,
@@ -48,10 +54,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
             Text(
               widget.dados['name'],
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+              style: textStyle,
             ),
             SizedBox(height: 4),
             Row(
@@ -87,10 +90,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
             ),
             SizedBox(height: 15),
             Text('R\$ ${widget.dados['price']}',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+              style: textStyle2,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),
@@ -102,7 +102,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
                   /* Navigator.of(context).pushReplacementNamed('/CarrinhoPage') */
                 },
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: GlobalColors.blue,
                     borderRadius: BorderRadius.circular(12),
@@ -229,37 +229,41 @@ class _ProdutoPageState extends State<ProdutoPage> {
       return const AssetImage('images/no_image.png');
     }
   }
+      Future<bool> AdicionarCart() async {
 
-  Future<bool> AdicionarCart() async {
-    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-    var client = http.Client();
-    final headers = {
-      'Authorization': '${sharedPreference.getString("token")}',
-    };
-    final url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
+      TextEditingController _qtdController = TextEditingController();
 
-    print([widget.dados['id'], widget.dados['stock']]);
+      SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+      var client = http.Client();
+      final headers = {
+        'Authorization': '${sharedPreference.getString("token")}',
+      };
+      final url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
 
-    var resposta = await client.post(url,
+      print([widget.dados['id'], widget.dados['stock']]);
+
+      String quantidade = _qtdController.text;
+
+      var resposta = await client.post(
+        url,
         body: {
           'product': widget.dados['id'].toString(),
-          'qtd': _qtdController.toString()
+          'qtd': quantidade,
         },
-        headers: headers);
-
-    print(resposta);
-
-    if (resposta.statusCode == 200) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => CarrinhoPage()),
+        headers: headers,
       );
 
-      print(convert.jsonDecode(resposta.body));
+      print(resposta);
 
-      return true;
-    } else {
-      return false;
+      if (resposta.statusCode == 200) {
+        Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => CarrinhoPage()),
+        );
+        print(convert.jsonDecode(resposta.body));
+        return true;
+      } else {
+        return false;
+      }
     }
-  }
+
 }

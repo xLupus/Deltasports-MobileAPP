@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:html';
-
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:deltasports_app/home.dart';
 import 'package:deltasports_app/carrinho.dart';
 import 'package:deltasports_app/login_page.dart';
@@ -23,12 +23,6 @@ class ProdutosPage extends StatefulWidget {
 
 class _ProdutosPageState extends State<ProdutosPage> {
   late Future<List> listaFotos;
-
-  /* @override
-  initState(){
-    super.initState();
-    listaFotos = pegarFotos();
-  } */
 
   @override
   void initState() {
@@ -83,7 +77,6 @@ class _ProdutosPageState extends State<ProdutosPage> {
                 ),
               ],
             ),
-
             SizedBox(height: 15),
 
             //Categorias
@@ -194,13 +187,44 @@ class _ProdutosPageState extends State<ProdutosPage> {
                     ),
                   ),
                 ), //Fim Bolas
-
-                //Adicionar restante da categoria
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 40),
 
-            Container()
+            Expanded(
+              child: Column(
+                children: [
+                  // Categorias
+                  Expanded(
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        aspectRatio: 16 / 9,
+                        viewportFraction: 0.8,
+                        initialPage: 0,
+                        enableInfiniteScroll: true,
+                        reverse: false,
+                        autoPlay: true,
+                        autoPlayInterval: Duration(seconds: 2),
+                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {},
+                        scrollDirection: Axis.vertical, // Alterado para vertical
+                      ),
+                      items: [
+                        // Lista de imagens do carrossel
+                        Image.network('https://i.imgur.com/5LHPAuk.jpeg'),
+                        Image.network('https://i.imgur.com/WHnTGPB.jpeg'),
+                        Image.network('https://i.imgur.com/tuEpFWh.jpeg'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+            
           ]),
         ),
       ),
