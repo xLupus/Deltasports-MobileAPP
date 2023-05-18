@@ -1,6 +1,12 @@
+import 'package:deltasports_app/perfil.dart';
+import 'package:deltasports_app/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'carrinho.dart';
+import 'index.dart';
+import 'listagem.dart';
 
 /* class EnderecoPage extends StatefulWidget {
   const EnderecoPage({Key? key}) : super(key: key);
@@ -40,14 +46,13 @@ class MostrarEnderecosPageState extends State<MostrarEnderecosPage> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Center(
+              Positioned(
+                top: 0,
                 child: Column(
                   children: [
-                    const SizedBox(height: 20),
-
-                    Image.network('https://i.imgur.com/ell1sHu.png'),
-                  ],
-                ),
+                    Image.network('https://i.imgur.com/ell1sHu.png')
+                  ]
+                )
               ),
               Form(
                 key: _formkey,
@@ -96,10 +101,11 @@ class MostrarEnderecosPageState extends State<MostrarEnderecosPage> {
                               ),
                             )
                           ),
+                          const Spacer(),
                           Expanded(
                             child: TextFormField(
                               decoration: const InputDecoration(
-                                  labelText: 'CEP',
+                                labelText: 'Nº',
                               ),
                             )
                           ),
@@ -148,6 +154,29 @@ class MostrarEnderecosPageState extends State<MostrarEnderecosPage> {
                           ),
                         ],
                       ),
+
+                      SizedBox(height: screenHeight * 0.3),
+
+                      Container(
+                          margin: const EdgeInsets.only(bottom: 20.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: GlobalColors.blue,
+                              padding: const EdgeInsets.all(10.0),
+                              fixedSize: Size(screenWidth * 0.75, 55.0),
+                              textStyle: const TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              elevation: 20.0,            
+                              shadowColor: const Color(0xD2000000),                
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                              side: BorderSide(color: GlobalColors.blue, width: 3)
+                            ),
+                            onPressed: () { Navigator.of(context).pushNamed('/'); }, 
+                            child: const Text('Salvar')
+                          ),
+                        )
                     ],
                   ),
                 ),
@@ -155,7 +184,96 @@ class MostrarEnderecosPageState extends State<MostrarEnderecosPage> {
             ]
           ),
         ),
-      )
+      ),
+
+      //footter
+      bottomNavigationBar: NavigationBar(destinations: [
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProdutosPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.home),
+                Text('Home'),
+              ],
+            )),
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ListagemPage(foto: {}),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.category),
+                Text('Produtos'),
+              ],
+            )),
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CarrinhoPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.add_shopping_cart),
+                Text('Carrinho'),
+              ],
+            )),
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PerfilPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.person),
+                Text('Perfil'),
+              ],
+            )),
+        TextButton(
+          onPressed: () async {
+            bool saiu = await sair();
+            if (saiu) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => IndexPage(),
+                ),
+              );
+            }
+          },
+          child: Text('Sair'),
+        ),
+      ], backgroundColor: GlobalColors.red),
     );
   }
+
+  Future<bool> sair() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.clear();
+    return true;
+  }
+
 }
