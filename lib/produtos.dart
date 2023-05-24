@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:html';
+
 
 import 'package:deltasports_app/home.dart';
 import 'package:deltasports_app/carrinho.dart';
@@ -39,7 +39,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => LoginPage(),
+            builder: (context) => Login(),
           ),
         );
       }
@@ -304,25 +304,23 @@ class _ProdutosPageState extends State<ProdutosPage> {
     var url = Uri.parse('http://127.0.0.1:8000/api/products');
     final headers = {
     'Authorization': '${sharedPreference.getString("token")}',
-    'Content-Type': 'application/json'
-  };
+      'Content-Type': 'application/json'
+    };
     var response = await client.get(url, headers: headers);
 
-    
     print([response.statusCode, sharedPreference.getString("token")]);
-   if (response.statusCode == 200) {
-    var jsonResponse = json.decode(response.body);
-    if (jsonResponse is List<dynamic>) {
-      return jsonResponse;
-    } else if (jsonResponse is Map<String, dynamic>) {
-      return [jsonResponse];
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      if (jsonResponse is List<dynamic>) {
+        return jsonResponse;
+      } else if (jsonResponse is Map<String, dynamic>) {
+        return [jsonResponse];
+      } else {
+        throw Exception('Resposta inválida da API');
+      }
     } else {
-      throw Exception('Resposta inválida da API');
+        throw Exception('Erro ao carregar foto');
     }
-  } else {
-      throw Exception('Erro ao carregar foto');
-  }
- 
   }
 
   Future<bool> sair() async {

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:js';
+
 
 import 'package:deltasports_app/home.dart';
 import 'package:deltasports_app/carrinho.dart';

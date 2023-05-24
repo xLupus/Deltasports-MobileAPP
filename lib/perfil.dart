@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'carrinho.dart';
 import 'index.dart';
 import 'listagem.dart';
+import 'endereco.dart';
 
 class PerfilPage extends StatefulWidget {
   const PerfilPage({Key? key}) : super(key: key);
@@ -123,7 +124,12 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 80.0),
               child: GestureDetector(
-                onTap: () => {Navigator.of(context).pushReplacementNamed('/Enderecos')},
+                onTap: () => {Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EnderecoPage(),
+                ),
+              )},
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(

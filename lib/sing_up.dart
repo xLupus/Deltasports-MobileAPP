@@ -270,7 +270,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<bool> registrar() async {
     var client = http.Client();
-    final url = Uri.parse('http://127.0.0.1:8000/api/auth/register');
+    final url = Uri.parse('http://127.0.0.1:8000/api/user/cart/address');
 
     var resposta = await client.post(url, body: {
       'name': _nomeController,
@@ -284,7 +284,7 @@ class _RegisterPageState extends State<RegisterPage> {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+        MaterialPageRoute(builder: (context) => const Login()),
       );
   
       return true;
