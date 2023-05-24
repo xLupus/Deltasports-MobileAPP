@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:html';
+import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:deltasports_app/home.dart';
 import 'package:deltasports_app/carrinho.dart';
@@ -67,15 +68,6 @@ class _ProdutosPageState extends State<ProdutosPage> {
             //Titulo "Produtos e ADD"
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Produtos / Categorias',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                ),
-              ],
             ),
             SizedBox(height: 15),
 
@@ -189,7 +181,62 @@ class _ProdutosPageState extends State<ProdutosPage> {
                 ), //Fim Bolas
               ],
             ),
-            SizedBox(height: 40),
+            
+            SizedBox(height: 30),
+
+                Text(
+                  'Destaques',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  ),
+                ),
+
+            SizedBox(height: 30),
+
+            Expanded(
+              child: Column(
+                children: [
+                  // Categorias
+                  Expanded(
+                    
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        aspectRatio: 16 / 9,
+                        viewportFraction: 1,
+                        initialPage: 0,
+                        enableInfiniteScroll: true,
+                        reverse: false,
+                        autoPlay: true,
+                        autoPlayInterval: Duration(seconds: 2),
+                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {},
+                        scrollDirection: Axis.horizontal, // Alterado para vertical
+                      ),
+                      items: [
+                        // Lista de imagens do carrossel
+                        Image.network('https://i.imgur.com/5LHPAuk.jpeg'),
+                        Image.network('https://i.imgur.com/WHnTGPB.jpeg'),
+                        Image.network('https://i.imgur.com/tuEpFWh.jpeg'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: 30),
+                Text(
+                  'Promoções',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  ),
+                ),
+
+            SizedBox(height: 10),
 
             Expanded(
               child: Column(
@@ -209,7 +256,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
                         autoPlayCurve: Curves.fastOutSlowIn,
                         enlargeCenterPage: true,
                         onPageChanged: (index, reason) {},
-                        scrollDirection: Axis.vertical, // Alterado para vertical
+                        scrollDirection: Axis.horizontal,
                       ),
                       items: [
                         // Lista de imagens do carrossel
