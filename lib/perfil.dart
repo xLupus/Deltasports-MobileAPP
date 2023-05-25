@@ -4,7 +4,7 @@ import 'package:deltasports_app/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert' as convert;
+
 import 'package:http/http.dart' as http;
 
 import 'carrinho.dart';
@@ -21,6 +21,23 @@ class PerfilPage extends StatefulWidget {
 class _PerfilPageState extends State<PerfilPage> {
   get child => null;
 
+  String name = '';
+  String email = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    perfil().then((dados) {
+      setState(() {
+        name = dados['name'];
+        email = dados['email'];
+      });
+    }).catchError((erro) {
+      print(erro);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,16 +48,16 @@ class _PerfilPageState extends State<PerfilPage> {
             SizedBox(height: 100),
             Image.network('https://i.imgur.com/ell1sHu.png'),
             SizedBox(height: 50),
-            Text('',
-              //'${widget.name}',
+            Text(
+              name,
               style: TextStyle(
                 color: GlobalColors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
             ),
-            Text('',
-              //'${widget.email}',
+            Text(
+              email,
               style: TextStyle(
                 color: GlobalColors.black,
                 fontWeight: FontWeight.bold,
@@ -53,7 +70,8 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 80.0),
               child: GestureDetector(
-                onTap: () => {Navigator.of(context).pushReplacementNamed('/Editperfil')},
+                onTap: () =>
+                    {Navigator.of(context).pushReplacementNamed('/Editperfil')},
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -243,25 +261,27 @@ class _PerfilPageState extends State<PerfilPage> {
     return true;
   }
 
-  /*Future<List> perfil() async {
-    var url = Uri.parse('http://127.0.0.1:8000/api/auth/user');
+  Future<dynamic> perfil() async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
 
-    Map<String, String> headers = {
-      'Authorization': '',
+    var client = http.Client();
+
+    var url = Uri.parse('http://127.0.0.1:8000/api/user');
+
+    final headers = {
+      'Authorization': '${sharedPreference.getString("token")}',
     };
 
-    var response = await http.get(url, headers: headers);
+    var response = await client.get(url, headers: headers);
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> nameJson = jsonDecode(response.body);
+      final Map<String, dynamic> r = json.decode(response.body);
 
-      String name = nameJson['name'];
-      String email = emailJson['email'];
-    } else {
-      
-      print('Erro ao obter o nome da API.');
+      var data = r['data'];
+
+      return data;
     }
-  }*/
 
-  
+    throw Exception('Erro ao carregar dados do Usuario');
+  }
 }
