@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'carrinho.dart';
 import 'index.dart';
 import 'listagem.dart';
-import 'endereco.dart';
+import 'endereco/endereco.dart';
 
 class PerfilPage extends StatefulWidget {
   const PerfilPage({Key? key}) : super(key: key);

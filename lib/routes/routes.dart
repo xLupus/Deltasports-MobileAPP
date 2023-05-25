@@ -9,7 +9,7 @@ import 'package:deltasports_app/listagem.dart';
 import 'package:deltasports_app/home.dart';
 import 'package:deltasports_app/produto.dart';
 import 'package:deltasports_app/editperfil.dart';
-import 'package:deltasports_app/endereco.dart';
+import 'package:deltasports_app/endereco/endereco.dart';
 
 class AppPage {
   static final Map<String, WidgetBuilder> routes = {
