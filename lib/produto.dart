@@ -232,13 +232,10 @@ class _ProdutoPageState extends State<ProdutoPage> {
 
   Future<bool> AdicionarCart() async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-
     var client = http.Client();
-
     final headers = {
       'Authorization': '${sharedPreference.getString("token")}',
     };
-    
     final url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
 
     print([widget.dados['id'], widget.dados['stock']]);

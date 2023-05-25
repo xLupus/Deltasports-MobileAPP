@@ -46,7 +46,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
     Product(
       name: 'oi',
       price: 10.0,
-      qtd: 1,
+      quantity: 1,
       description: 'Descrição do Item 1',
       image: 'https://picsum.photos/200',
     ),
@@ -73,15 +73,14 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
               future: exibirCarrinho,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  //print(snapshot.data);
+                  print(snapshot.data);
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      //print(snapshot.data![index]);
+                      print(snapshot.data![index]);
 
                       return ListTile(
                         title: Text(snapshot.data![index]['name']),
-                        
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -89,8 +88,8 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                               icon: Icon(Icons.remove),
                               onPressed: () {
                                 setState(() {
-                                  if (_items[index].qtd > 1) {
-                                    _items[index].qtd--;
+                                  if (_items[index].quantity > 1) {
+                                    _items[index].quantity--;
                                     _items[index].updateTotalPrice();
                                     _updateTotalPrice();
                                   } else {
@@ -105,7 +104,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                               icon: Icon(Icons.add),
                               onPressed: () {
                                 setState(() {
-                                  _items[index].qtd++;
+                                  _items[index].quantity++;
                                   _items[index].updateTotalPrice();
                                   _updateTotalPrice();
                                 });
@@ -308,19 +307,19 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
 class Product {
   final String name;
   final double price;
-  int qtd;
+  int quantity;
   final String description;
   final String image;
 
   Product({
     required this.name,
     required this.price,
-    required this.qtd,
+    required this.quantity,
     required this.description,
     required this.image,
   });
 
-  double get totalPrice => price * qtd;
+  double get totalPrice => price * quantity;
 
   void updateTotalPrice() {
     totalPrice;
