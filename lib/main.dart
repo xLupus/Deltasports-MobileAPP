@@ -10,6 +10,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: AppPage.routes,
       initialRoute: '/',
+      theme: ThemeData(
+        useMaterial3: true,
+      ),
       debugShowCheckedModeBanner: false,
     );
   }

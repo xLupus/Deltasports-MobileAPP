@@ -1,32 +1,32 @@
-import 'dart:convert';
-
+import 'package:deltasports_app/endereco/endereco.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../utilis/global_colors.dart';
-import '../perfil.dart';
+import '../../utilis/global_colors.dart';
+import '../../utilis/snack_bar.dart';
 import '../produtos.dart';
-import '../carrinho.dart';
-import '../index.dart';
-import '../listagem.dart';
-//CRIA ENDEREÇO
-class CriarEnderecoPage extends StatefulWidget {
-  const CriarEnderecoPage({Key? key}) : super(key: key);
 
+//TODO: VALIDAÇÕES
+class EditarEnderecoPage extends StatefulWidget {
+  final int id;
+  const EditarEnderecoPage(this.id, {Key? key}) : super(key: key);
+  
   @override
-  State<CriarEnderecoPage> createState() => CriarEnderecoPageState();
+  State<EditarEnderecoPage> createState() => EditarEnderecoPageState();
 }
 
-class CriarEnderecoPageState extends State<CriarEnderecoPage> {
+class EditarEnderecoPageState extends State<EditarEnderecoPage> {
   final _formkey = GlobalKey<FormState>();
-
+/*  
   TextEditingController txtCep = TextEditingController();
 
   final TextEditingController _logradouroController = TextEditingController();
-
-  setLogradouro(String value)     => _logradouroController;
+ */
+  String? _logradouroController;
+  setLogradouro(String value)     => _logradouroController = value;
 
   String? _complementoController;
   setComplemento(String value)    => _complementoController = value;
@@ -46,81 +46,87 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
   String? _tipoController;
   setTipo(String value)           => _tipoController = value;
 
-  final snackBar = SnackBar(
-    content: const Text(
-        'Ocorreu um erro',
-        textAlign: TextAlign.center,
-    ),
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0))
-    ),
-    backgroundColor: GlobalColors.red
-  );
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    
+
     return Scaffold(
       backgroundColor: GlobalColors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Shortcuts(
-            shortcuts: const <ShortcutActivator, Intent>{
-                // Pressing space in the field will now move to the next field.
-              SingleActivator(LogicalKeyboardKey.space): NextFocusIntent(),
-            },
-            child: FocusTraversalGroup(
-              child: Stack(
-                alignment: Alignment.center,
+          child: Center(
+            child: SizedBox(
+              width: screenWidth * 0.8,
+              child: Column(
                 children: [
-                  Positioned(
-                    top: 50,
-                    left: 60,
-                    child: Image.network('https://i.imgur.com/ell1sHu.png')
+                   Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 50, bottom: 50),
+                      child: GestureDetector(
+                        onTap: () { 
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ProdutosPage())
+                          );
+                        },
+                        child: Image.network('https://i.imgur.com/ell1sHu.png')
+                      )
+                    )
                   ),
-                  SizedBox(
-                    width: screenWidth,
-                    child: Center(
-                      child: Form(
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                        alignment: Alignment.centerLeft,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                    color: GlobalColors.red,
+                                    width: 5
+                                  )
+                                )
+                              ),
+                              child: LayoutBuilder(
+                              builder: (BuildContext context, BoxConstraints constraints) {
+                                return const FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Editar Endereço:',
+                                    style: TextStyle(
+                                      color: Color(0xFF1E1E1E),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22
+                                    )
+                                  )
+                                );
+                              }
+                            )
+                          )  
+                        )
+                      )
+                    ]
+                  ),
+                  const SizedBox(height: 50),
+                  Shortcuts(
+                    shortcuts: const <ShortcutActivator, Intent> {
+                  // Pressing space in the field will now move to the next field.
+                    SingleActivator(LogicalKeyboardKey.space): NextFocusIntent()
+                    },
+                    child: FocusTraversalGroup(
+                      child:  Form(
                         autovalidateMode: AutovalidateMode.always,
                         onChanged: () {
                           Form.of(primaryFocus!.context!).save();
                         },
                         key: _formkey,
-                        child: Container(
+                        child: SizedBox(
                           width: screenWidth * 0.80,
-                          margin: const EdgeInsets.only(top: 150),
                           child: Column(
                             children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          border: Border(bottom: BorderSide(
-                                            color: GlobalColors.red, width: 5)
-                                          ),
-                                        ),
-                                        child: const Text(
-                                        'Novo Endereço:',
-                                          style: TextStyle(
-                                            color: Color(0xFF3D3D3D),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 22
-                                          )
-                                        )
-                                      )
-                                    )
-                                  )
-                                ],
-                              ),
-
-                              SizedBox(height: screenHeight * 0.025),
-
                               Row(
                                 children: [
                                   Expanded(
@@ -191,7 +197,7 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                   Expanded(
                                     flex: 4,
                                     child: TextFormField(
-                                      controller: txtCep,
+                            
                                       autofocus: true,
                                       keyboardType: TextInputType.number,
                                       onChanged: setCEP,
@@ -270,7 +276,44 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                 ]
                               ),
 
-                              SizedBox(height: screenHeight * 0.3),
+                              const SizedBox(height: 100),
+
+                              WillPopScope(
+                              onWillPop: () async {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const EnderecoPage()),
+                                    );
+                                return true; // Permitir que o app saia quando o botão de voltar for pressionado
+                              },
+                              child:  Container(
+                                margin: const EdgeInsets.only(bottom: 20.0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: GlobalColors.white,
+                                    padding: const EdgeInsets.all(10.0),
+                                    fixedSize: Size(screenWidth * 0.75, 55.0),
+                                    foregroundColor: GlobalColors.blue,
+                                    textStyle: const TextStyle(
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    elevation: 20.0,            
+                                    shadowColor: const Color(0xD2000000),                
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                                    side: BorderSide(color: GlobalColors.blue, width: 3)
+                                  ),
+                                  onPressed: () {                                   
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const EnderecoPage()),
+                                    );
+                                  }, 
+                                  child: const Text('Voltar')
+                                ),
+                              ),   
+                            ),
+                            const SizedBox(height: 10),
 
                               Container(
                                 margin: const EdgeInsets.only(bottom: 20.0),
@@ -279,6 +322,7 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                     backgroundColor: GlobalColors.blue,
                                     padding: const EdgeInsets.all(10.0),
                                     fixedSize: Size(screenWidth * 0.75, 55.0),
+                                    foregroundColor: GlobalColors.white,
                                     textStyle: const TextStyle(
                                       fontSize: 24.0,
                                       fontWeight: FontWeight.w700
@@ -287,7 +331,7 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                     shadowColor: const Color(0xD2000000),                
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                                   ),
-                                  onPressed: () { criar(); }, 
+                                  onPressed: () { editar(widget.id); }, 
                                   child: const Text('Salvar')
                                 )
                               )
@@ -302,101 +346,19 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
             )
           )
         )
-      ),
-
-      //footter
-      bottomNavigationBar: NavigationBar(destinations: [
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProdutosPage(),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.home),
-                Text('Home'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ListagemPage(foto: {}),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.category),
-                Text('Produtos'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CarrinhoPage(),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.add_shopping_cart),
-                Text('Carrinho'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PerfilPage(),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.person),
-                Text('Perfil'),
-              ],
-            )),
-        TextButton(
-          onPressed: () async {
-            bool saiu = await sair();
-            if (saiu) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const IndexPage(),
-                ),
-              );
-            }
-          },
-          child: const Text('Sair'),
-        ),
-      ], backgroundColor: GlobalColors.red),
+      )
     );
   }
 
-  Future<bool> criar() async {
+  Future<void> editar(int id) async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
     var client = http.Client();
-    final url = Uri.parse('http://127.0.0.1:8000/api/user/address');
+    final url = Uri.parse('http://127.0.0.1:8000/api/user/address/$id');
     final headers = {
       'Authorization': '${sharedPreference.getString("token")}',
     };
 
-    var response = await client.post(
+    var response = await client.patch(
       url, 
       body: {
         'name'        : _tipoController,
@@ -406,48 +368,31 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
         'zip_code'    : _cepController,
         'city'        : _cidadeController,
         'state'       : _estadoController,
-    }, headers: headers);
-print(response);
-    if (response.statusCode == 201) {
-      Map<String, dynamic> r = jsonDecode(response.body);
-      print(r);
-        // ignore: use_build_context_synchronously
-       /*  Navigator.pushReplacement(
+      }, headers: headers
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      WidgetsBinding.instance.addPostFrameCallback((_) { 
+        snackBar(context, data['message']);
+        Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
+          MaterialPageRoute(builder: (context) => const EnderecoPage()),
         );
-     */
-        return true;
-    } else {
-      if(response.statusCode == 500) {
-          // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-      return false;
+      });
+      return;
+    } else if(response.statusCode == 404)  {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      WidgetsBinding.instance.addPostFrameCallback((_) { 
+        snackBar(context, data['message']);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const EnderecoPage()),
+        );
+      });
+      return;
     }
-  }
-
-   Future<bool> sair() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.clear();
-    return true;
-  }
-
-  Future<bool> buscaCEP() async {
-    final cep = txtCep.text;
-
-    var client = http.Client();
-    final url = Uri.parse(': viacep.com.br/ws/$cep/json/');
-    var response = await client.get(url);
-    Map<String, dynamic> data = jsonDecode(response.body);
-
-
-    if(response.statusCode == 200) {
-    _logradouroController.text = data['logradouro'];
-        /*  _complementoController!.text = complement;
-        _cidadeController = data['localidade'];
-        _estadoController = data['uf']; */
-    };
-    return true;
+     
+    throw Exception('Ocorreu um erro ao atualizar o endereço');
   }
 }

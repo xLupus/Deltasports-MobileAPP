@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'utilis/snack_bar.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -38,7 +39,7 @@ class _LoginPageState extends State<Login> {
           child: Shortcuts(
             shortcuts: const <ShortcutActivator, Intent>{
                   // Pressing space in the field will now move to the next field.
-                SingleActivator(LogicalKeyboardKey.space): NextFocusIntent(),
+                SingleActivator(LogicalKeyboardKey.enter): NextFocusIntent(),
             },
             child: FocusTraversalGroup(
               child: Center(
@@ -200,6 +201,7 @@ class _LoginPageState extends State<Login> {
         )
       );
   }
+
   Future<void> login() async {
     var client = http.Client();
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
@@ -214,8 +216,7 @@ class _LoginPageState extends State<Login> {
       'password': _senhaController
     });
     var data = jsonDecode(response.body);
-  print(convert.jsonDecode(response.body));
-print(response.statusCode);
+
     switch (response.statusCode) {
       case 200:
         await sharedPreference.setString('token', "Bearer ${convert.jsonDecode(response.body)['authorization']['token']}");
@@ -235,39 +236,23 @@ print(response.statusCode);
         break;
 
       case 401:
-        snackBar('E-mail ou senha estão incorretos');  
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          snackBar(context, 'E-mail ou senha estão incorretos');  
+        });       
         break;
 
       default:
-        snackBar('Ocorreu um erro ao processar os dados');
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          snackBar(context, 'Ocorreu um erro ao processar os dados');  
+        });
+        setState(() {
+      isLoading = false;
+    });
         break;
     }
     
     setState(() {
       isLoading = false;
     });
-  }
-  
-  Future<void> snackBar(txt) async {
-    if(!show) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0), 
-              topRight: Radius.circular(20.0)
-            )
-          ),
-          content: Text(
-            txt,
-            textAlign: TextAlign.center,
-          ),
-          backgroundColor: GlobalColors.red,
-        )
-      ).closed.then((value) {
-        show = false;
-      });
-    }
-    show = true;
   }
 }

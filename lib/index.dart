@@ -40,6 +40,7 @@ class _IndexPageState extends State<IndexPage> {
                         backgroundColor: GlobalColors.red,
                         padding: const EdgeInsets.all(10.0),
                         fixedSize: Size(screenWidth * 0.75, 55.0),
+                        foregroundColor: GlobalColors.white,
                         textStyle: const TextStyle(
                           fontSize: 24.0,
                           fontWeight: FontWeight.w700,
@@ -61,6 +62,7 @@ class _IndexPageState extends State<IndexPage> {
                           backgroundColor: GlobalColors.blue,
                           padding: const EdgeInsets.all(10.0),
                           fixedSize: Size(screenWidth * 0.75, 55.0),
+                          foregroundColor: GlobalColors.white,
                           textStyle: const TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.w700,
