@@ -92,9 +92,7 @@ class EnderecoPageState extends State<EnderecoPage> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) => const CriarEnderecoPage()),
-                            );
-                            getCep('04905002');
-                       
+                            );    
                           },
                           child: Align(
                             alignment: Alignment.centerRight,

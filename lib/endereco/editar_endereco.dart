@@ -7,8 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/global_colors.dart';
 import '../../utilis/snack_bar.dart';
-import '../../utilis/get_cep.dart';
-
 import '../produtos.dart';
 
 //TODO: VALIDAÇÕES
@@ -21,30 +19,32 @@ class EditarEnderecoPage extends StatefulWidget {
 }
 
 class EditarEnderecoPageState extends State<EditarEnderecoPage> {
-  final _formkey                                      = GlobalKey<FormState>();
- 
-  final TextEditingController _logradouroController   = TextEditingController();
-  final TextEditingController _complementoController  = TextEditingController();
-  final TextEditingController _numeroController       = TextEditingController();
-  final TextEditingController _cepController          = TextEditingController();
-  final TextEditingController _cidadeController       = TextEditingController();
-  final TextEditingController _estadoController       = TextEditingController();
-  final TextEditingController _tipoController         = TextEditingController();
+  final _formkey = GlobalKey<FormState>();
+/*  
+  TextEditingController txtCep = TextEditingController();
 
+  final TextEditingController _logradouroController = TextEditingController();
+ */
+  String? _logradouroController;
+  setLogradouro(String value)     => _logradouroController = value;
 
-  setLogradouro(String value)     => _logradouroController;
+  String? _complementoController;
+  setComplemento(String value)    => _complementoController = value;
 
-  setComplemento(String value)    => _complementoController;
+  String? _numeroController;
+  setNumero(String value)         => _numeroController = value;
 
-  setNumero(String value)         => _numeroController;
+  String? _cepController;
+  setCEP(String value)            => _cepController = value;
 
-  setCEP(String value)            => _cepController;
+  String? _cidadeController;
+  setCidade(String value)         => _cidadeController = value;
 
-  setCidade(String value)         => _cidadeController;
+  String? _estadoController;
+  setEstado(String value)         => _estadoController = value;
 
-  setEstado(String value)         => _estadoController;
-
-  setTipo(String value)           => _tipoController;
+  String? _tipoController;
+  setTipo(String value)           => _tipoController = value;
 
   @override
   Widget build(BuildContext context) {
@@ -130,8 +130,8 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: TextFormField(        
-                                      controller: _logradouroController,                             
+                                    child: TextFormField(
+                                      
                                       autofocus: true,
                                       keyboardType: TextInputType.text,
                                       onChanged: setLogradouro,
@@ -155,8 +155,8 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                 children: [
                                   Expanded(
                                     flex: 5,
-                                    child:TextFormField(
-                                      controller: _complementoController,
+                                    child: TextFormField(
+                                      autofocus: true,
                                       onChanged: setComplemento,
                                       validator: (complemento) {
                                         if (complemento == null || complemento.isEmpty) {
@@ -172,7 +172,8 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                   const Spacer(),
                                   Expanded(
                                     flex: 2,
-                                    child:TextFormField(
+                                    child: TextFormField(
+                                      autofocus: true,
                                       keyboardType: TextInputType.number,
                                       onChanged: setNumero,
                                       validator: (numero) {
@@ -195,15 +196,14 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                 children: [
                                   Expanded(
                                     flex: 4,
-                                    child: TextFormField(        
-                                      controller: _cepController,               
+                                    child: TextFormField(
+                            
+                                      autofocus: true,
                                       keyboardType: TextInputType.number,
                                       onChanged: setCEP,
                                       validator: (cep) {
                                         if (cep == null || cep.isEmpty) {
                                           return 'Preencha este campo';
-                                        } else if (!RegExp(r"^[0-9]{8}$").hasMatch(_cepController.toString())) {
-                                          return 'Este campo deve conter 8 dígitos';
                                         }
                                         return null;
                                       },
@@ -215,8 +215,8 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                   const Spacer(),
                                   Expanded(
                                     flex: 4,
-                                    child:TextFormField(
-                                      controller: _cidadeController,
+                                    child: TextFormField(
+                                      autofocus: true,
                                       keyboardType: TextInputType.text,
                                       onChanged: setCidade,
                                       validator: (cidade) {
@@ -233,8 +233,8 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                   const Spacer(),
                                   Expanded(
                                     flex: 2,
-                                    child: TextFormField(
-                                      controller: _estadoController,
+                                    child:  TextFormField(
+                                      autofocus: true,
                                       keyboardType: TextInputType.text,
                                       onChanged: setEstado,
                                       validator: (estado) {
@@ -258,10 +258,10 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                   SizedBox(height: screenHeight * 0.025),
                                   Expanded(
                                     flex: 3,
-                                    child: TextFormField(
-                                      controller: _tipoController,
-                                      keyboardType: TextInputType.text,
+                                    child:  TextFormField(
+                                      autofocus: true,
                                       onChanged: setTipo,
+                                      keyboardType: TextInputType.text,
                                       validator: (tipo) {
                                         if (tipo == null || tipo.isEmpty) {
                                           return 'Preencha este campo';
@@ -279,41 +279,41 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                               const SizedBox(height: 100),
 
                               WillPopScope(
-                                onWillPop: () async {
+                              onWillPop: () async {
                                   Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const EnderecoPage()),
-                                  );
-                                  return true; // Permitir que o app saia quando o botão de voltar for pressionado
-                                },
-                                child:  Container(
-                                  margin: const EdgeInsets.only(bottom: 20.0),
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: GlobalColors.white,
-                                      padding: const EdgeInsets.all(10.0),
-                                      fixedSize: Size(screenWidth * 0.75, 55.0),
-                                      foregroundColor: GlobalColors.blue,
-                                      textStyle: const TextStyle(
-                                        fontSize: 24.0,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                      elevation: 20.0,            
-                                      shadowColor: const Color(0xD2000000),                
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                                      side: BorderSide(color: GlobalColors.blue, width: 3)
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const EnderecoPage()),
+                                    );
+                                return true; // Permitir que o app saia quando o botão de voltar for pressionado
+                              },
+                              child:  Container(
+                                margin: const EdgeInsets.only(bottom: 20.0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: GlobalColors.white,
+                                    padding: const EdgeInsets.all(10.0),
+                                    fixedSize: Size(screenWidth * 0.75, 55.0),
+                                    foregroundColor: GlobalColors.blue,
+                                    textStyle: const TextStyle(
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.w700,
                                     ),
-                                    onPressed: () {                                   
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => const EnderecoPage()),
-                                      );
-                                    },
-                                    child: const Text('Voltar')
-                                  )
-                                ),  
-                              ),
-                              const SizedBox(height: 10),
+                                    elevation: 20.0,            
+                                    shadowColor: const Color(0xD2000000),                
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                                    side: BorderSide(color: GlobalColors.blue, width: 3)
+                                  ),
+                                  onPressed: () {                                   
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const EnderecoPage()),
+                                    );
+                                  }, 
+                                  child: const Text('Voltar')
+                                ),
+                              ),   
+                            ),
+                            const SizedBox(height: 10),
 
                               Container(
                                 margin: const EdgeInsets.only(bottom: 20.0),
@@ -331,7 +331,7 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                     shadowColor: const Color(0xD2000000),                
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                                   ),
-                                  onPressed: () { if (_formkey.currentState!.validate()) editar(widget.id); }, 
+                                  onPressed: () { editar(widget.id); }, 
                                   child: const Text('Salvar')
                                 )
                               )

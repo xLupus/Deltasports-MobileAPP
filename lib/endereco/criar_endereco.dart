@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/global_colors.dart';
 import '../../utilis/snack_bar.dart';
-import '../../utilis/get_cep.dart';
 import '../produtos.dart';
 
 //TODO: VALIDAÇÕES
@@ -205,7 +204,6 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                         if (cep == null || cep.isEmpty) {
                                           return 'Preencha este campo';
                                         }
-                                        getCep(cep);
                                         return null;
                                       },
                                       decoration: const InputDecoration(
@@ -333,7 +331,7 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                     shadowColor: const Color(0xD2000000),                
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                                   ),
-                                  onPressed: () { if (_formkey.currentState!.validate()) criar(); }, 
+                                  onPressed: () { criar(); }, 
                                   child: const Text('Salvar')
                                 )
                               ),
