@@ -1,3 +1,4 @@
+import 'package:deltasports_app/utilis/get_cep.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -92,6 +93,8 @@ class EnderecoPageState extends State<EnderecoPage> {
                               context,
                               MaterialPageRoute(builder: (context) => const CriarEnderecoPage()),
                             );
+                            getCep('04905002');
+                       
                           },
                           child: Align(
                             alignment: Alignment.centerRight,
@@ -391,8 +394,7 @@ class EnderecoPageState extends State<EnderecoPage> {
                                 )
                               );
                             }
-                          );
-                        
+                          );    
                       }
                     }
                   )
