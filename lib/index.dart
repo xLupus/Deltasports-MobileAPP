@@ -11,93 +11,77 @@ class IndexPage extends StatefulWidget {
 class _IndexPageState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: GlobalColors.white,
       body: SafeArea(
-        child: Center(
-          child: Column(children: [
-            SizedBox(height: 150),
-            Image.network('https://i.imgur.com/aSEadiB.png'),
-            SizedBox(height: 205),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Center(
+              child: Column(
+                children: [
+                  SizedBox(height: screenHeight < 800 ? screenHeight * 0.3 : screenHeight * 0.35),
 
-            //Btn Login
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: GestureDetector(
-                onTap: () => {
-                  Navigator.of(context).pushReplacementNamed(
-                    '/Login'
-                  )
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: GlobalColors.red,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow:  [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: Offset(0, 5), // changes position of shadow
-                    ),
-                  ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        color: GlobalColors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                  Image.network('https://i.imgur.com/aSEadiB.png'),
+                ],
+              ),
+            ),
+            Positioned(
+              bottom: 20,
+              child: SizedBox(
+                width: screenWidth * 0.75,
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: GlobalColors.red,
+                        padding: const EdgeInsets.all(10.0),
+                        fixedSize: Size(screenWidth * 0.75, 55.0),
+                        foregroundColor: GlobalColors.white,
+                        textStyle: const TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        elevation: 20.0,
+                        shadowColor: const Color(0xD2000000),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                       ),
+                      onPressed: () { Navigator.of(context).pushNamed('/Login');  }, 
+                      child: const Text('Login'),
                     ),
-                  ),
-                ),
-              ),
-            ),
+                    
+                    SizedBox(height: screenHeight * 0.045),
 
-            SizedBox(height: 40),
-
-            //Btn Registrar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: GestureDetector(
-                onTap: () => {
-                  Navigator.of(context).pushReplacementNamed(
-                    '/Registrar'
-                  )
-                },
-              child: Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: GlobalColors.blue,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow:  [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: Offset(0, 5), // changes position of shadow
-                    ),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 20.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: GlobalColors.blue,
+                          padding: const EdgeInsets.all(10.0),
+                          fixedSize: Size(screenWidth * 0.75, 55.0),
+                          foregroundColor: GlobalColors.white,
+                          textStyle: const TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          elevation: 20.0,
+                          shadowColor: const Color(0xD2000000),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                        ),
+                        onPressed: () { Navigator.of(context).pushNamed('/Registrar');  }, 
+                        child: const Text('Registrar'),
+                      )
+                    )
                   ],
                 ),
-                child: Center(
-                  child: Text(
-                    'Registrar',
-                    style: TextStyle(
-                      color: GlobalColors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            ),
-          ]),
+              )
+            )
+          ]
         ),
-      ),
+      )
     );
   }
 }

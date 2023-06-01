@@ -73,23 +73,23 @@ class _ListagemPageState extends State<ListagemPage> {
                         children: [
                           Text(
                             'ID: ${snapshot.data![index]['id'].toString()}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Text(
                             snapshot.data![index]['name'],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Text(
                             'Preço: R\$ ${snapshot.data![index]['price'].toString()}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
@@ -118,11 +118,11 @@ class _ListagemPageState extends State<ListagemPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProdutosPage(),
+                  builder: (context) => const ProdutosPage(),
                 ),
               );
             },
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.home),
@@ -134,11 +134,11 @@ class _ListagemPageState extends State<ListagemPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ListagemPage(foto: {}),
+                  builder: (context) => const ListagemPage(foto: {}),
                 ),
               );
             },
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.category),
@@ -150,11 +150,11 @@ class _ListagemPageState extends State<ListagemPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CarrinhoPage(),
+                  builder: (context) => const CarrinhoPage(),
                 ),
               );
             },
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.add_shopping_cart),
@@ -166,11 +166,11 @@ class _ListagemPageState extends State<ListagemPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PerfilPage(),
+                  builder: (context) => const PerfilPage(),
                 ),
               );
             },
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.person),
@@ -181,15 +181,16 @@ class _ListagemPageState extends State<ListagemPage> {
           onPressed: () async {
             bool saiu = await sair();
             if (saiu) {
+              // ignore: use_build_context_synchronously
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => IndexPage(),
+                  builder: (context) => const IndexPage(),
                 ),
               );
             }
           },
-          child: Text('Sair'),
+          child: const Text('Sair'),
         ),
       ], backgroundColor: GlobalColors.red), //fimFooter
     );
