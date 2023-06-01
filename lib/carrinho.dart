@@ -204,7 +204,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                     },
                   );
                 },
-                child: Text('Confirmar Compra', style: TextStyle(fontSize: 20)),
+                child: Text('Confirmar Compra', style: TextStyle(fontSize: 20, color: GlobalColors.white)),
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
                   backgroundColor: GlobalColors.blue,

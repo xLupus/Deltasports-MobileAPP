@@ -1,5 +1,7 @@
 import 'dart:convert';
-
+import 'package:deltasports_app/login_page.dart';
+import 'package:deltasports_app/carrinho.dart';
+import 'package:deltasports_app/listagem.dart';
 import 'package:deltasports_app/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
@@ -267,7 +269,7 @@ class _PerfilPageState extends State<PerfilPage> {
                                     fit: BoxFit.scaleDown,
                                     alignment: Alignment.centerRight,
                                     child: GestureDetector(
-                                      onTap: () => { Navigator.of(context).pushNamed('/') }, //TODO: pedidos
+                                      onTap: () => { Navigator.of(context).pushNamed('/MeusPedidos') }, //TODO: pedidos
                                       child: const Icon(
                                         Icons.arrow_forward_ios_outlined,
                                         color: Color(0xFF000000),
@@ -363,7 +365,6 @@ class _PerfilPageState extends State<PerfilPage> {
                       ),
                       onPressed: () async { 
                         bool saiu = await sair();
-
                         if (saiu) {
                           Navigator.pushReplacement(
                             context,
@@ -373,7 +374,7 @@ class _PerfilPageState extends State<PerfilPage> {
                           );
                         }
                       }, 
-                      child: const Text('Sair')
+                      child: Text('Sair')
                     ),
                   )
                 )
@@ -384,7 +385,88 @@ class _PerfilPageState extends State<PerfilPage> {
             )
           )
         )
-      )
+      ),
+
+      bottomNavigationBar: NavigationBar(destinations: [
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProdutosPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.home),
+                Text('Home'),
+              ],
+            )),
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ListagemPage(foto: {}),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.category),
+                Text('Produtos'),
+              ],
+            )),
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CarrinhoPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.add_shopping_cart),
+                Text('Carrinho'),
+              ],
+            )),
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PerfilPage(),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.person),
+                Text('Perfil'),
+              ],
+            )),
+        TextButton(
+          onPressed: () async {
+            bool saiu = await sair();
+            if (saiu) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => IndexPage(),
+                ),
+              );
+            }
+          },
+          child: Text('Sair'),
+        ),
+      ], backgroundColor: GlobalColors.red),
     );
   }
 
