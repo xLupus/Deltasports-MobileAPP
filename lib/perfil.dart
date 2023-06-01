@@ -244,7 +244,7 @@ class _PerfilPageState extends State<PerfilPage> {
                                     fit: BoxFit.scaleDown,
                                     alignment: Alignment.centerRight,
                                     child: GestureDetector(
-                                      onTap: () => { Navigator.of(context).pushNamed('/') }, //TODO: pedidos
+                                      onTap: () => { Navigator.of(context).pushNamed('/MeusPedidos') }, //TODO: pedidos
                                       child: const Icon(
                                         Icons.arrow_forward_ios_outlined,
                                         color: Color(0xFF000000),
