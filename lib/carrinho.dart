@@ -208,6 +208,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
                   backgroundColor: GlobalColors.blue,
+                  foregroundColor: GlobalColors.white
                 ),
               ),
               SizedBox(height: 30),

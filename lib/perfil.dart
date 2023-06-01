@@ -36,7 +36,35 @@ class _PerfilPageState extends State<PerfilPage> {
         child: Center(
           child: SizedBox(
             width: screenWidth * 0.8,
-            child: Column(
+            child: FutureBuilder(
+              future: _data, 
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                if(snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(  
+                    child: CircularProgressIndicator(
+                      color: Color(0xFFBABABA),
+                    ),
+                  );
+                } else if(snapshot.hasError) {
+                  return Center(
+                              child: LayoutBuilder(
+                                builder: (BuildContext context, BoxConstraints constraints) {
+                                  return FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      snapshot.error.toString().substring(11),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20
+                                      )
+                                    )
+                                  );
+                                }
+                              )
+                        );
+                } else {
+                  return Column(
               children: [
                 Align(
                     alignment: Alignment.centerLeft,
@@ -55,8 +83,10 @@ class _PerfilPageState extends State<PerfilPage> {
                 ),
                 SizedBox(
                   height: 55,
-                  child: 
-                      FutureBuilder(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: FutureBuilder(
                           future: _data,
                           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                             if(snapshot.connectionState == ConnectionState.waiting) {
@@ -66,55 +96,50 @@ class _PerfilPageState extends State<PerfilPage> {
                                 ),
                               );
                             } else {
-                              return Column(
-                                children: [
-                                  Expanded(
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: LayoutBuilder(
-                                        builder: (BuildContext context, BoxConstraints constraints) {
-                                          return FittedBox(
-                                            fit: BoxFit.scaleDown,
-                                            child: Text(
-                                              snapshot.data['name'],
-                                              style: TextStyle(
-                                              color: GlobalColors.blue,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 22
-                                            )
-                                          )
-                                          );
-                                        }
+                              return Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: LayoutBuilder(
+                                    builder: (BuildContext context, BoxConstraints constraints) {
+                                      return FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          snapshot.data['name'],
+                                          style: TextStyle(
+                                          color: GlobalColors.blue,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22
+                                        )
                                       )
-                                    ),
-                                  ),
-                                  Expanded(
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: LayoutBuilder(
-                                          builder: (BuildContext context, BoxConstraints constraints) {
-                                            return FittedBox(
-                                              fit: BoxFit.scaleDown,
-                                              child: Text(
-                                                snapshot.data['email'],
-                                                style: TextStyle(
-                                                color: Color(0xFF000000),
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 22
-                                              )
-                                            )
-                                          );
-                                        }
-                                      )
-                                    )
-                                  )
-                                ],
+                                    );
+                                  }
+                                )
                               );
                             }
-                        }
-                      )
-                    
-                  
+                          }
+                        )     
+                      ),
+                      Expanded(
+                        child: Align(
+                        alignment: Alignment.centerLeft,
+                          child: LayoutBuilder(
+                            builder: (BuildContext context, BoxConstraints constraints) {
+                              return FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  snapshot.data['email'],
+                                  style: const TextStyle(
+                                    color: Color(0xFF000000),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 22
+                                  )
+                                )
+                              );
+                            }
+                          )  
+                        )
+                      ),
+                    ],
+                  )
                 ),
                 
                 const SizedBox(height: 50),
@@ -353,6 +378,9 @@ class _PerfilPageState extends State<PerfilPage> {
                   )
                 )
               ]
+            );
+                }
+              }
             )
           )
         )
