@@ -132,7 +132,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
         ),
       ),
 
-      //Footter
+      //Fotter
       bottomNavigationBar: NavigationBar(destinations: [
         InkWell(
             onTap: () {

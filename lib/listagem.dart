@@ -52,7 +52,7 @@ class _ListagemPageState extends State<ListagemPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            ProdutoPage(dados: snapshot.data![index]),
+                            ProdutoPage(dados: snapshot.data![index]), //fazer chamada listagem e detalhe
                         fullscreenDialog: true,
                       ),
                     );

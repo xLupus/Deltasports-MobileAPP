@@ -1,4 +1,4 @@
-import 'dart:convert' as convert;
+import 'dart:convert';
 import 'package:deltasports_app/perfil.dart';
 import 'package:deltasports_app/produtos.dart';
 import 'package:http/http.dart' as http;
@@ -26,8 +26,25 @@ class _EditperfilPageState extends State<EditperfilPage> {
   String? _emailController;
   setLogin(String value) => _emailController = value;
 
-  String? _senhaController;
-  setSenha(String value) => _senhaController = value;
+  @override
+  void initState() {
+    super.initState();
+
+    dadosDoUsuario().then((dados) {
+      print(dados);
+
+      setState(() {
+        _nomeController = dados['name'];
+        _emailController = dados['email'];
+      });
+
+      print(_nomeController);
+
+    }).catchError((erro) {
+      print(erro);
+
+    });
+  }
 
   final snackBar = SnackBar(
     content: Text(
@@ -51,21 +68,18 @@ class _EditperfilPageState extends State<EditperfilPage> {
             SizedBox(height: 90),
 
             //BemVindo
-            Container(
-              child: Align(
-                alignment: Alignment(-0.75, 0.0),
-                child: Text(
-                  'Editar Usuário',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
+            const Align(
+              alignment: Alignment(-0.75, 0.0),
+              child: Text(
+                'Editar Usuário',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
                 ),
               ),
             ),
 
-            SizedBox(height: 50),
-
+            const SizedBox(height: 50),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -78,6 +92,7 @@ class _EditperfilPageState extends State<EditperfilPage> {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
                     onChanged: setName,
+                    initialValue: '$_nomeController',
                     validator: (nome) {
                       if (nome == null || nome.isEmpty) {
                         return 'Por favor, digite um nome';
@@ -92,7 +107,7 @@ class _EditperfilPageState extends State<EditperfilPage> {
               ),
             ),
 
-            SizedBox(height: 18),
+            const SizedBox(height: 18),
 
             //Email 0xFF1C8394
             Padding(
@@ -106,6 +121,7 @@ class _EditperfilPageState extends State<EditperfilPage> {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: TextFormField(
                     onChanged: setLogin,
+                    initialValue: '$_emailController',
                     validator: (email) {
                       if (email == null || email.isEmpty) {
                         return 'Por favor, digite seu e-mail';
@@ -117,7 +133,7 @@ class _EditperfilPageState extends State<EditperfilPage> {
                       return null;
                     },
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Email',
                     ),
                   ),
@@ -125,36 +141,7 @@ class _EditperfilPageState extends State<EditperfilPage> {
               ),
             ),
 
-            SizedBox(height: 18),
-
-            //Senha
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: GlobalColors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: TextFormField(
-                    onChanged: setSenha,
-                    validator: (senha) {
-                      if (senha == null || senha.isEmpty) {
-                        return 'Por favor, digite sua senha';
-                      }
-                      return null;
-                    },
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Senha',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-           const SizedBox(height: 100),
+            const SizedBox(height: 100),
 
             //Btn salvar
             Padding(
@@ -163,7 +150,7 @@ class _EditperfilPageState extends State<EditperfilPage> {
                 onTap: () {
                   FocusScopeNode currentFocus = FocusScope.of(context);
                   if (_formkey.currentState!.validate()) {
-                    //SALVAR ALTERAÇÕES;
+                    atualizarDados();
                     if (!currentFocus.hasFocus) {
                       currentFocus.unfocus();
                     }
@@ -179,7 +166,8 @@ class _EditperfilPageState extends State<EditperfilPage> {
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 1,
                         blurRadius: 1,
-                        offset: const Offset(0, 5), // changes position of shadow
+                        offset:
+                            const Offset(0, 5), // changes position of shadow
                       ),
                     ],
                   ),
@@ -195,11 +183,10 @@ class _EditperfilPageState extends State<EditperfilPage> {
                   ),
                 ),
               ),
-            ),            
+            ),
           ]),
         ),
       ),
-
       bottomNavigationBar: NavigationBar(destinations: [
         InkWell(
             onTap: () {
@@ -218,15 +205,15 @@ class _EditperfilPageState extends State<EditperfilPage> {
               ],
             )),
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ListagemPage(foto: {}),
-              ),
-            );
-          },
-          child: Column(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ListagemPage(foto: {}),
+                ),
+              );
+            },
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.category),
@@ -234,15 +221,15 @@ class _EditperfilPageState extends State<EditperfilPage> {
               ],
             )),
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CarrinhoPage(),
-              ),
-            );
-          },
-          child: Column(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CarrinhoPage(),
+                ),
+              );
+            },
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.add_shopping_cart),
@@ -250,15 +237,15 @@ class _EditperfilPageState extends State<EditperfilPage> {
               ],
             )),
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PerfilPage(),
-              ),
-            );
-          },
-          child: Column(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PerfilPage(),
+                ),
+              );
+            },
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.person),
@@ -287,5 +274,54 @@ class _EditperfilPageState extends State<EditperfilPage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.clear();
     return true;
+  }
+
+  Future<dynamic> dadosDoUsuario() async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+
+    var client = http.Client();
+
+    var url = Uri.parse('http://127.0.0.1:8000/api/user');
+
+    final headers = {
+      'Authorization': '${sharedPreference.getString("token")}',
+    };
+
+    var response = await client.get(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> r = json.decode(response.body);
+
+      var data = r['data'];
+
+      return data;
+    }
+
+    throw Exception('Erro ao carregar dados do Usuario');
+  }
+
+  Future<bool> atualizarDados() async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+
+    var client = http.Client();
+
+    var url = Uri.parse('http://127.0.0.1:8000/api/user');
+
+    final headers = {
+      'Authorization': '${sharedPreference.getString("token")}',
+    };
+
+    var response = await client.patch(url,
+        headers: headers,
+        body: {'name': _nomeController, 'email': _emailController});
+
+    if (response.statusCode == 200) {
+      return true;
+
+    } else {
+      return false;
+    }
+
+    throw Exception('Erro ao carregar dados do Usuario');
   }
 }
