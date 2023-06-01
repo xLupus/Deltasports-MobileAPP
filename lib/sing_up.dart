@@ -67,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 Center(
                   child: Column(
                     children: [
-                      SizedBox(height: screenHeight < 800 ? screenHeight * 0.3 : screenHeight * 0.07),
+                      SizedBox(height: screenHeight < 200 ? screenHeight * 0.1 : screenHeight * 0.02),
 
                       Image.network('https://i.imgur.com/aSEadiB.png'),
                     ],
@@ -77,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   key: formKey,
                   child:  Container(
                     width: screenWidth * 0.75,
-                    margin: const EdgeInsets.only(top: 250),
+                    margin: const EdgeInsets.only(top: 110),
                     child: Column(
                       children: [
                         const Align(
@@ -217,6 +217,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ElevatedButton(               
                         style: ElevatedButton.styleFrom(
                             backgroundColor: GlobalColors.red,
+                            foregroundColor: GlobalColors.white,
                             padding: const EdgeInsets.all(10.0),
                             fixedSize: Size(screenWidth * 0.75, 55.0),
                             textStyle: const TextStyle(
