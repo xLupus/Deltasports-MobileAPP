@@ -1,3 +1,4 @@
+import 'package:deltasports_app/produto.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
@@ -93,6 +94,11 @@ class PesquisaPage extends SearchDelegate<String> {
                     subtitle: Text(snapshot.data![index]['category']['name'].toString()), 
                     trailing: Text('R\$ ${snapshot.data![index]['price'].toString()}'),
                     onTap: () {
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProdutoPage(dados: snapshot.data![index])));
                       query = snapshot.data![index]['id'];
                       showResults(context);
                     },
