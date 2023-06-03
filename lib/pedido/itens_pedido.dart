@@ -13,14 +13,14 @@ import '../../../utilis/snack_bar.dart';
 import '../../produtos.dart';
 
 
-class DetPedidosPage extends StatefulWidget {
-  const DetPedidosPage({Key? key}) : super(key: key);
+class PedidoPage extends StatefulWidget {
+  const PedidoPage({Key? key}) : super(key: key);
 
   @override
-  State<DetPedidosPage> createState() => DetPedidosPageState();
+  State<PedidoPage> createState() => PedidoPageState();
 }
 
-class DetPedidosPageState extends State<DetPedidosPage> {
+class PedidoPageState extends State<PedidoPage> {
   late Future<List<dynamic>> _data;
   late int id;
 

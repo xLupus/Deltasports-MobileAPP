@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       routes: AppPage.routes,
       initialRoute: '/',
       theme: ThemeData(
-        useMaterial3: true,
+        useMaterial3: true
       ),
       debugShowCheckedModeBanner: false,
     );

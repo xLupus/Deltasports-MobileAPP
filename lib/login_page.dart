@@ -223,9 +223,9 @@ class _LoginPageState extends State<Login> {
         await sharedPreference.setString('token', "Bearer ${convert.jsonDecode(response.body)['authorization']['token']}");
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const ProdutosPage()),
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            '/Produtos',
+            (route) => false,
           );
         });
         break;

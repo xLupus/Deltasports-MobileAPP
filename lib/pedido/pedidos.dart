@@ -8,10 +8,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../utilis/global_colors.dart';
-import '../../../utilis/snack_bar.dart';
-import '../../produtos.dart';
-
+import '../../utilis/global_colors.dart';
+import '../../utilis/snack_bar.dart';
+import '../produtos.dart';
 
 class PedidosPage extends StatefulWidget {
   const PedidosPage({Key? key}) : super(key: key);
@@ -27,7 +26,7 @@ class PedidosPageState extends State<PedidosPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth  = MediaQuery.of(context).size.width;
-    //double screenHeight  = MediaQuery.of(context).size.height;
+    double screenHeight  = MediaQuery.of(context).size.height;
     
     setState(() { _data = mostrar(); });
 
@@ -39,7 +38,6 @@ class PedidosPageState extends State<PedidosPage> {
             child: SizedBox(
               width: screenWidth * 0.8,
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
@@ -88,119 +86,222 @@ class PedidosPageState extends State<PedidosPage> {
                             )
                           )  
                         )
-                      ),
+                      )
                     ]
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 30),
                   FutureBuilder(
                     future: _data,
                     builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
                       if(snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: Color(0xFFBABABA),
-                          ),
+                        return LayoutBuilder(
+                          builder: (BuildContext context, BoxConstraints constraints) {
+                            return FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                height: screenHeight - 304,
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Color(0xFFBABABA),
+                                  ),
+                                )
+                              )
+                            );
+                          }
                         );
                       } else if(snapshot.hasError) {
-                        return Center(
-                              child: LayoutBuilder(
-                                builder: (BuildContext context, BoxConstraints constraints) {
-                                  return FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      snapshot.error.toString().substring(11),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20
-                                      )
+                        return LayoutBuilder(
+                          builder: (BuildContext context, BoxConstraints constraints) {
+                            return FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                height: screenHeight - 304,
+                                child: Center(
+                                  child: Text(
+                                    snapshot.error.toString().substring(11),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20
                                     )
-                                  );
-                                }
+                                  ),
+                                )
                               )
-                        );
+                            );
+                          }
+                        );                    
                       } else {
                         return  ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.only(top: 20, bottom: 20),
-                                height: 120,                               
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x6D000000),
-                                      offset: Offset(0, 4),
-                                      blurRadius: 4
-                                    )
-                                  ],
-                                  border: Border.all(
-                                    width: 3,
-                                    color: GlobalColors.blue
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(22.0))
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: const EdgeInsets.only(top: 20, bottom: 20),
+                              height: 120,                               
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x6D000000),
+                                    offset: Offset(0, 4),
+                                    blurRadius: 4
+                                  )
+                                ],
+                                border: Border.all(
+                                  width: 3,
+                                  color: Colors.transparent
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Column(
-                                    children: [
-                                      Row(
+                                borderRadius: const BorderRadius.all(Radius.circular(22.0))
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                          
+                                     LayoutBuilder(
+                                        builder: (context, constraints) {
+                                          return Container(
+                                            width: 94, // usa a largura máxima disponível
+                                            height: 94, // usa a altura máxima disponível
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xFFE5E5E5),
+                                              borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                const Expanded(
+                                                  child: Align(
+                                                    alignment: Alignment.bottomCenter,
+                                                    child: Text(
+                                                      'Pedido',
+                                                      style: TextStyle(
+                                                        color: Color(0xFF656565),
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Align(
+                                                    alignment: Alignment.topCenter,
+                                                    child: Text(
+                                                      snapshot.data![index]['PEDIDO_ID'] < 100  ? '#00${snapshot.data![index]['PEDIDO_ID']}' : '#0${snapshot.data![index]['PEDIDO_ID']}' ,
+                                                      style: const TextStyle(
+                                                        color: Color(0xFF656565),
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+ 
+                                    const Spacer(),
+                                    Expanded(
+                                      flex: 6,
+                                      child: LayoutBuilder(
+                                        builder: (BuildContext context, BoxConstraints constraints) {
+                                          return Container(
+
+                                            constraints: const BoxConstraints(),
+                                            alignment: Alignment.center,
+                                            child: const Text(
+                                              'Mochila 1, Mochila 2, Mochila 3',   
+                                              maxLines: 3,                         
+                                              textAlign: TextAlign.center,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Color(0xFF848484),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14
+                                              )
+                                            )
+                                          );
+                                        }
+                                      )
+                                    ),
+                                    const Spacer(),
+                                    SizedBox(
+                                      height: 94,
+                                      child: Column(              
                                         children: [
-                                          Column(
-                                            children: [
-                                              LayoutBuilder(
+                                           Expanded(
+                                            child: LayoutBuilder(
+                                            builder: (BuildContext context, BoxConstraints constraints) {
+                                              return Container(
+                                                constraints: const BoxConstraints(),
+                                                alignment: Alignment.bottomRight,
+                                                child: const Text(
+                                                  'R\$ 1200,00',   
+                                                  maxLines: 2,                         
+                                                  textAlign: TextAlign.center,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF1E1E1E),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16
+                                                  )
+                                                )
+                                              );
+                                            }
+                                            )
+                                          ),
+                                     
+                                          Expanded(
+                                            child: Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: LayoutBuilder(
                                                 builder: (BuildContext context, BoxConstraints constraints) {
                                                   return FittedBox(
                                                     fit: BoxFit.scaleDown,
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      'Pedido ${snapshot.data![index]['id']}',
-                                                      style: TextStyle(
-                                                        color: Color(0xFF000000),
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 16
-                                                      )
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                         Navigator.of(context).pushNamed('/Pedido');
+                                                      },
+                                                      child: SizedBox(
+                                                      height: 20,
+                                                        child: Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            Icon(
+                                                              Icons.visibility_outlined,
+                                                              color: GlobalColors.blue,
+                                                              size: 20
+                                                            ),
+                                                            const SizedBox(width: 5),
+                                                            const Text(
+                                                              'Ver Pedido',  
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                color: Color(0xFF848484),
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 10
+                                                              )
+                                                            )
+                                                          ]
+                                                        )
+                                                      ),
                                                     )
                                                   );
                                                 }
                                               )
-                                            ]
-                                          ),
-                                          Flexible(
-                                            child: LayoutBuilder(
-                                              builder: (BuildContext context, BoxConstraints constraints) {
-                                                return Container(
-                                                  margin: const EdgeInsets.only(left: 5.0),
-                                                  constraints: const BoxConstraints(),
-                                                  child: Align(
-                                                    alignment: const Alignment(-1, 0.5),
-                                                    child: Text(
-                                                      '${snapshot.data![index]['name']}',                            
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                        color: Color(0xFF848484),
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 14
-                                                      )
-                                                    )
-                                                  )
-                                                );
-                                              }
                                             )
-                                          )
+                                          )       
                                         ]
-                                      ),
-
-                                      const Spacer(),
-                                      
-                                    ]
-                                  )
+                                      )
+                                    )
+                                  ]
                                 )
-                              );
-                            }
-                          );    
+                              )
+                            );
+                          }
+                        );    
                       }
                     }
                   )
@@ -262,11 +363,9 @@ class PedidosPageState extends State<PedidosPage> {
             )),
         InkWell(
             onTap: () {
-              Navigator.push(
+              Navigator.pushReplacementNamed(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => PerfilPage(),
-                ),
+                '/Perfil'
               );
             },
             child: Column(
@@ -276,20 +375,7 @@ class PedidosPageState extends State<PedidosPage> {
                 Text('Perfil'),
               ],
             )),
-        TextButton(
-          onPressed: () async {
-            bool saiu = await sair();
-            if (saiu) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => IndexPage(),
-                ),
-              );
-            }
-          },
-          child: Text('Sair'),
-        ),
+       
       ], backgroundColor: GlobalColors.red), 
     );
   }
@@ -302,16 +388,17 @@ class PedidosPageState extends State<PedidosPage> {
 
   Future<List<dynamic>> mostrar() async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-    final url = Uri.parse('http://127.0.0.1:8000/api/user/addresses');
+    final url = Uri.parse('http://127.0.0.1:8000/api/orders');
     final headers = {
       'Authorization': '${sharedPreference.getString("token")}',
       'Content-Type': 'application/json'
     };
     var response = await http.get(url, headers: headers);
 
+      print(response.body);
     if (response.statusCode == 200) {
-      Map<String, dynamic> addresses = jsonDecode(response.body);      
-      return addresses['data'];
+      Map<String, dynamic> orders = jsonDecode(response.body);      
+      return orders['data'];
     } else if(response.statusCode == 404) {
       Map<String, dynamic> error = jsonDecode(response.body);
       throw Exception(error['message']);
@@ -319,5 +406,4 @@ class PedidosPageState extends State<PedidosPage> {
 
     throw Exception('Ocorreu um erro ao retornar os pedidos');
   }
-
 }

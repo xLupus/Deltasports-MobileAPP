@@ -328,12 +328,10 @@ class _ProdutosPageState extends State<ProdutosPage> {
             )),
         InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PerfilPage(),
-              ),
-            );
+           Navigator.pushReplacementNamed(
+                context,
+                '/Perfil'
+              );
           },
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

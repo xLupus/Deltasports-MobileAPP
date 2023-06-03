@@ -28,7 +28,7 @@ class EnderecoPageState extends State<EnderecoPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth  = MediaQuery.of(context).size.width;
-    //double screenHeight  = MediaQuery.of(context).size.height;
+    double screenHeight  = MediaQuery.of(context).size.height;
     
     setState(() { _data = mostrar(); });
 
@@ -40,7 +40,6 @@ class EnderecoPageState extends State<EnderecoPage> {
             child: SizedBox(
               width: screenWidth * 0.8,
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
@@ -110,34 +109,48 @@ class EnderecoPageState extends State<EnderecoPage> {
                       )
                     ]
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 30),
                   FutureBuilder(
                     future: _data,
                     builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
                       if(snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: Color(0xFFBABABA),
-                          ),
+                        return LayoutBuilder(
+                          builder: (BuildContext context, BoxConstraints constraints) {
+                            return FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                height: screenHeight - 304,
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Color(0xFFBABABA),
+                                  ),
+                                )
+                              )
+                            );
+                          }
                         );
                       } else if(snapshot.hasError) {
-                        return Center(
-                              child: LayoutBuilder(
-                                builder: (BuildContext context, BoxConstraints constraints) {
-                                  return FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      snapshot.error.toString().substring(11),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20
-                                      )
+                        return LayoutBuilder(
+                          builder: (BuildContext context, BoxConstraints constraints) {
+                            return FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                height: screenHeight - 304,
+                                child: Center(
+                                  child: Text(
+                                    snapshot.error.toString().substring(11),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20
                                     )
-                                  );
-                                }
+                                  ),
+                                )
                               )
-                        );
+                            );
+                          }
+                        );                    
                       } else {
                         return  ListView.builder(
                             shrinkWrap: true,
@@ -458,11 +471,9 @@ class EnderecoPageState extends State<EnderecoPage> {
             )),
         InkWell(
             onTap: () {
-              Navigator.push(
+              Navigator.pushReplacementNamed(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => PerfilPage(),
-                ),
+                '/Perfil'
               );
             },
             child: Column(

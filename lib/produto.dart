@@ -184,11 +184,9 @@ class _ProdutoPageState extends State<ProdutoPage> {
             )),
         InkWell(
             onTap: () {
-              Navigator.push(
+             Navigator.pushReplacementNamed(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => PerfilPage(),
-                ),
+                '/Perfil'
               );
             },
             child: Column(
