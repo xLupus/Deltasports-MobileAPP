@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:deltasports_app/pedido/itens_pedido.dart';
+import 'package:deltasports_app/pedido/pedido.dart';
 import 'package:deltasports_app/pedido/pedidos.dart';
 import 'package:deltasports_app/carrinho.dart';
 import 'package:deltasports_app/index.dart';
@@ -26,8 +26,7 @@ class AppPage {
     '/Perfil'       : (context) => const PerfilPage(),
     '/Editperfil'   : (context) => const EditperfilPage(),
     '/Enderecos'    : (context) => const EnderecoPage(),
-    '/MeusPedidos'  : (context) => const PedidosPage(),
-    '/Pedido'       : (context) => const PedidoPage(),
+    '/MeusPedidos'  : (context) => const PedidosPage()
     //'/Categorias':(context)       => HomePage(),
   };
 }

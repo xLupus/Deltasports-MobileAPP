@@ -134,9 +134,10 @@ class _PerfilPageState extends State<PerfilPage> {
                       )
                     ),
                     
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 30),
                 
                     Container(
+                      margin: const EdgeInsets.only(top: 20, bottom: 20),
                       height: 202,
                       decoration: BoxDecoration(
                         color: Colors.white,

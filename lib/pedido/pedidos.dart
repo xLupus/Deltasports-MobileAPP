@@ -1,15 +1,12 @@
 import 'package:deltasports_app/carrinho.dart';
-import 'package:deltasports_app/index.dart';
 import 'package:deltasports_app/listagem.dart';
-import 'package:deltasports_app/perfil.dart';
-import 'package:deltasports_app/utilis/get_cep.dart';
+import 'package:deltasports_app/pedido/pedido.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/global_colors.dart';
-import '../../utilis/snack_bar.dart';
 import '../produtos.dart';
 
 class PedidosPage extends StatefulWidget {
@@ -187,7 +184,7 @@ class PedidosPageState extends State<PedidosPage> {
                                                   child: Align(
                                                     alignment: Alignment.topCenter,
                                                     child: Text(
-                                                      snapshot.data![index]['PEDIDO_ID'] < 100  ? '#00${snapshot.data![index]['PEDIDO_ID']}' : '#0${snapshot.data![index]['PEDIDO_ID']}' ,
+                                                      snapshot.data![index]['id'] < 100  ? '#00${snapshot.data![index]['id']}' : '#0${snapshot.data![index]['id']}' ,
                                                       style: const TextStyle(
                                                         color: Color(0xFF656565),
                                                         fontSize: 16,
@@ -262,7 +259,10 @@ class PedidosPageState extends State<PedidosPage> {
                                                     fit: BoxFit.scaleDown,
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                         Navigator.of(context).pushNamed('/Pedido');
+                                                        Navigator.pushReplacement(
+                                                          context,
+                                                          MaterialPageRoute(builder: (context) =>  PedidoPage(snapshot.data![index]['id']))
+                                                        );
                                                       },
                                                       child: SizedBox(
                                                       height: 20,
