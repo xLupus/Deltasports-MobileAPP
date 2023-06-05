@@ -100,7 +100,7 @@ class _LoginPageState extends State<Login> {
                                     }
                                     return null;
                                   },
-                                  initialValue: 'testeT@teste.com',
+                                  initialValue: 'teste@teste.com',
                                   keyboardType: TextInputType.emailAddress,
                                   decoration: const InputDecoration(
                                     labelText: 'Email'

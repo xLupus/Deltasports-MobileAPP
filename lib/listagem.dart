@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:deltasports_app/login_page.dart';
 import 'package:deltasports_app/perfil.dart';
 import 'package:deltasports_app/pesquisa.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:deltasports_app/produto.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +89,7 @@ class _ListagemPageState extends State<ListagemPage> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Preço: R\$ ${snapshot.data![index]['price'].toString()}',
+                            'Preço: ${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![index]['price']))}',
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

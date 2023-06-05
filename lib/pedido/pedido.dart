@@ -6,7 +6,6 @@ import 'package:deltasports_app/listagem.dart';
 import 'package:deltasports_app/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -89,7 +88,7 @@ class PedidoPageState extends State<PedidoPage> {
                         } else {
                           while(snapshot.data['total_price'] > val) {
                             val += 700;
-                            frete += 8;
+                            frete += 7.37;
                           }
 
                           return Column(
@@ -347,7 +346,7 @@ class PedidoPageState extends State<PedidoPage> {
                                                   child: Align(
                                                     alignment: Alignment.centerLeft,
                                                     child: Text(
-                                                      'R\$ $frete,00',                            
+                                                      intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(frete),                            
                                                       overflow: TextOverflow.ellipsis,
                                                       style: const TextStyle(
                                                         color: Color(0xFF848484),
