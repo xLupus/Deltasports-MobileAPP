@@ -6,6 +6,7 @@ import 'package:deltasports_app/listagem.dart';
 import 'package:deltasports_app/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -88,7 +89,7 @@ class PedidoPageState extends State<PedidoPage> {
                         } else {
                           while(snapshot.data['total_price'] > val) {
                             val += 700;
-                            frete += 8.50;
+                            frete += 8;
                           }
 
                           return Column(
@@ -164,7 +165,7 @@ class PedidoPageState extends State<PedidoPage> {
                             const SizedBox(height: 30),
                             Container(
                               margin: const EdgeInsets.only(top: 20, bottom: 20),
-                              height: 141,
+                              height: 156,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 boxShadow: const [
@@ -310,7 +311,7 @@ class PedidoPageState extends State<PedidoPage> {
                                                   child: Align(
                                                     alignment: Alignment.centerLeft,
                                                     child: Text(
-                                                      'R\$ $frete, 00',                            
+                                                      'R\$ $frete,00',                            
                                                       overflow: TextOverflow.ellipsis,
                                                       style: const TextStyle(
                                                         color: Color(0xFF848484),
@@ -384,7 +385,7 @@ class PedidoPageState extends State<PedidoPage> {
                                       itemBuilder: (context, index) {
                                         return Container(
                                           margin: const EdgeInsets.only(top: 20, bottom: 20),
-                                          height: 120,                               
+                                          height: 130,                               
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             boxShadow: const [
@@ -407,10 +408,10 @@ class PedidoPageState extends State<PedidoPage> {
                                                   LayoutBuilder(
                                                     builder: (context, constraints) {
                                                       return ClipRRect(
-                                                        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                                                        borderRadius: const BorderRadius.all(Radius.circular(14.0)),
                                                         child: Container(
-                                                          height: 94,
-                                                          width: 94,
+                                                          height: 106,
+                                                          width: 106,
                                                           decoration: BoxDecoration(
                                                               image: DecorationImage(
                                                                 image: obterImagem(snapshot.data['items'][index]['product']['images']),
@@ -423,11 +424,14 @@ class PedidoPageState extends State<PedidoPage> {
                                                   ),
             
                                                 const Spacer(),
-                                                Expanded(
-                                                  flex: 6,
-                                                  child: Column(
+                                                Flexible(
+                                                  flex: 7,
+                                                  child: LayoutBuilder(
+                                                    builder: (BuildContext context, BoxConstraints constraints) {
+                                                      return Column(
                                                   children: [
                                                     Expanded(
+                                                      flex: 5,
                                                       child: LayoutBuilder(
                                                             builder: (BuildContext context, BoxConstraints constraints) {
                                                               return Container(
@@ -435,9 +439,11 @@ class PedidoPageState extends State<PedidoPage> {
                                                                 alignment: Alignment.centerLeft,
                                                                 child: Text(
                                                                   '${snapshot.data['items'][index]['product']['name']}',
+                                                                  maxLines: 2,
                                                                   overflow: TextOverflow.ellipsis,
                                                                   style: const TextStyle(
                                                                     color: Color(0xFF000000),
+                                                                    height: 1.15,
                                                                     fontWeight: FontWeight.bold,
                                                                     fontSize: 16
                                                                   )
@@ -448,6 +454,7 @@ class PedidoPageState extends State<PedidoPage> {
                                                     ),
                                                    const Spacer(),
                                                    Expanded(
+                                                    flex: 4,
                                                     child:  LayoutBuilder(
                                                           builder: (BuildContext context, BoxConstraints constraints) {
                                                             return Container(
@@ -455,11 +462,12 @@ class PedidoPageState extends State<PedidoPage> {
                                                               alignment: Alignment.centerLeft,
                                                               child: Text(
                                                                 '${snapshot.data['items'][index]['product']['description']}',   
-                                                                maxLines: 3,                         
+                                                                maxLines: 2,                         
                                                                 overflow: TextOverflow.ellipsis,
                                                                 style: const TextStyle(
                                                                   color: Color(0xFF848484),
                                                                   fontWeight: FontWeight.w400,
+                                                                  height: 1.15,
                                                                   fontSize: 12
                                                                 )
                                                               )
@@ -469,6 +477,7 @@ class PedidoPageState extends State<PedidoPage> {
                                                    ),
                                                   const Spacer(),
                                                    Expanded(
+                                                    flex: 3,
                                                     child: LayoutBuilder(
                                                           builder: (BuildContext context, BoxConstraints constraints) {
                                                             return Container(
@@ -488,7 +497,9 @@ class PedidoPageState extends State<PedidoPage> {
                                                         ),
                                                    )
                                                   ],
-                                                )
+                                                );
+                                                    }
+                                                  )
                                                 ),
                                                 
                                                 const Spacer(),
@@ -500,9 +511,9 @@ class PedidoPageState extends State<PedidoPage> {
                                                         child: LayoutBuilder(
                                                         builder: (BuildContext context, BoxConstraints constraints) {
                                                           return Container(                                            
-                                                            decoration: BoxDecoration(
-                                                              color: GlobalColors.blue,
-                                                              borderRadius: const BorderRadius.all(Radius.circular(12.0))
+                                                            decoration: const BoxDecoration(
+                                                              color: Color(0x991C8394),
+                                                              borderRadius: BorderRadius.all(Radius.circular(12.0))
                                                             ),
                                                             constraints: const BoxConstraints(),
                                                             alignment: Alignment.center,

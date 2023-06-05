@@ -135,7 +135,7 @@ class PedidosPageState extends State<PedidosPage> {
                           itemBuilder: (context, index) {
                             return Container(
                               margin: const EdgeInsets.only(top: 20, bottom: 20),
-                              height: 120,                               
+                              height: 130,                               
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 boxShadow: const [
@@ -158,11 +158,11 @@ class PedidosPageState extends State<PedidosPage> {
                                      LayoutBuilder(
                                         builder: (context, constraints) {
                                           return Container(
-                                            width: 94, // usa a largura máxima disponível
-                                            height: 94, // usa a altura máxima disponível
+                                            width: 106, // usa a largura máxima disponível
+                                            height: 106, // usa a altura máxima disponível
                                             decoration: const BoxDecoration(
                                               color: Color(0xFFE5E5E5),
-                                              borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                              borderRadius: BorderRadius.all(Radius.circular(14.0)),
                                             ),
                                             child: Column(
                                               children: [
@@ -173,7 +173,7 @@ class PedidosPageState extends State<PedidosPage> {
                                                       'Pedido',
                                                       style: TextStyle(
                                                         color: Color(0xFF656565),
-                                                        fontSize: 16,
+                                                        fontSize: 18.5,
                                                         fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
@@ -186,7 +186,7 @@ class PedidosPageState extends State<PedidosPage> {
                                                       snapshot.data![index]['id'] < 100  ? '#00${snapshot.data![index]['id']}' : '#0${snapshot.data![index]['id']}' ,
                                                       style: const TextStyle(
                                                         color: Color(0xFF656565),
-                                                        fontSize: 16,
+                                                        fontSize: 18.5,
                                                         fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
@@ -241,7 +241,7 @@ class PedidosPageState extends State<PedidosPage> {
                                                   style: TextStyle(
                                                     color: Color(0xFF1E1E1E),
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 16
+                                                    fontSize: 17
                                                   )
                                                 )
                                               );
@@ -264,14 +264,14 @@ class PedidosPageState extends State<PedidosPage> {
                                                         );
                                                       },
                                                       child: SizedBox(
-                                                      height: 20,
+                                                      height: 21,
                                                         child: Row(
                                                           crossAxisAlignment: CrossAxisAlignment.center,
                                                           children: [
                                                             Icon(
                                                               Icons.visibility_outlined,
                                                               color: GlobalColors.blue,
-                                                              size: 20
+                                                              size: 21
                                                             ),
                                                             const SizedBox(width: 5),
                                                             const Text(
@@ -280,7 +280,7 @@ class PedidosPageState extends State<PedidosPage> {
                                                               style: TextStyle(
                                                                 color: Color(0xFF848484),
                                                                 fontWeight: FontWeight.bold,
-                                                                fontSize: 10
+                                                                fontSize: 10.5
                                                               )
                                                             )
                                                           ]
