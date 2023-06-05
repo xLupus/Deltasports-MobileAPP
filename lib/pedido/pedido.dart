@@ -506,8 +506,8 @@ class PedidoPageState extends State<PedidoPage> {
                                                 Align(
                                                   alignment: Alignment.bottomRight,
                                                   child: SizedBox(
-                                                   height: 30,
-                                                  width: 73,    
+                                                   height: 35,
+                                                  width: 8git 3,    
                                                         child: LayoutBuilder(
                                                         builder: (BuildContext context, BoxConstraints constraints) {
                                                           return Container(                                            
