@@ -269,9 +269,9 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Future<bool> registrar() async {
+  Future<void> registrar() async {
     var client = http.Client();
-    final url = Uri.parse('http://127.0.0.1:8000/api/user/cart/address');
+    final url = Uri.parse('http://127.0.0.1:8000/api/auth/register');
 
     var resposta = await client.post(url, body: {
       'name': _nomeController,
@@ -288,7 +288,6 @@ class _RegisterPageState extends State<RegisterPage> {
         MaterialPageRoute(builder: (context) => const Login()),
       );
   
-      return true;
     } else {
       // ignore: use_build_context_synchronously
       if(resposta.statusCode == 500) {
@@ -316,8 +315,6 @@ class _RegisterPageState extends State<RegisterPage> {
       if(data['message']['cpf'] != null) {
         cpfMsg = data['message']['cpf'][0];
       }
-      
-      return false;
     }
   }
 

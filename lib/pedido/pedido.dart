@@ -145,20 +145,56 @@ class PedidoPageState extends State<PedidoPage> {
                                 ),
                                 Expanded(
                                   child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
-                                    return FittedBox( 
-                                      fit: BoxFit.scaleDown,
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                          'Total: ${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(snapshot.data['total_price'])}',
-                                          style: const TextStyle(
-                                            color: Color(0xFF1E1E1E),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16
-                                          )
-                                        )
+                                    return Column( 
+                                        children: [
+                                          Row(
+                                            children: [
+                                             Expanded(
+                                              child:  LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                                                  return FittedBox( 
+                                                    fit: BoxFit.scaleDown,
+                                                    alignment: Alignment.centerRight,
+                                                    child: Text(
+                                                        'Subtotal: ${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(snapshot.data['total_price'])}',
+                                                        style: const TextStyle(
+                                                          color: Color(0xFF1E1E1E),
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 12
+                                                        )
+                                                      )
+                                                    );
+                                                  }
+                                                ),
+                                             )
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                                              return FittedBox( 
+                                                fit: BoxFit.scaleDown,
+                                                alignment: Alignment.centerRight,
+                                                child: Text(
+                                                    'Total: ${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(snapshot.data['total_price'] + frete)}',
+                                                    style: const TextStyle(
+                                                      color: Color(0xFF1E1E1E),
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16
+                                                    )
+                                                  )
+                                                );
+                                              }
+                                            ),
+                                              )
+                                            ],
+                                          ),
+                                         
+                                        ],
                                       );
                                     }
-                                  )
+                                  ),
+                                  
                                 ),
                               ]
                             ),
