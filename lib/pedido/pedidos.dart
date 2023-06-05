@@ -154,8 +154,7 @@ class PedidosPageState extends State<PedidosPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
-                                  children: [
-                          
+                                  children: [                  
                                      LayoutBuilder(
                                         builder: (context, constraints) {
                                           return Container(

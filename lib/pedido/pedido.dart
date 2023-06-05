@@ -7,6 +7,7 @@ import 'package:deltasports_app/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart' as intl;
 
 import 'package:http/http.dart' as http;
 
@@ -23,9 +24,11 @@ class PedidoPage extends StatefulWidget {
 class PedidoPageState extends State<PedidoPage> {
   late Future<dynamic> _data;
 
-  bool isLoading = false;
-  dynamic name = '';
-  dynamic email = '';
+  bool isLoading  = false;
+  dynamic name    = '';
+  dynamic email   = '';
+  double frete       = 0;
+  int val         = 700;
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +50,7 @@ class PedidoPageState extends State<PedidoPage> {
                     future: _data,
                       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return LayoutBuilder(builder: (BuildContext context,
-                            BoxConstraints constraints) {
+                          return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
                               return FittedBox(
                                 fit: BoxFit.scaleDown,
                                 alignment: Alignment.center,
@@ -84,7 +86,13 @@ class PedidoPageState extends State<PedidoPage> {
                             }
                           );
                         } else {
-                          return Column(children: [
+                          while(snapshot.data['total_price'] > val) {
+                            val += 700;
+                            frete += 8.50;
+                          }
+
+                          return Column(
+                            children: [
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Container(
@@ -121,7 +129,7 @@ class PedidoPageState extends State<PedidoPage> {
                                           fit: BoxFit.scaleDown,
                                           alignment: Alignment.center,
                                           child: Text(
-                                              'Pedido: ${snapshot.data['items'][0]['id'] < 100 ? '#00${snapshot.data['items'][0]['id']}' : '#0${snapshot.data['items'][0]['id']}'}',
+                                              'Pedido: ${snapshot.data['id'] < 100 ? '#00${snapshot.data['id']}' : '#0${snapshot.data['id']}'}',
                                               style: const TextStyle(
                                                 color:Color(0xFF1E1E1E),
                                                 fontWeight: FontWeight.bold,
@@ -140,7 +148,7 @@ class PedidoPageState extends State<PedidoPage> {
                                       fit: BoxFit.scaleDown,
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        'Total: R\$ ${snapshot.data['total_price']}',
+                                          'Total: ${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(snapshot.data['total_price'])}',
                                           style: const TextStyle(
                                             color: Color(0xFF1E1E1E),
                                             fontWeight: FontWeight.bold,
@@ -156,7 +164,7 @@ class PedidoPageState extends State<PedidoPage> {
                             const SizedBox(height: 30),
                             Container(
                               margin: const EdgeInsets.only(top: 20, bottom: 20),
-                              height: 202,
+                              height: 141,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 boxShadow: const [
@@ -168,29 +176,363 @@ class PedidoPageState extends State<PedidoPage> {
                                 ],
                                 border: Border.all(
                                   width: 3, 
-                                  color: GlobalColors.red
+                                  color: GlobalColors.blue
                                 ),
                                 borderRadius: const BorderRadius.all(Radius.circular(22.0))
                               ),
-                              child: const Padding(
-                                padding: EdgeInsets.all(20.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
                                 child: Column(
                                   children: [
                                     Row(
                                       children: [
+                                          Flexible(
+                                            child: LayoutBuilder(
+                                                builder: (BuildContext context, BoxConstraints constraints) {
+                                                  return const FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Text(
+                                                      'Endereço:',
+                                                      style: TextStyle(
+                                                        color: Color(0xFF000000),
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 16
+                                                      )
+                                                    )
+                                                  );
+                                                }
+                                              ),
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Expanded(
+                                            child: LayoutBuilder(
+                                              builder: (BuildContext context, BoxConstraints constraints) {
+                                                return Container(
+                                                  margin: const EdgeInsets.only(left: 5.0),
+                                                  constraints: const BoxConstraints(),
+                                                  child: Align(
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Text(
+                                                      '${snapshot.data['address']['street']}, ${snapshot.data['address']['number']}',                            
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: const TextStyle(
+                                                        color: Color(0xFF848484),
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14
+                                                      )
+                                                    )
+                                                  )
+                                                );
+                                              }
+                                            )
+                                          )
+                                        ],
+                                    ),
 
-                                    ]
-                                  )
-                                ]
-                              )
+                                    const Spacer(),
+
+                                    Row(
+                                      children: [
+                                          Flexible(
+                                            child: LayoutBuilder(
+                                                builder: (BuildContext context, BoxConstraints constraints) {
+                                                  return const FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Text(
+                                                      'CEP:',
+                                                      style: TextStyle(
+                                                        color: Color(0xFF000000),
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 16
+                                                      )
+                                                    )
+                                                  );
+                                                }
+                                              ),
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Expanded(
+                                            child: LayoutBuilder(
+                                              builder: (BuildContext context, BoxConstraints constraints) {
+                                                return Container(
+                                                  margin: const EdgeInsets.only(left: 5.0),
+                                                  constraints: const BoxConstraints(),
+                                                  child: Align(
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Text(
+                                                      '${snapshot.data['address']['zip_code']}',                            
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: const TextStyle(
+                                                        color: Color(0xFF848484),
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14
+                                                      )
+                                                    )
+                                                  )
+                                                );
+                                              }
+                                            )
+                                          )
+                                        ],
+                                    ),
+
+                                    const Spacer(), 
+
+                                    Row(
+                                      children: [
+                                          Flexible(
+                                            child: LayoutBuilder(
+                                                builder: (BuildContext context, BoxConstraints constraints) {
+                                                  return const FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Text(
+                                                      'Frete:',
+                                                      style: TextStyle(
+                                                        color: Color(0xFF000000),
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 16
+                                                      )
+                                                    )
+                                                  );
+                                                }
+                                              ),
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Expanded(
+                                            child: LayoutBuilder(
+                                              builder: (BuildContext context, BoxConstraints constraints) {
+                                                return Container(
+                                                  margin: const EdgeInsets.only(left: 5.0),
+                                                  constraints: const BoxConstraints(),
+                                                  child: Align(
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Text(
+                                                      'R\$ $frete, 00',                            
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: const TextStyle(
+                                                        color: Color(0xFF848484),
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14
+                                                      )
+                                                    )
+                                                  )
+                                                );
+                                              }
+                                            )
+                                          )
+                                        ],
+                                    ),
+
+                                    const Spacer(), 
+
+                                    Row(
+                                      children: [
+                                          Flexible(
+                                            child: LayoutBuilder(
+                                                builder: (BuildContext context, BoxConstraints constraints) {
+                                                  return const FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Text(
+                                                      'Entrega:',
+                                                      style: TextStyle(
+                                                        color: Color(0xFF000000),
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 16
+                                                      )
+                                                    )
+                                                  );
+                                                }
+                                              ),
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Expanded(
+                                            child: LayoutBuilder(
+                                              builder: (BuildContext context, BoxConstraints constraints) {
+                                                return Container(
+                                                  margin: const EdgeInsets.only(left: 5.0),
+                                                  constraints: const BoxConstraints(),
+                                                  child: const Align(
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Text(
+                                                      '2 à 5 dias',                            
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        color: Color(0xFF848484),
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14
+                                                      )
+                                                    )
+                                                  )
+                                                );
+                                              }
+                                            )
+                                          )
+                                      ]
+                                    ),
+                                  ]
+                                )
                             )
-                          )
+                          ),
+                          const SizedBox(height: 20),
+                          ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data['items'].length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          margin: const EdgeInsets.only(top: 20, bottom: 20),
+                                          height: 120,                               
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Color(0x6D000000),
+                                                offset: Offset(0, 4),
+                                                blurRadius: 4
+                                              )
+                                            ],
+                                            border: Border.all(
+                                              width: 3,
+                                              color: Colors.transparent
+                                            ),
+                                            borderRadius: const BorderRadius.all(Radius.circular(22.0))
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [                  
+                                                  LayoutBuilder(
+                                                    builder: (context, constraints) {
+                                                      return ClipRRect(
+                                                        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                                                        child: Container(
+                                                          height: 94,
+                                                          width: 94,
+                                                          decoration: BoxDecoration(
+                                                              image: DecorationImage(
+                                                                image: obterImagem(snapshot.data['items'][index]['product']['images']),
+                                                                fit: BoxFit.cover
+                                                            )
+                                                          )
+                                                        )
+                                                      );
+                                                    }
+                                                  ),
+            
+                                                const Spacer(),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Column(
+                                                  children: [
+                                                    Expanded(
+                                                      child: LayoutBuilder(
+                                                            builder: (BuildContext context, BoxConstraints constraints) {
+                                                              return Container(
+                                                                constraints: const BoxConstraints(),
+                                                                alignment: Alignment.centerLeft,
+                                                                child: Text(
+                                                                  '${snapshot.data['items'][index]['product']['name']}',
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: const TextStyle(
+                                                                    color: Color(0xFF000000),
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: 16
+                                                                  )
+                                                                )
+                                                              );
+                                                            }
+                                                          ),
+                                                    ),
+                                                   const Spacer(),
+                                                   Expanded(
+                                                    child:  LayoutBuilder(
+                                                          builder: (BuildContext context, BoxConstraints constraints) {
+                                                            return Container(
+                                                              constraints: const BoxConstraints(),
+                                                              alignment: Alignment.centerLeft,
+                                                              child: Text(
+                                                                '${snapshot.data['items'][index]['product']['description']}',   
+                                                                maxLines: 3,                         
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: const TextStyle(
+                                                                  color: Color(0xFF848484),
+                                                                  fontWeight: FontWeight.w400,
+                                                                  fontSize: 12
+                                                                )
+                                                              )
+                                                            );
+                                                          }
+                                                        ),
+                                                   ),
+                                                  const Spacer(),
+                                                   Expanded(
+                                                    child: LayoutBuilder(
+                                                          builder: (BuildContext context, BoxConstraints constraints) {
+                                                            return Container(
+                                                              constraints: const BoxConstraints(),
+                                                              alignment: Alignment.centerLeft,
+                                                              child: Text(
+                                                                intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data['items'][index]['product']['price'])),                
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: const TextStyle(
+                                                                  color: Color(0xFF000000),
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontSize: 16
+                                                                )
+                                                              )
+                                                            );
+                                                          }
+                                                        ),
+                                                   )
+                                                  ],
+                                                )
+                                                ),
+                                                
+                                                const Spacer(),
+                                                Align(
+                                                  alignment: Alignment.bottomRight,
+                                                  child: SizedBox(
+                                                   height: 30,
+                                                  width: 73,    
+                                                        child: LayoutBuilder(
+                                                        builder: (BuildContext context, BoxConstraints constraints) {
+                                                          return Container(                                            
+                                                            decoration: BoxDecoration(
+                                                              color: GlobalColors.blue,
+                                                              borderRadius: const BorderRadius.all(Radius.circular(12.0))
+                                                            ),
+                                                            constraints: const BoxConstraints(),
+                                                            alignment: Alignment.center,
+                                                            child: Text(
+                                                              snapshot.data['items'][index]['qtd'] < 10 ? '0${snapshot.data['items'][index]['qtd']}' : '${snapshot.data['items'][index]['qtd']}',                 
+                                                              textAlign: TextAlign.center,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                color: GlobalColors.white,
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 16
+                                                              )
+                                                            )
+                                                          );
+                                                        }
+                                                        )
+                                                      ),
+                                                )
+                                              ]
+                                            )
+                                          )
+                                        );
+                                      }
+                                    )
                         ]
                       );
                     }
                   }
                 )
-            ) 
+              ) 
             )
           )
         ),
@@ -263,6 +605,15 @@ class PedidoPageState extends State<PedidoPage> {
     );
   }
 
+  dynamic obterImagem(dynamic url) {
+      print(url);
+      if (url.length > 0 && url[0] != null && url[0]['url'] != '') {//['items'][0]['product']['images'][0]['url']
+        return NetworkImage(url[0]['url']);
+      } else {
+        return const AssetImage('images/no_image.png');
+      }
+    }
+
   Future<Map<String, dynamic>> mostrar(int id) async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
     final url = Uri.parse('http://127.0.0.1:8000/api/order/$id');
@@ -274,7 +625,7 @@ class PedidoPageState extends State<PedidoPage> {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> order = jsonDecode(response.body);
-      print( order['data']);
+
       return order['data'];
     } else if (response.statusCode == 404) {
       Map<String, dynamic> error = jsonDecode(response.body);
