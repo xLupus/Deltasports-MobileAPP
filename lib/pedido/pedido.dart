@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:deltasports_app/carrinho.dart';
-import 'package:deltasports_app/listagem.dart';
-import 'package:deltasports_app/produtos.dart';
+import 'package:deltasports_app/carrinho/carrinho.dart';
+import 'package:deltasports_app/index/listagem.dart';
+import 'package:deltasports_app/produto/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +11,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'package:http/http.dart' as http;
 
-import '../perfil.dart';
+import '../perfil/perfil.dart';
 
 class PedidoPage extends StatefulWidget {
   final int id;
@@ -24,9 +24,6 @@ class PedidoPage extends StatefulWidget {
 class PedidoPageState extends State<PedidoPage> {
   late Future<dynamic> _data;
 
-  bool isLoading  = false;
-  dynamic name    = '';
-  dynamic email   = '';
   double frete       = 0;
   int val         = 700;
 
@@ -35,9 +32,7 @@ class PedidoPageState extends State<PedidoPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    setState(() {
-      _data = mostrar(widget.id);
-    });
+    setState(() { _data = mostrar(widget.id); });
 
     return Scaffold(
       backgroundColor: GlobalColors.white,

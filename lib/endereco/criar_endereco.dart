@@ -1,7 +1,7 @@
-import 'package:deltasports_app/carrinho.dart';
-import 'package:deltasports_app/index.dart';
-import 'package:deltasports_app/listagem.dart';
-import 'package:deltasports_app/perfil.dart';
+import 'package:deltasports_app/carrinho/carrinho.dart';
+import 'package:deltasports_app/index/index.dart';
+import 'package:deltasports_app/index/listagem.dart';
+import 'package:deltasports_app/perfil/perfil.dart';
 
 import 'endereco.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/global_colors.dart';
 import '../../utilis/snack_bar.dart';
-import '../produtos.dart';
+import '../produto/produtos.dart';
 
 //TODO: VALIDAÇÕES
 class CriarEnderecoPage extends StatefulWidget {

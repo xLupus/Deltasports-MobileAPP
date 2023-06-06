@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:deltasports_app/login_page.dart';
-import 'package:deltasports_app/carrinho.dart';
-import 'package:deltasports_app/listagem.dart';
-import 'package:deltasports_app/produtos.dart';
+import 'package:deltasports_app/auth/login_page.dart';
+import 'package:deltasports_app/carrinho/carrinho.dart';
+import 'package:deltasports_app/index/listagem.dart';
+import 'package:deltasports_app/produto/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
 
-import 'index.dart';
+import '../index/index.dart';
 
 class PerfilPage extends StatefulWidget {
   const PerfilPage({Key? key}) : super(key: key);
@@ -453,7 +453,7 @@ class _PerfilPageState extends State<PerfilPage> {
     });
   }
 
-  Future<dynamic> perfil() async {
+  Future<void> perfil() async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
     var client = http.Client();
     var url = Uri.parse('http://127.0.0.1:8000/api/user');

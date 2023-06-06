@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
-import 'utilis/global_colors.dart';
+import '../utilis/global_colors.dart';
 import 'package:http/http.dart' as http;
 import 'login_page.dart';
 

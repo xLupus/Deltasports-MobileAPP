@@ -1,5 +1,5 @@
-import 'package:deltasports_app/carrinho.dart';
-import 'package:deltasports_app/listagem.dart';
+import 'package:deltasports_app/carrinho/carrinho.dart';
+import 'package:deltasports_app/index/listagem.dart';
 import 'package:deltasports_app/pedido/pedido.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/global_colors.dart';
-import '../produtos.dart';
+import '../produto/produtos.dart';
 
 class PedidosPage extends StatefulWidget {
   const PedidosPage({Key? key}) : super(key: key);

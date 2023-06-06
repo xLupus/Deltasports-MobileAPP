@@ -1,19 +1,19 @@
 import 'dart:convert';
 
 
-import 'package:deltasports_app/home.dart';
-import 'package:deltasports_app/carrinho.dart';
-import 'package:deltasports_app/login_page.dart';
-import 'package:deltasports_app/perfil.dart';
-import 'package:deltasports_app/pesquisa.dart';
-import 'package:deltasports_app/produtos.dart';
+import 'package:deltasports_app/index/home.dart';
+import 'package:deltasports_app/carrinho/carrinho.dart';
+import 'package:deltasports_app/auth/login_page.dart';
+import 'package:deltasports_app/perfil/perfil.dart';
+import 'package:deltasports_app/produto/pesquisa.dart';
+import 'package:deltasports_app/produto/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'index.dart';
+import '../index/index.dart';
 import 'package:http/http.dart' as http;
 
-import 'listagem.dart';
+import '../index/listagem.dart';
 
 /*void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {

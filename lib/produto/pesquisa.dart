@@ -1,4 +1,4 @@
-import 'package:deltasports_app/produto.dart';
+import 'package:deltasports_app/produto/produto.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 

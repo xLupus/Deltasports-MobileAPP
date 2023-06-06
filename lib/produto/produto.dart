@@ -1,15 +1,15 @@
-import 'package:deltasports_app/perfil.dart';
-import 'package:deltasports_app/produtos.dart';
+import 'package:deltasports_app/perfil/perfil.dart';
+import 'package:deltasports_app/produto/produtos.dart';
 import 'package:flutter/material.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
-import 'package:deltasports_app/login_page.dart';
+import 'package:deltasports_app/auth/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-import 'carrinho.dart';
-import 'index.dart';
-import 'listagem.dart';
+import '../carrinho/carrinho.dart';
+import '../index/index.dart';
+import '../index/listagem.dart';
 
 class ProdutoPage extends StatefulWidget {
   Map<String, dynamic> dados;

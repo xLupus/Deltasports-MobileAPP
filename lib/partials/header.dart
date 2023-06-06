@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../carrinho.dart';
-import '../listagem.dart';
-import '../perfil.dart';
-import '../produtos.dart';
+import '../carrinho/carrinho.dart';
+import '../index/listagem.dart';
+import '../perfil/perfil.dart';
+import '../produto/produtos.dart';
 import '../utilis/global_colors.dart';

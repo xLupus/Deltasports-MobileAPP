@@ -1,18 +1,20 @@
 import 'dart:convert';
 
-import 'package:deltasports_app/login_page.dart';
-import 'package:deltasports_app/perfil.dart';
-import 'package:deltasports_app/pesquisa.dart';
+import 'package:deltasports_app/categoria/categoria.dart';
+import 'package:deltasports_app/auth/login_page.dart';
+import 'package:deltasports_app/perfil/perfil.dart';
+import 'package:deltasports_app/produto/pesquisa.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:deltasports_app/produto.dart';
+import 'package:deltasports_app/produto/produto.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'carrinho.dart';
+import '../carrinho/carrinho.dart';
+import '../categoria/categorias.dart';
 import 'index.dart';
 import 'package:http/http.dart' as http;
 
-import 'produtos.dart';
+import '../produto/produtos.dart';
 
 class ListagemPage extends StatefulWidget {
   const ListagemPage({Key? key, required foto}) : super(key: key);
@@ -180,16 +182,14 @@ class _ListagemPageState extends State<ListagemPage> {
             )),
         TextButton(
           onPressed: () async {
-            bool saiu = await sair();
-            if (saiu) {
-              // ignore: use_build_context_synchronously
+           
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const IndexPage(),
+                  builder: (context) => const CategoriasPage(),
                 ),
               );
-            }
+            
           },
           child: const Text('Sair'),
         ),

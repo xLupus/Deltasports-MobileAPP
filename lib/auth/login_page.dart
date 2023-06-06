@@ -1,12 +1,12 @@
 import 'dart:convert' as convert;
 import 'dart:convert';
-import 'package:deltasports_app/produtos.dart';
+import 'package:deltasports_app/produto/produtos.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'utilis/snack_bar.dart';
+import '../utilis/snack_bar.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
