@@ -4,6 +4,7 @@ import 'package:deltasports_app/pedido/pedido.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/global_colors.dart';
@@ -207,12 +208,12 @@ class PedidosPageState extends State<PedidosPage> {
 
                                             constraints: const BoxConstraints(),
                                             alignment: Alignment.center,
-                                            child: const Text(
-                                              'Mochila 1, Mochila 2, Mochila 3',   
+                                            child: Text(
+                                              '${snapshot.data![index]['product']['name']}',   
                                               maxLines: 3,                         
                                               textAlign: TextAlign.center,
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: Color(0xFF848484),
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14
@@ -233,12 +234,12 @@ class PedidosPageState extends State<PedidosPage> {
                                               return Container(
                                                 constraints: const BoxConstraints(),
                                                 alignment: Alignment.bottomRight,
-                                                child: const Text(
-                                                  'R\$ 1200,00',   
+                                                child: Text(
+                                                  intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![index]['product']['price'])),   
                                                   maxLines: 2,                         
                                                   textAlign: TextAlign.center,
                                                   overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Color(0xFF1E1E1E),
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 17
@@ -377,12 +378,6 @@ class PedidosPageState extends State<PedidosPage> {
        
       ], backgroundColor: GlobalColors.red), 
     );
-  }
-
-  Future<bool> sair() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.clear();
-    return true;
   }
 
   Future<List<dynamic>> mostrar() async {

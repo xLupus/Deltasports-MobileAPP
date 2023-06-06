@@ -1,20 +1,19 @@
 import 'dart:convert';
-
 import 'package:deltasports_app/categoria/categoria.dart';
 import 'package:deltasports_app/auth/login_page.dart';
 import 'package:deltasports_app/perfil/perfil.dart';
-import 'package:deltasports_app/produto/pesquisa.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:deltasports_app/produto/produto.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../carrinho/carrinho.dart';
 import '../categoria/categorias.dart';
-import 'index.dart';
+
+import 'package:intl/intl.dart' as intl;
 import 'package:http/http.dart' as http;
 
 import '../produto/produtos.dart';
+import '../utilis/obter_imagem.dart';
 
 class ListagemPage extends StatefulWidget {
   const ListagemPage({Key? key, required foto}) : super(key: key);
@@ -195,15 +194,6 @@ class _ListagemPageState extends State<ListagemPage> {
         ),
       ], backgroundColor: GlobalColors.red), //fimFooter
     );
-  }
-
-  dynamic obterImagem(dynamic url) {
-    print(url);
-    if (url.length > 0 && url[0] != null && url[0]['url'] != '') {
-      return NetworkImage(url[0]['url']);
-    } else {
-      return const AssetImage('images/no_image.png');
-    }
   }
 
   Future<bool> verificarToker() async {

@@ -1,18 +1,19 @@
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:deltasports_app/auth/login_page.dart';
 import 'package:deltasports_app/carrinho/carrinho.dart';
 import 'package:deltasports_app/index/listagem.dart';
 import 'package:deltasports_app/produto/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import '../utilis/obter_imagem.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart' as intl;
 
 import '../perfil/perfil.dart';
+import '../produto/produto.dart';
 
 class CategoriaPage extends StatefulWidget {
   final int id;
@@ -28,101 +29,208 @@ class CategoriaPageState extends State<CategoriaPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth  = MediaQuery.of(context).size.width;
+    double screenHeight  = MediaQuery.of(context).size.height;
     
-    setState(() {_data = mostrar(widget.id); });
+    setState(() { _data = mostrar(widget.id); });
 
     return Scaffold(
       backgroundColor: GlobalColors.white,
       body: SafeArea(
-        child: Center(
-          child: SizedBox(
-            width: screenWidth * 0.8,
-            child: FutureBuilder(
-              future: _data, 
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                if(snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(  
-                    child: CircularProgressIndicator(
-                      color: Color(0xFFBABABA),
-                    ),
-                  );
-                } else if(snapshot.hasError) {
-                  return Center(
-                    child: LayoutBuilder(
+        child: SingleChildScrollView(
+          child: Center(
+            child: SizedBox(
+              width: screenWidth * 0.8,
+              child: FutureBuilder(
+                future: _data, 
+                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if(snapshot.connectionState == ConnectionState.waiting) {
+                     return LayoutBuilder(
                       builder: (BuildContext context, BoxConstraints constraints) {
                         return FittedBox(
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.center,
-                          child: Text(
-                            snapshot.error.toString().substring(11),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20
+                          child: SizedBox(
+                            height: screenHeight - 80,
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xFFBABABA),
+                              ),
                             )
                           )
                         );
                       }
-                    )
-                  );
-                } else {
-                  return Column(
-                  children: [
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 50, bottom: 50),
-                          child: GestureDetector(
-                            onTap: () { 
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (context) => const ProdutosPage())
-                              );
-                            },
-                            child: Image.network('https://i.imgur.com/ell1sHu.png')
+                    );      
+                  } else if(snapshot.hasError) {
+                    return LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        return FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            height: screenHeight - 80,
+                            child: Center(
+                              child: Text(
+                                snapshot.error.toString().substring(11),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20
+                                )
+                              ),
+                            )
                           )
-                        )
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Align(
-                            alignment: Alignment.centerLeft,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        color: GlobalColors.red,
-                                        width: 5
-                                      )
-                                    )
-                                  ),
-                                  child: LayoutBuilder(
-                                  builder: (BuildContext context, BoxConstraints constraints) {
-                                    return FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        '${snapshot.data['category']['name']}',
-                                        style: const TextStyle(
-                                          color: Color(0xFF1E1E1E),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 22
+                        );
+                      }
+                    );      
+                  } else {
+                    return Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 50, bottom: 50),
+                            child: GestureDetector(
+                              onTap: () { 
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const ProdutosPage())
+                                );
+                              },
+                              child: Image.network('https://i.imgur.com/ell1sHu.png')
+                            )
+                          )
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Align(
+                              alignment: Alignment.centerLeft,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          color: GlobalColors.red,
+                                          width: 5
                                         )
                                       )
+                                    ),
+                                    child: LayoutBuilder(
+                                    builder: (BuildContext context, BoxConstraints constraints) {
+                                      return FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          '${snapshot.data['category']['name']}',
+                                          style: const TextStyle(
+                                            color: Color(0xFF1E1E1E),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 22
+                                          )
+                                        )
+                                      );
+                                    }
+                                  )
+                                )  
+                              )
+                            )        
+                          ]
+                        ),
+                        const SizedBox(height: 35),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 8,
+                            childAspectRatio: 1 / 1.6
+                          ),
+                          itemCount: snapshot.data['products'].length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProdutoPage(dados: snapshot.data!['products'][index])
+                                      ),
                                     );
-                                  }
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.all(Radius.circular(14.0)),
+                                      child: Container(
+                                        height: 223,
+                                        width: 260,
+                                        decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: obterImagem(snapshot.data['products'][index]),
+                                          fit: BoxFit.cover
+                                        )
+                                      )
+                                    )
+                                  )
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                           LayoutBuilder(
+                                              builder: (BuildContext context, BoxConstraints constraints) {
+                                                return Container(
+                                                  constraints: const BoxConstraints(),
+                                                  alignment: Alignment.center,
+                                                    child: Text(
+                                                    '${snapshot.data['products'][index]['name']}',
+                                                    maxLines: 2,                         
+                                                    textAlign: TextAlign.center,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                      color: Color(0xFF000000),
+                                                      fontWeight: FontWeight.bold,
+                                                    fontSize: 16
+                                                  )
+                                                )
+                                              );
+                                            }
+                                           ),
+                                            const SizedBox(height: 3),
+                                            LayoutBuilder(
+                                              builder: (BuildContext context, BoxConstraints constraints) {
+                                                return Container(
+                                                  constraints: const BoxConstraints(),
+                                                  alignment: Alignment.center,
+                                                    child: Text(
+                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data['products'][index]['price'])),
+                                                     maxLines: 2,                         
+                                                    textAlign: TextAlign.center,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                      color: Color(0xFF000000),
+                                                      fontWeight: FontWeight.bold,
+                                                    fontSize: 16
+                                                  )
+                                                )
+                                              );
+                                            }
+                                          ),
+                                        ]
+                                      )
+                                    )
+                                  ]
                                 )
-                              )  
-                            )
-                          )        
-                        ]
-                      ),
-                    ]
-                  );
+                              ]
+                            );
+                          },
+                        )
+                      ]
+                    );
+                  }
                 }
-              }
+              )
             )
-          )
+          ),
         )
       ),
 
@@ -132,11 +240,11 @@ class CategoriaPageState extends State<CategoriaPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProdutosPage(),
+                  builder: (context) => const ProdutosPage(),
                 ),
               );
             },
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.home),
@@ -152,7 +260,7 @@ class CategoriaPageState extends State<CategoriaPage> {
                 ),
               );
             },
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.category),
@@ -164,11 +272,11 @@ class CategoriaPageState extends State<CategoriaPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CarrinhoPage(),
+                  builder: (context) => const CarrinhoPage(),
                 ),
               );
             },
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.add_shopping_cart),
@@ -180,11 +288,11 @@ class CategoriaPageState extends State<CategoriaPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PerfilPage(),
+                  builder: (context) => const PerfilPage(),
                 ),
               );
             },
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.person),

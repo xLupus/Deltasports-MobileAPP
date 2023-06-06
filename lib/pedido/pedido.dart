@@ -12,6 +12,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:http/http.dart' as http;
 
 import '../perfil/perfil.dart';
+import '../utilis/obter_imagem.dart';
 
 class PedidoPage extends StatefulWidget {
   final int id;
@@ -645,15 +646,6 @@ class PedidoPageState extends State<PedidoPage> {
       ], backgroundColor: GlobalColors.red),
     );
   }
-
-  dynamic obterImagem(dynamic url) {
-      print(url);
-      if (url.length > 0 && url[0] != null && url[0]['url'] != '') {//['items'][0]['product']['images'][0]['url']
-        return NetworkImage(url[0]['url']);
-      } else {
-        return const AssetImage('images/no_image.png');
-      }
-    }
 
   Future<Map<String, dynamic>> mostrar(int id) async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
