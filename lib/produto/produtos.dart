@@ -626,7 +626,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                                   enlargeCenterPage: true,
                                   onPageChanged: (index, reason) {},
                                   scrollDirection: Axis.horizontal,
-                                  height: 310
+                                  height: 340
                                 ),
                               ),
                               const SizedBox(height: 10),
@@ -713,7 +713,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                                 enlargeCenterPage: true,
                                 onPageChanged: (index, reason) {},
                                 scrollDirection: Axis.horizontal, 
-                                height: 310
+                                height: 340
                               ),
                             )
                           ]
