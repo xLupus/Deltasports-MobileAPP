@@ -40,7 +40,7 @@ class ListagemPageState extends State<ListagemPage> {
           child: SingleChildScrollView(
             child: Center(
               child: SizedBox(
-                width: screenWidth * 0.8,
+                width: screenWidth * 0.85,
                 child: Column(
                   children: [
                     const SizedBox(
@@ -100,7 +100,7 @@ class ListagemPageState extends State<ListagemPage> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 50),
                   FutureBuilder(
                     future: Future.wait([_category, _data]),
                     builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -217,127 +217,139 @@ class ListagemPageState extends State<ListagemPage> {
                                 )
                               )
                             ),
-                          const SizedBox(height: 30),
-                          GridView.builder(
-                            shrinkWrap: true,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 15,
-                              mainAxisSpacing: 8,
-                              childAspectRatio: 1 / 1.7
-                            ),
-                            itemCount: snapshot.data![1].length,
-                            itemBuilder: (context, index) {
-                              final double priceTotal = double.parse(snapshot.data![1][index]['price']) - double.parse(snapshot.data![1][index]['discount']);
-                                                        
-                              return Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ProdutoPage(dados: snapshot.data![1][index])
+                            const SizedBox(height: 30),
+                            GridView.builder(
+                              shrinkWrap: true,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 15,
+                                mainAxisSpacing: 8,
+                                childAspectRatio: 1 / 1.8
+                              ),
+                              itemCount: snapshot.data![1].length,
+                              itemBuilder: (context, index) {
+                                final double priceTotal = double.parse(snapshot.data![1][index]['price']) - double.parse(snapshot.data![1][index]['discount']);
+                                                          
+                                return Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ProdutoPage(dados: snapshot.data![1][index])
+                                          )
+                                        );
+                                      },
+                                      child: Container(              
+                                        height: 223,
+                                        width: 260,
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(Radius.circular(14.0)),
+                                            color: const Color(0xFFD9D9D9),
+                                            image: DecorationImage(
+                                            image: obterImagem(snapshot.data![1][index]['images']),
+                                            fit: BoxFit.fitWidth                                                                            
+                                          )                  
                                         )
-                                      );
-                                    },
-                                    child: Container(              
-                                      height: 223,
-                                      width: 260,
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(Radius.circular(14.0)),
-                                          color: const Color(0xFFD9D9D9),
-                                          image: DecorationImage(
-                                          image: obterImagem(snapshot.data![1][index]['images']),
-                                          fit: BoxFit.fitWidth                                                                            
-                                        )                  
                                       )
-                                    )
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          children: [
-                                            LayoutBuilder(
-                                                builder: (BuildContext context, BoxConstraints constraints) {
-                                                  return Container(
-                                                    constraints: const BoxConstraints(),
-                                                    alignment: Alignment.center,
-                                                      child: Text(
-                                                      '${snapshot.data![1][index]['name']}',
-                                                      maxLines: 2,                         
-                                                      textAlign: TextAlign.center,
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                        color: Color(0xFF000000),
-                                                        fontWeight: FontWeight.bold,
-                                                      fontSize: 16
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              LayoutBuilder(
+                                                  builder: (BuildContext context, BoxConstraints constraints) {
+                                                    return Container(
+                                                      constraints: const BoxConstraints(),
+                                                      alignment: Alignment.center,
+                                                        child: Text(
+                                                        '${snapshot.data![1][index]['name']}',
+                                                        maxLines: 2,                         
+                                                        textAlign: TextAlign.center,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: const TextStyle(
+                                                          color: Color(0xFF000000),
+                                                          fontWeight: FontWeight.bold,
+                                                        fontSize: 16
+                                                      )
                                                     )
-                                                  )
-                                                );
-                                              }
-                                            ),
-                                              const SizedBox(height: 3),
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: LayoutBuilder(
-                                                      builder: (BuildContext context, BoxConstraints constraints) {
-                                                        return Container(
-                                                          constraints: const BoxConstraints(),
-                                                          alignment: Alignment.center,
-                                                            child: Text(
-                                                            intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![1][index]['price'])),
-                                                            maxLines: 2,                         
-                                                            textAlign: TextAlign.center,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            style: TextStyle(
-                                                              decoration: priceTotal != double.parse(snapshot.data![1][index]['price']) ? TextDecoration.lineThrough : TextDecoration.none,
-                                                              color: const Color(0xFF000000), //51 - 1 = 50
-                                                              fontWeight: FontWeight.bold,
-                                                            fontSize: 16
+                                                  );
+                                                }
+                                              ),
+                                                const SizedBox(height: 4),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: LayoutBuilder(
+                                                        builder: (BuildContext context, BoxConstraints constraints) {
+                                                          return Container(
+                                                            constraints: const BoxConstraints(),
+                                                            alignment: Alignment.center,
+                                                              child: Text(
+                                                              intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![1][index]['price'])),
+                                                              maxLines: 2,                         
+                                                              textAlign: TextAlign.center,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: priceTotal != double.parse(snapshot.data![1][index]['price']) ? 
+                                                                const TextStyle(
+                                                                  decoration: TextDecoration.lineThrough,
+                                                                  color: Color(0xFF000000),
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontSize: 13.5,
+                                                                ) 
+                                                                : 
+                                                                const TextStyle(
+                                                                decoration: TextDecoration.none,
+                                                                color: Color(0xFF000000),
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 16 
+                                                              )
+                                                            )
+                                                        );
+                                                      }
+                                                    ),
+                                                  ),          
+                                                ],
+                                              ),
+                                              const SizedBox(height: 4),
+                                              priceTotal < double.parse(snapshot.data![1][index]['price']) ? 
+                                                Row(
+                                                  children: [              
+                                                    Expanded(
+                                                      child: LayoutBuilder(
+                                                        builder: (BuildContext context, BoxConstraints constraints) {                      
+                                                          return Container(
+                                                            constraints: const BoxConstraints(),
+                                                            alignment: Alignment.center,
+                                                              child: Text(
+                                                              intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(priceTotal),
+                                                              maxLines: 2,                         
+                                                              textAlign: TextAlign.center,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: const TextStyle(
+                                                                color: Color(0xFF000000),
+                                                                fontWeight: FontWeight.bold,
+                                                              fontSize: 16
+                                                            )
                                                           )
-                                                        )
-                                                      );
-                                                    }
-                                                  ),
-                                                ),
-                                                priceTotal < double.parse(snapshot.data![1][index]['price']) ? 
-                                                Expanded(
-                                                    child: LayoutBuilder(
-                                                      builder: (BuildContext context, BoxConstraints constraints) {                      
-                                                        return Container(
-                                                          constraints: const BoxConstraints(),
-                                                          alignment: Alignment.center,
-                                                            child: Text(
-                                                            intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(priceTotal),
-                                                            maxLines: 2,                         
-                                                            textAlign: TextAlign.center,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            style: const TextStyle(
-                                                              color: Color(0xFF000000),
-                                                              fontWeight: FontWeight.bold,
-                                                            fontSize: 16
-                                                          )
-                                                        )
-                                                      );
-                                                    }
-                                                  ),
-                                                )
-                                                : Container(),
-                                              ],
-                                            )
-                                          ]
+                                                        );
+                                                      }
+                                                    ),
+                                                  )  
+                                                ]
+                                              )  : Container(),
+                                            ]
+                                          )
                                         )
-                                      )
-                                    ]
-                                  )
-                                ]
-                              );
-                            },
-                          )
+                                      ]
+                                    )
+                                  ]
+                                );
+                              }
+                            )
                           ]
                         );
                       }

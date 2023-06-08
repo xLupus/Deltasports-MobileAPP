@@ -42,7 +42,7 @@ class _PerfilPageState extends State<PerfilPage> {
       body: SafeArea(
         child: Center(
           child: SizedBox(
-            width: screenWidth * 0.8,
+            width:screenWidth * 0.85,
             child: FutureBuilder(
               future: _data, 
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

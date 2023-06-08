@@ -58,7 +58,7 @@ class ProdutosPageState extends State<ProdutosPage> {
         child: SingleChildScrollView(
           child: Center(
             child: SizedBox(
-              width: screenWidth * 0.8,
+              width: screenWidth * 0.85,
                 child: FutureBuilder(
                     future: Future.wait([_data, _category, _profile]),
                     builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -69,7 +69,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.center,
                               child: SizedBox(
-                                height: screenHeight - 315,
+                                height: screenHeight - 58,
                                 child: const Center(
                                   child: CircularProgressIndicator(
                                     color: Color(0xFFBABABA)
@@ -86,7 +86,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.center,
                               child: SizedBox(
-                                height: screenHeight - 315,
+                                height: screenHeight - 58,
                                 child: Center(
                                   child: Text(
                                     snapshot.error.toString().substring(11),
@@ -102,6 +102,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                         );
                       } else {
                         int val = random.nextInt(snapshot.data![0].length - 1 + 1);
+                        final double priceTotal = double.parse(snapshot.data![0][val]['price']) - double.parse(snapshot.data![0][val]['discount']);
 
                         return Column(
                           children: [
@@ -130,9 +131,17 @@ class ProdutosPageState extends State<ProdutosPage> {
                                                 )
                                               ),
                                               TextSpan(
-                                                text: 'Delta !',
+                                                text: 'Delta',
                                                 style: TextStyle(
                                                   color: GlobalColors.blue,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 24
+                                                )
+                                              ),
+                                              const TextSpan(
+                                                text: ' !',
+                                                style: TextStyle(
+                                                  color: Color(0xFF3D3D3D),
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 24
                                                 )
@@ -265,23 +274,58 @@ class ProdutosPageState extends State<ProdutosPage> {
                                                   const Spacer(),
                                                     Expanded(
                                                       flex: 3,
-                                                      child: LayoutBuilder(
-                                                        builder: (BuildContext context, BoxConstraints constraints) {
-                                                          return Container(
-                                                            constraints: const BoxConstraints(),
-                                                              alignment: Alignment.centerLeft,
-                                                              child: Text(
-                                                                intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![0][val]['price'])),                
-                                                                overflow: TextOverflow.ellipsis,
-                                                                style: const TextStyle(
-                                                                  color: Color(0xFF000000),
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: 16
-                                                                )
-                                                              )
-                                                            );
-                                                          }
-                                                        ),
+                                                      child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child: LayoutBuilder(
+                                                            builder: (BuildContext context, BoxConstraints constraints) {
+                                                              return Container(
+                                                                constraints: const BoxConstraints(),
+                                                                  alignment: Alignment.centerLeft,
+                                                                  child: Text(
+                                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![0][val]['price'])),                
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                     style: priceTotal != double.parse(snapshot.data![0][val]['price']) ? 
+                                                                      const TextStyle(
+                                                                        decoration: TextDecoration.lineThrough,
+                                                                        color: Color(0xFF000000),
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 13.5,
+                                                                      ) 
+                                                                      : 
+                                                                      const TextStyle(
+                                                                      decoration: TextDecoration.none,
+                                                                      color: Color(0xFF000000),
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontSize: 16 
+                                                                    )
+                                                                  )
+                                                                );
+                                                              }
+                                                            ),
+                                                          ),
+                                                          priceTotal < double.parse(snapshot.data![0][val]['price']) ? 
+                                                          Expanded(
+                                                            child: LayoutBuilder(
+                                                            builder: (BuildContext context, BoxConstraints constraints) {
+                                                              return Container(
+                                                                constraints: const BoxConstraints(),
+                                                                  alignment: Alignment.centerLeft,
+                                                                  child: Text(
+                                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(priceTotal),                
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    style: const TextStyle(
+                                                                      color: Color(0xFF000000),
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontSize: 16
+                                                                    )
+                                                                  )
+                                                                );
+                                                              }
+                                                            )
+                                                          ) : Container(),
+                                                        ]
+                                                      )
                                                       )
                                                     ],
                                                   );
@@ -576,8 +620,8 @@ class ProdutosPageState extends State<ProdutosPage> {
                                   enableInfiniteScroll: true,
                                   reverse: false,
                                   autoPlay: true,
-                                  autoPlayInterval: Duration(seconds: 6),
-                                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                                  autoPlayInterval: const Duration(seconds: 6),
+                                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
                                   autoPlayCurve: Curves.fastOutSlowIn,
                                   enlargeCenterPage: true,
                                   onPageChanged: (index, reason) {},
@@ -663,8 +707,8 @@ class ProdutosPageState extends State<ProdutosPage> {
                                 enableInfiniteScroll: true,
                                 reverse: false,
                                 autoPlay: true,
-                                autoPlayInterval: Duration(seconds: 6),
-                                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                                autoPlayInterval: const Duration(seconds: 6),
+                                autoPlayAnimationDuration: const Duration(milliseconds: 800),
                                 autoPlayCurve: Curves.fastOutSlowIn,
                                 enlargeCenterPage: true,
                                 onPageChanged: (index, reason) {},
