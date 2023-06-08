@@ -11,6 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/global_colors.dart';
 import '../../utilis/snack_bar.dart';
+import '../partials/footer.dart';
+import '../partials/header.dart';
 import '../produto/produtos.dart';
 
 //TODO: VALIDAÇÕES
@@ -64,21 +66,10 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
               width: screenWidth * 0.8,
               child: Column(
                 children: [
-                   Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 50, bottom: 50),
-                      child: GestureDetector(
-                        onTap: () { 
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => const ProdutosPage())
-                          );
-                        },
-                        child: Image.network('https://i.imgur.com/ell1sHu.png')
-                      )
-                    )
-                  ),
+                   const SizedBox(
+                      height: 135,
+                      child: HeaderThree(),
+                    ),
                   Row(
                     children: [
                       Expanded(
@@ -351,86 +342,7 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
           )
         )
       ),
-      bottomNavigationBar: NavigationBar(destinations: [
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProdutosPage(),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.home),
-                Text('Home'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ListagemPage(foto: {}),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.category),
-                Text('Produtos'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CarrinhoPage(),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.add_shopping_cart),
-                Text('Carrinho'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PerfilPage(),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.person),
-                Text('Perfil'),
-              ],
-            )),
-        TextButton(
-          onPressed: () async {
-            bool saiu = await sair();
-            if (saiu) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => IndexPage(),
-                ),
-              );
-            }
-          },
-          child: Text('Sair'),
-        ),
-      ], backgroundColor: GlobalColors.red),
+      bottomNavigationBar: const Footer(),
     );
   }
 

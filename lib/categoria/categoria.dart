@@ -6,6 +6,8 @@ import 'package:deltasports_app/index/listagem.dart';
 import 'package:deltasports_app/produto/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
+import '../partials/footer.dart';
+import '../partials/header.dart';
 import '../utilis/obter_imagem.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,7 +52,7 @@ class CategoriaPageState extends State<CategoriaPage> {
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.center,
                           child: SizedBox(
-                            height: screenHeight - 80,
+                            height: screenHeight - 58,
                             child: const Center(
                               child: CircularProgressIndicator(
                                 color: Color(0xFFBABABA),
@@ -67,7 +69,7 @@ class CategoriaPageState extends State<CategoriaPage> {
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.center,
                           child: SizedBox(
-                            height: screenHeight - 80,
+                            height: screenHeight - 58,
                             child: Center(
                               child: Text(
                                 snapshot.error.toString().substring(11),
@@ -84,20 +86,9 @@ class CategoriaPageState extends State<CategoriaPage> {
                   } else {
                     return Column(
                       children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 50, bottom: 50),
-                            child: GestureDetector(
-                              onTap: () { 
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const ProdutosPage())
-                                );
-                              },
-                              child: Image.network('https://i.imgur.com/ell1sHu.png')
-                            )
-                          )
+                        const SizedBox(
+                          height: 135,
+                          child: HeaderTwo(),
                         ),
                         Row(
                           children: [
@@ -152,21 +143,20 @@ class CategoriaPageState extends State<CategoriaPage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => ProdutoPage(dados: snapshot.data!['products'][index])
-                                      ),
+                                        builder: (context) => ProdutoPage(dados: snapshot.data['products'][index])
+                                      )
                                     );
                                   },
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.all(Radius.circular(14.0)),
-                                      child: Container(
-                                        height: 223,
-                                        width: 260,
-                                        decoration: BoxDecoration(
+                                  child: Container(              
+                                    height: 223,
+                                    width: 260,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(Radius.circular(14.0)),
+                                        color: const Color(0xFFD9D9D9),
                                         image: DecorationImage(
-                                          image: obterImagem(snapshot.data['products'][index]),
-                                          fit: BoxFit.cover
-                                        )
-                                      )
+                                        image: obterImagem(snapshot.data['products'][index]['images']),
+                                        fit: BoxFit.fitWidth                                                                            
+                                      )                  
                                     )
                                   )
                                 ),
@@ -203,7 +193,7 @@ class CategoriaPageState extends State<CategoriaPage> {
                                                   alignment: Alignment.center,
                                                     child: Text(
                                                     intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data['products'][index]['price'])),
-                                                     maxLines: 2,                         
+                                                    maxLines: 2,                         
                                                     textAlign: TextAlign.center,
                                                     overflow: TextOverflow.ellipsis,
                                                     style: const TextStyle(
@@ -234,72 +224,7 @@ class CategoriaPageState extends State<CategoriaPage> {
         )
       ),
 
-      bottomNavigationBar: NavigationBar(destinations: [
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProdutosPage(),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.home),
-                Text('Home'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ListagemPage(foto: {}),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.category),
-                Text('Produtos'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CarrinhoPage(),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.add_shopping_cart),
-                Text('Carrinho'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PerfilPage(),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.person),
-                Text('Perfil'),
-              ],
-            ))
-      ], backgroundColor: GlobalColors.red),
+      bottomNavigationBar: const Footer(), 
     );
   }
 
@@ -313,7 +238,7 @@ class CategoriaPageState extends State<CategoriaPage> {
     var response = await http.get(url, headers: headers);
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> products = jsonDecode(response.body);      
+      Map<String, dynamic> products = jsonDecode(response.body);
       return products['data'];
     } else if(response.statusCode == 404) {
       Map<String, dynamic> error = jsonDecode(response.body);

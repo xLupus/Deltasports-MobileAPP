@@ -10,6 +10,7 @@ import 'dart:convert' as convert;
 import '../carrinho/carrinho.dart';
 import '../index/index.dart';
 import '../index/listagem.dart';
+import '../partials/footer.dart';
 
 class ProdutoPage extends StatefulWidget {
   Map<String, dynamic> dados;
@@ -133,91 +134,8 @@ class _ProdutoPageState extends State<ProdutoPage> {
       ),
 
       //Fotter
-      bottomNavigationBar: NavigationBar(destinations: [
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProdutosPage(),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.home),
-                Text('Home'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ListagemPage(foto: {}),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.category),
-                Text('Produtos'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CarrinhoPage(),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.add_shopping_cart),
-                Text('Carrinho'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-             Navigator.pushReplacementNamed(
-                context,
-                '/Perfil'
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.person),
-                Text('Perfil'),
-              ],
-            )),
-        TextButton(
-          onPressed: () async {
-            bool saiu = await sair();
-            if (saiu) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => IndexPage(),
-                ),
-              );
-            }
-          },
-          child: Text('Sair'),
-        ),
-      ], backgroundColor: GlobalColors.red),
+      bottomNavigationBar: const Footer(),
     );
-  }
-
-  Future<bool> sair() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.clear();
-    return true;
   }
 
   dynamic obterImagem(dynamic url) {

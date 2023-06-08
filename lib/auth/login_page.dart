@@ -246,9 +246,7 @@ class _LoginPageState extends State<Login> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           snackBar(context, 'Ocorreu um erro ao processar os dados');  
         });
-        setState(() {
-      isLoading = false;
-    });
+        setState(() {  isLoading = false; });
         break;
     }
     

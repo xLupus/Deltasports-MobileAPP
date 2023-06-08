@@ -12,6 +12,7 @@ import '../categoria/categorias.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:http/http.dart' as http;
 
+import '../partials/footer.dart';
 import '../produto/produtos.dart';
 import '../utilis/obter_imagem.dart';
 
@@ -114,85 +115,7 @@ class _ListagemPageState extends State<ListagemPage> {
         },
       ),
       //Footer
-      bottomNavigationBar: NavigationBar(destinations: [
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProdutosPage(),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.home),
-                Text('Home'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ListagemPage(foto: {}),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.category),
-                Text('Produtos'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CarrinhoPage(),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.add_shopping_cart),
-                Text('Carrinho'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PerfilPage(),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.person),
-                Text('Perfil'),
-              ],
-            )),
-        TextButton(
-          onPressed: () async {
-           
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CategoriasPage(),
-                ),
-              );
-            
-          },
-          child: const Text('Sair'),
-        ),
-      ], backgroundColor: GlobalColors.red), //fimFooter
+      bottomNavigationBar: const Footer() //fimFooter
     );
   }
 

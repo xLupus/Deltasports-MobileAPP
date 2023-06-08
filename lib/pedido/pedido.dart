@@ -11,6 +11,8 @@ import 'package:intl/intl.dart' as intl;
 
 import 'package:http/http.dart' as http;
 
+import '../partials/footer.dart';
+import '../partials/header.dart';
 import '../perfil/perfil.dart';
 import '../utilis/obter_imagem.dart';
 
@@ -25,8 +27,8 @@ class PedidoPage extends StatefulWidget {
 class PedidoPageState extends State<PedidoPage> {
   late Future<dynamic> _data;
 
-  double frete       = 0;
-  int val         = 700;
+  double frete  = 0;
+  int val       = 700;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,7 @@ class PedidoPageState extends State<PedidoPage> {
                                 fit: BoxFit.scaleDown,
                                 alignment: Alignment.center,
                                 child: SizedBox(
-                                  height: screenHeight - 80,
+                                  height: screenHeight - 58,
                                   child: const Center(
                                     child: CircularProgressIndicator(
                                       color: Color(0xFFBABABA),
@@ -67,7 +69,7 @@ class PedidoPageState extends State<PedidoPage> {
                                 fit: BoxFit.scaleDown,
                                 alignment: Alignment.center,
                                 child: SizedBox(
-                                  height: screenHeight - 80,
+                                  height: screenHeight - 58,
                                   child: Center(
                                     child: Text(
                                       snapshot.error.toString().substring(11),
@@ -89,22 +91,9 @@ class PedidoPageState extends State<PedidoPage> {
 
                           return Column(
                             children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                margin: const EdgeInsets.only(top: 50, bottom: 50),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                      builder: (context) => const ProdutosPage()
-                                    )
-                                    );
-                                  },
-                                  child: Image.network('https://i.imgur.com/ell1sHu.png')
-                                )
-                              )
+                            const SizedBox(
+                              height: 135,
+                              child: HeaderTwo(),
                             ),
                             Row(
                               children: [
@@ -436,23 +425,23 @@ class PedidoPageState extends State<PedidoPage> {
                                             padding: const EdgeInsets.all(8.0),
                                             child: Row(
                                               children: [                  
-                                                  LayoutBuilder(
-                                                    builder: (context, constraints) {
-                                                      return ClipRRect(
+                                                LayoutBuilder(
+                                                  builder: (context, constraints) {
+                                                    return Container(              
+                                                      height: 106,
+                                                      width: 106,
+                                                      decoration: 
+                                                      BoxDecoration(
                                                         borderRadius: const BorderRadius.all(Radius.circular(14.0)),
-                                                        child: Container(
-                                                          height: 106,
-                                                          width: 106,
-                                                          decoration: BoxDecoration(
-                                                              image: DecorationImage(
-                                                                image: obterImagem(snapshot.data['items'][index]['product']['images']),
-                                                                fit: BoxFit.cover
-                                                            )
-                                                          )
-                                                        )
-                                                      );
-                                                    }
-                                                  ),
+                                                          color: const Color(0xFFE5E5E5),
+                                                          image: DecorationImage(
+                                                          image: obterImagem(snapshot.data['items'][index]['product']['images']),
+                                                          fit: BoxFit.fitWidth                                                                            
+                                                        )                   
+                                                      ),
+                                                    ); 
+                                                  }
+                                                ),
             
                                                 const Spacer(),
                                                 Flexible(
@@ -578,72 +567,7 @@ class PedidoPageState extends State<PedidoPage> {
             )
           )
         ),
-      bottomNavigationBar: NavigationBar(destinations: [
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProdutosPage(),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.home),
-                Text('Home'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ListagemPage(foto: {}),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.category),
-                Text('Produtos'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CarrinhoPage(),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.add_shopping_cart),
-                Text('Carrinho'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PerfilPage(),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.person),
-                Text('Perfil'),
-              ],
-            ))
-      ], backgroundColor: GlobalColors.red),
+      bottomNavigationBar: const Footer()
     );
   }
 

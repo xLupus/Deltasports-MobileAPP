@@ -8,6 +8,8 @@ import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/global_colors.dart';
+import '../partials/footer.dart';
+import '../partials/header.dart';
 import '../produto/produtos.dart';
 
 class PedidosPage extends StatefulWidget {
@@ -37,20 +39,9 @@ class PedidosPageState extends State<PedidosPage> {
               width: screenWidth * 0.8,
               child: Column(
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 50, bottom: 50),
-                      child: GestureDetector(
-                        onTap: () { 
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => const ProdutosPage())
-                          );
-                        },
-                        child: Image.network('https://i.imgur.com/ell1sHu.png')
-                      )
-                    )
+                  const SizedBox(
+                    height: 135,
+                    child: HeaderTwo(),
                   ),
                   Row(
                     children: [
@@ -98,7 +89,7 @@ class PedidosPageState extends State<PedidosPage> {
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.center,
                               child: SizedBox(
-                                height: screenHeight - 304,
+                                height: screenHeight - 259,
                                 child: const Center(
                                   child: CircularProgressIndicator(
                                     color: Color(0xFFBABABA),
@@ -115,7 +106,7 @@ class PedidosPageState extends State<PedidosPage> {
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.center,
                               child: SizedBox(
-                                height: screenHeight - 304,
+                                height: screenHeight - 259,
                                 child: Center(
                                   child: Text(
                                     snapshot.error.toString().substring(11),
@@ -292,7 +283,7 @@ class PedidosPageState extends State<PedidosPage> {
                                                 }
                                               )
                                             )
-                                          )       
+                                          )
                                         ]
                                       )
                                     )
@@ -312,71 +303,7 @@ class PedidosPageState extends State<PedidosPage> {
         )
       ),
 
-      bottomNavigationBar: NavigationBar(destinations: [
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProdutosPage(),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.home),
-                Text('Home'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ListagemPage(foto: {}),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.category),
-                Text('Produtos'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CarrinhoPage(),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.add_shopping_cart),
-                Text('Carrinho'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.pushReplacementNamed(
-                context,
-                '/Perfil'
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.person),
-                Text('Perfil'),
-              ],
-            )),
-       
-      ], backgroundColor: GlobalColors.red), 
+     bottomNavigationBar: const Footer(),
     );
   }
 
