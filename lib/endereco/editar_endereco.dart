@@ -63,7 +63,7 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
         child: SingleChildScrollView(
           child: Center(
             child: SizedBox(
-              width: screenWidth * 0.8,
+              width: screenWidth * 0.85,
               child: Column(
                 children: [
                    const SizedBox(

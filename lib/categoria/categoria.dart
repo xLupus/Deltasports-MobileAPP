@@ -41,7 +41,7 @@ class CategoriaPageState extends State<CategoriaPage> {
         child: SingleChildScrollView(
           child: Center(
             child: SizedBox(
-              width: screenWidth * 0.8,
+              width: screenWidth * 0.85,
               child: FutureBuilder(
                 future: _data, 
                 builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -127,17 +127,19 @@ class CategoriaPageState extends State<CategoriaPage> {
                             )        
                           ]
                         ),
-                        const SizedBox(height: 35),
+                        const SizedBox(height: 50),
                         GridView.builder(
                           shrinkWrap: true,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 15,
                             mainAxisSpacing: 8,
-                            childAspectRatio: 1 / 1.6
+                            childAspectRatio: 1 / 1.8
                           ),
                           itemCount: snapshot.data['products'].length,
                           itemBuilder: (context, index) {
+                              final double priceTotal = double.parse(snapshot.data['products'][index]['price']) - double.parse(snapshot.data['products'][index]['discount']);
+                              
                             return Column(
                               children: [
                                 GestureDetector(
@@ -163,56 +165,93 @@ class CategoriaPageState extends State<CategoriaPage> {
                                   )
                                 ),
                                 const SizedBox(height: 5),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                           LayoutBuilder(
-                                              builder: (BuildContext context, BoxConstraints constraints) {
-                                                return Container(
-                                                  constraints: const BoxConstraints(),
-                                                  alignment: Alignment.center,
-                                                    child: Text(
-                                                    '${snapshot.data['products'][index]['name']}',
-                                                    maxLines: 2,                         
-                                                    textAlign: TextAlign.center,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF000000),
-                                                      fontWeight: FontWeight.bold,
-                                                    fontSize: 16
-                                                  )
-                                                )
-                                              );
-                                            }
-                                           ),
-                                            const SizedBox(height: 3),
-                                            LayoutBuilder(
-                                              builder: (BuildContext context, BoxConstraints constraints) {
-                                                final double _priceTotal = double.parse(snapshot.data['products'][index]['price']) - double.parse(snapshot.data['products'][index]['discount']);
-                                                return Container(
-                                                  constraints: const BoxConstraints(),
-                                                  alignment: Alignment.center,
-                                                    child: Text(
-                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(_priceTotal),
-                                                    maxLines: 2,                         
-                                                    textAlign: TextAlign.center,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF000000),
-                                                      fontWeight: FontWeight.bold,
-                                                    fontSize: 16
-                                                  )
-                                                )
-                                              );
-                                            }
-                                          ),
-                                        ]
-                                      )
-                                    )
-                                  ]
-                                )
+                                Expanded(
+                                          child: Column(
+                                            children: [
+                                              LayoutBuilder(
+                                                  builder: (BuildContext context, BoxConstraints constraints) {
+                                                    return Container(
+                                                      constraints: const BoxConstraints(),
+                                                      alignment: Alignment.center,
+                                                        child: Text(
+                                                        '${snapshot.data['products'][index]['name']}',
+                                                        maxLines: 2,                         
+                                                        textAlign: TextAlign.center,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: const TextStyle(
+                                                          color: Color(0xFF000000),
+                                                          fontWeight: FontWeight.bold,
+                                                        fontSize: 16
+                                                      )
+                                                    )
+                                                  );
+                                                }
+                                              ),
+                                                const SizedBox(height: 4),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: LayoutBuilder(
+                                                        builder: (BuildContext context, BoxConstraints constraints) {
+                                                          return Container(
+                                                            constraints: const BoxConstraints(),
+                                                            alignment: Alignment.center,
+                                                              child: Text(
+                                                              intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data['products'][index]['price'])),
+                                                              maxLines: 2,                         
+                                                              textAlign: TextAlign.center,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: priceTotal != double.parse(snapshot.data['products'][index]['price']) ? 
+                                                                const TextStyle(
+                                                                  decoration: TextDecoration.lineThrough,
+                                                                  color: Color(0xFF000000),
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontSize: 13.5,
+                                                                ) 
+                                                                : 
+                                                                const TextStyle(
+                                                                decoration: TextDecoration.none,
+                                                                color: Color(0xFF000000),
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 16 
+                                                              )
+                                                            )
+                                                        );
+                                                      }
+                                                    ),
+                                                  ),          
+                                                ],
+                                              ),
+                                              const SizedBox(height: 4),
+                                              priceTotal < double.parse(snapshot.data['products'][index]['price']) ? 
+                                                Row(
+                                                  children: [              
+                                                    Expanded(
+                                                      child: LayoutBuilder(
+                                                        builder: (BuildContext context, BoxConstraints constraints) {                      
+                                                          return Container(
+                                                            constraints: const BoxConstraints(),
+                                                            alignment: Alignment.center,
+                                                              child: Text(
+                                                              intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(priceTotal),
+                                                              maxLines: 2,                         
+                                                              textAlign: TextAlign.center,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: const TextStyle(
+                                                                color: Color(0xFF000000),
+                                                                fontWeight: FontWeight.bold,
+                                                              fontSize: 16
+                                                            )
+                                                          )
+                                                        );
+                                                      }
+                                                    ),
+                                                  )  
+                                                ]
+                                              )  : Container(),
+                                            ]
+                                          )
+                                        )
                               ]
                             );
                           },
