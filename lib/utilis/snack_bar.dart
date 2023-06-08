@@ -7,11 +7,9 @@ Future<void> snackBar(BuildContext context, String txt) async {
   if (!show) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        behavior: SnackBarBehavior.floating,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0),
-            topRight: Radius.circular(20.0),
-          ),
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
         ),
         content: Text(
           txt,

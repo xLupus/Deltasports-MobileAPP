@@ -1,17 +1,20 @@
 import 'dart:convert';
-
-import 'package:deltasports_app/login_page.dart';
-import 'package:deltasports_app/perfil.dart';
-import 'package:deltasports_app/pesquisa.dart';
-import 'package:deltasports_app/produto.dart';
+import 'package:deltasports_app/categoria/categoria.dart';
+import 'package:deltasports_app/auth/login_page.dart';
+import 'package:deltasports_app/perfil/perfil.dart';
+import 'package:deltasports_app/produto/produto.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'carrinho.dart';
-import 'index.dart';
+import '../carrinho/carrinho.dart';
+import '../categoria/categorias.dart';
+
+import 'package:intl/intl.dart' as intl;
 import 'package:http/http.dart' as http;
 
-import 'produtos.dart';
+import '../partials/footer.dart';
+import '../produto/produtos.dart';
+import '../utilis/obter_imagem.dart';
 
 class ListagemPage extends StatefulWidget {
   const ListagemPage({Key? key, required foto}) : super(key: key);
@@ -88,7 +91,7 @@ class _ListagemPageState extends State<ListagemPage> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Preço: R\$ ${snapshot.data![index]['price'].toString()}',
+                            'Preço: ${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![index]['price']))}',
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -112,97 +115,8 @@ class _ListagemPageState extends State<ListagemPage> {
         },
       ),
       //Footer
-      bottomNavigationBar: NavigationBar(destinations: [
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProdutosPage(),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.home),
-                Text('Home'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ListagemPage(foto: {}),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.category),
-                Text('Produtos'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CarrinhoPage(),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.add_shopping_cart),
-                Text('Carrinho'),
-              ],
-            )),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PerfilPage(),
-                ),
-              );
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.person),
-                Text('Perfil'),
-              ],
-            )),
-        TextButton(
-          onPressed: () async {
-            bool saiu = await sair();
-            if (saiu) {
-              // ignore: use_build_context_synchronously
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const IndexPage(),
-                ),
-              );
-            }
-          },
-          child: const Text('Sair'),
-        ),
-      ], backgroundColor: GlobalColors.red), //fimFooter
+      bottomNavigationBar: const Footer() //fimFooter
     );
-  }
-
-  dynamic obterImagem(dynamic url) {
-    print(url);
-    if (url.length > 0 && url[0] != null && url[0]['url'] != '') {
-      return NetworkImage(url[0]['url']);
-    } else {
-      return const AssetImage('images/no_image.png');
-    }
   }
 
   Future<bool> verificarToker() async {

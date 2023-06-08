@@ -1,12 +1,12 @@
 import 'dart:convert' as convert;
 import 'dart:convert';
-import 'package:deltasports_app/produtos.dart';
+import 'package:deltasports_app/produto/produtos.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'utilis/snack_bar.dart';
+import '../utilis/snack_bar.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -100,7 +100,7 @@ class _LoginPageState extends State<Login> {
                                     }
                                     return null;
                                   },
-                                  initialValue: 'testeT@teste.com',
+                                  initialValue: 'teste@teste.com',
                                   keyboardType: TextInputType.emailAddress,
                                   decoration: const InputDecoration(
                                     labelText: 'Email'
@@ -223,9 +223,9 @@ class _LoginPageState extends State<Login> {
         await sharedPreference.setString('token', "Bearer ${convert.jsonDecode(response.body)['authorization']['token']}");
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const ProdutosPage()),
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            '/Produtos',
+            (route) => false,
           );
         });
         break;
@@ -246,9 +246,7 @@ class _LoginPageState extends State<Login> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           snackBar(context, 'Ocorreu um erro ao processar os dados');  
         });
-        setState(() {
-      isLoading = false;
-    });
+        setState(() {  isLoading = false; });
         break;
     }
     
