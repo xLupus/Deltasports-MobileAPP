@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'dart:convert';
 import '../utilis/global_colors.dart';
@@ -14,6 +15,10 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  /*final cpfFormatter = MaskedTextInputFormatter(
+    mask: '000.000.000-00',
+    separator: '.',
+  );*/
 
   var _nameError = '';
   dynamic data = '';
@@ -141,6 +146,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             return null;
                             },
                             keyboardType: TextInputType.number,
+                            maxLength: 11,
+                            //inputFormatters: [cpfFormatter],
                             decoration: const InputDecoration(
                               labelText: 'CPF',
                             ),
@@ -331,3 +338,38 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 }
 
+/*class MaskedTextInputFormatter extends TextInputFormatter {
+  final String mask;
+  final String separator;
+
+  MaskedTextInputFormatter({required this.mask, required this.separator});
+  
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (newValue.text.length > oldValue.text.length) {
+      var newText = '';
+      var maskIndex = 0;
+
+      for (var i = 0; i < newValue.text.length; i++) {
+        if (i >= mask.length) break;
+
+        if (mask[maskIndex] == '0') {
+          newText += newValue.text[i];
+          maskIndex++;
+        } else {
+          newText += separator + newValue.text[i];
+          maskIndex += 3;
+        }
+      }
+
+      return TextEditingValue(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length),
+      );
+    }
+
+    return newValue;
+  }*/
