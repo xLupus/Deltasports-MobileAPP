@@ -127,7 +127,7 @@ class CategoriaPageState extends State<CategoriaPage> {
                             )        
                           ]
                         ),
-                        const SizedBox(height: 35),
+                        const SizedBox(height: 30),
                         GridView.builder(
                           shrinkWrap: true,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
