@@ -109,11 +109,10 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                   Shortcuts(
                     shortcuts: const <ShortcutActivator, Intent> {
                   // Pressing space in the field will now move to the next field.
-                    SingleActivator(LogicalKeyboardKey.space): NextFocusIntent()
+                    SingleActivator(LogicalKeyboardKey.enter): NextFocusIntent()
                     },
                     child: FocusTraversalGroup(
                       child:  Form(
-                        autovalidateMode: AutovalidateMode.always,
                         onChanged: () {
                           Form.of(primaryFocus!.context!).save();
                         },

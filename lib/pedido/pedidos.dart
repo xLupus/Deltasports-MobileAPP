@@ -13,7 +13,7 @@ import '../partials/header.dart';
 import '../produto/produtos.dart';
 
 class PedidosPage extends StatefulWidget {
-  const PedidosPage({Key? key}) : super(key: key);
+  const PedidosPage({Key? key, required Map dados}) : super(key: key);
 
   @override
   State<PedidosPage> createState() => PedidosPageState();

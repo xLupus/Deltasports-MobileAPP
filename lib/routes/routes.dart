@@ -26,7 +26,7 @@ class AppPage {
     '/Perfil'       : (context) => const PerfilPage(),
     '/Editperfil'   : (context) => const EditperfilPage(),
     '/Enderecos'    : (context) => const EnderecoPage(),
-    '/MeusPedidos'  : (context) => const PedidosPage(),
+    '/MeusPedidos'  : (context) => const PedidosPage(dados: {},),
     '/Categorias'   : (context) => const CategoriasPage()
   };
 }
