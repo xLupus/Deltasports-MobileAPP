@@ -32,6 +32,8 @@ class _ListagemPageState extends State<ListagemPage> {
     listaFotos = pegarFotos();
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +41,9 @@ class _ListagemPageState extends State<ListagemPage> {
       body: FutureBuilder<List>(
         future: listaFotos,
         builder: (context, snapshot) {
+          
           if (snapshot.hasData) {
+
             return GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -49,6 +53,7 @@ class _ListagemPageState extends State<ListagemPage> {
               ),
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
+                final double _priceTotal = double.parse(snapshot.data![index]['price']) - double.parse(snapshot.data![index]['discount']);
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -75,14 +80,6 @@ class _ListagemPageState extends State<ListagemPage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'ID: ${snapshot.data![index]['id'].toString()}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
                             snapshot.data![index]['name'],
                             style: const TextStyle(
                               fontSize: 16,
@@ -91,7 +88,15 @@ class _ListagemPageState extends State<ListagemPage> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Preço: ${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![index]['price']))}',
+                            'Preço: ${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(_priceTotal)}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Desconto: ${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![index]['discount']))}',
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

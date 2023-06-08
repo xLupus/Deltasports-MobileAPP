@@ -6,6 +6,7 @@ import 'package:deltasports_app/auth/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'package:intl/intl.dart' as intl;
 
 import '../carrinho/carrinho.dart';
 import '../index/index.dart';
@@ -24,11 +25,15 @@ class ProdutoPage extends StatefulWidget {
 class _ProdutoPageState extends State<ProdutoPage> {
   int _qtdController = 1;
 
+  
   @override
   Widget build(BuildContext context) {
     setQtd(int value) => setState(() {
           _qtdController = value;
         });
+
+  final double _priceTotal = double.parse(widget.dados['price']) - double.parse(widget.dados['discount']);
+
 
     return Scaffold(
       appBar: AppBar(
@@ -87,7 +92,16 @@ class _ProdutoPageState extends State<ProdutoPage> {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 15),
-            Text('R\$ ${widget.dados['price']}',
+            Text('${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(widget.dados['price']))}',
+              style: TextStyle(
+                decoration: TextDecoration.lineThrough,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 15),
+            Text('${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(_priceTotal)}',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -100,7 +114,6 @@ class _ProdutoPageState extends State<ProdutoPage> {
               child: GestureDetector(
                 onTap: () => {
                   AdicionarCart()
-                  /* Navigator.of(context).pushReplacementNamed('/CarrinhoPage') */
                 },
                 child: Container(
                   padding: EdgeInsets.all(10),

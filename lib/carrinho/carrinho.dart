@@ -12,9 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../index/index.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart' as intl;
 
 import '../index/listagem.dart';
 import '../partials/footer.dart';
+import '../produto/produto.dart';
 
 /*void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
@@ -114,18 +116,18 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                           ],
                         ),
                         subtitle: Text(
-                          'R\$ ${snapshot.data![index]['price'].toString()}',
+                          '${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![index]['price']))}',
                           style: TextStyle(fontSize: 18.0),
                         ),
-                        onTap: () {
+                        /*onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  ProductDetailScreen(product: _items[index]),
+                                  ProdutoPage(dados: {},),
                             ),
                           );
-                        },
+                        },*/
                       );
                     },
                   );
@@ -150,7 +152,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
               children: [
                 Text('Total', style: TextStyle(fontSize: 24.0)),
                 Text(
-                  'R\$ ${_totalPrice.toStringAsFixed(2)}',
+                  '${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(_totalPrice)}',
                   style: TextStyle(fontSize: 24.0),
                 ),
               ],
