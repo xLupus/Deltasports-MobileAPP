@@ -65,6 +65,7 @@ class CategoriaPageState extends State<CategoriaPage> {
                   } else if(snapshot.hasError) {
                     return LayoutBuilder(
                       builder: (BuildContext context, BoxConstraints constraints) {
+                        
                         return FittedBox(
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.center,
@@ -84,6 +85,7 @@ class CategoriaPageState extends State<CategoriaPage> {
                       }
                     );      
                   } else {
+                    
                     return Column(
                       children: [
                         const SizedBox(
@@ -188,11 +190,12 @@ class CategoriaPageState extends State<CategoriaPage> {
                                             const SizedBox(height: 3),
                                             LayoutBuilder(
                                               builder: (BuildContext context, BoxConstraints constraints) {
+                                                final double _priceTotal = double.parse(snapshot.data['products'][index]['price']) - double.parse(snapshot.data['products'][index]['discount']);
                                                 return Container(
                                                   constraints: const BoxConstraints(),
                                                   alignment: Alignment.center,
                                                     child: Text(
-                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data['products'][index]['price'])),
+                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(_priceTotal),
                                                     maxLines: 2,                         
                                                     textAlign: TextAlign.center,
                                                     overflow: TextOverflow.ellipsis,

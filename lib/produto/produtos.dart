@@ -253,6 +253,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                                                                           context,
                                                                       BoxConstraints
                                                                           constraints) {
+                                                                            final double _priceTotal = double.parse(snapshot.data![0][val]['price']) - double.parse(snapshot.data![0][val]['discount']);
                                                                     return Container(
                                                                         constraints:
                                                                             const BoxConstraints(),
@@ -260,8 +261,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                                                                             Alignment
                                                                                 .centerLeft,
                                                                         child: Text(
-                                                                            intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![0][val][
-                                                                                'price'])),
+                                                                            intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(_priceTotal),
                                                                             overflow: TextOverflow
                                                                                 .ellipsis,
                                                                             style: const TextStyle(
