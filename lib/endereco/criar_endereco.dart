@@ -26,31 +26,22 @@ class CriarEnderecoPage extends StatefulWidget {
 
 class CriarEnderecoPageState extends State<CriarEnderecoPage> {
   final _formkey = GlobalKey<FormState>();
-/*  
-  TextEditingController txtCep = TextEditingController();
 
-  final TextEditingController _logradouroController = TextEditingController();
- */
-  String? _logradouroController;
-  setLogradouro(String value)     => _logradouroController = value;
+  dynamic complementoController;
+  setComplemento(String value)    => complementoController = value;
 
-  String? _complementoController;
-  setComplemento(String value)    => _complementoController = value;
+  dynamic numeroController;
+  setNumero(String value)         => numeroController = value;
 
-  String? _numeroController;
-  setNumero(String value)         => _numeroController = value;
+   dynamic tipoController;
+  setTipo(String value)           => tipoController = value;
 
-  String? _cepController;
-  setCEP(String value)            => _cepController = value;
 
-  String? _cidadeController;
-  setCidade(String value)         => _cidadeController = value;
+  TextEditingController cepController         = TextEditingController();
+  TextEditingController logradouroController  = TextEditingController();
+  TextEditingController cidadeController      = TextEditingController();
+  TextEditingController estadoController      = TextEditingController();
 
-  String? _estadoController;
-  setEstado(String value)         => _estadoController = value;
-
-  String? _tipoController;
-  setTipo(String value)           => _tipoController = value;
 
   @override
   Widget build(BuildContext context) {
@@ -106,29 +97,28 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                     ]
                   ),
                   const SizedBox(height: 50),
-                  Shortcuts(
+                 Shortcuts(
                     shortcuts: const <ShortcutActivator, Intent> {
                   // Pressing space in the field will now move to the next field.
                     SingleActivator(LogicalKeyboardKey.enter): NextFocusIntent()
                     },
                     child: FocusTraversalGroup(
                       child:  Form(
-                        onChanged: () {
-                          Form.of(primaryFocus!.context!).save();
-                        },
+            
                         key: _formkey,
                         child: SizedBox(
                           width: screenWidth * 0.80,
                           child: Column(
                             children: [
+                               
                               Row(
                                 children: [
                                   Expanded(
                                     child: TextFormField(
-                                      
+                                      controller: logradouroController,
+                              
                                       autofocus: true,
                                       keyboardType: TextInputType.text,
-                                      onChanged: setLogradouro,
                                       validator: (logradouro) {
                                         if (logradouro == null || logradouro.isEmpty) {
                                           return 'Preencha este campo';
@@ -168,8 +158,8 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                     flex: 2,
                                     child: TextFormField(
                                       autofocus: true,
+                                       onChanged: setNumero,
                                       keyboardType: TextInputType.number,
-                                      onChanged: setNumero,
                                       validator: (numero) {
                                         if (numero == null || numero.isEmpty) {
                                           return 'Preencha este campo';
@@ -191,10 +181,10 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                   Expanded(
                                     flex: 4,
                                     child: TextFormField(
-                            
+                                      maxLength: 8,
+                                      controller: cepController,
                                       autofocus: true,
                                       keyboardType: TextInputType.number,
-                                      onChanged: setCEP,
                                       validator: (cep) {
                                         if (cep == null || cep.isEmpty) {
                                           return 'Preencha este campo';
@@ -206,13 +196,15 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                       ),
                                     )
                                   ),
+                                   
+
                                   const Spacer(),
                                   Expanded(
                                     flex: 4,
                                     child: TextFormField(
+                                      controller: cidadeController,
                                       autofocus: true,
                                       keyboardType: TextInputType.text,
-                                      onChanged: setCidade,
                                       validator: (cidade) {
                                         if (cidade == null || cidade.isEmpty) {
                                           return 'Preencha este campo';
@@ -228,9 +220,9 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                   Expanded(
                                     flex: 2,
                                     child:  TextFormField(
+                                      controller: estadoController,
                                       autofocus: true,
                                       keyboardType: TextInputType.text,
-                                      onChanged: setEstado,
                                       validator: (estado) {
                                         if (estado == null || estado.isEmpty) {
                                           return 'Preencha este campo';
@@ -254,7 +246,7 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                     flex: 3,
                                     child:  TextFormField(
                                       autofocus: true,
-                                      onChanged: setTipo,
+                                       onChanged: setTipo,
                                       keyboardType: TextInputType.text,
                                       validator: (tipo) {
                                         if (tipo == null || tipo.isEmpty) {
@@ -270,8 +262,28 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                 ]
                               ),
 
-                              const SizedBox(height: 100),
-
+                              const SizedBox(height: 50),
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 20.0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: GlobalColors.blue,
+                                    padding: const EdgeInsets.all(10.0),
+                                    fixedSize: Size(200, 55.0),
+                                    foregroundColor: GlobalColors.white,
+                                    textStyle: const TextStyle(
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.w700
+                                    ),
+                                    elevation: 20.0,            
+                                    shadowColor: const Color(0xD2000000),                
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                                  ),
+                                  onPressed: buscarDadosCEP, 
+                                  child: const Text('Buscar')
+                                )
+                              ),
+                              const SizedBox(height: 20),
                             WillPopScope(
                               onWillPop: () async {
                                 Navigator.pushReplacement(
@@ -347,12 +359,6 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
     );
   }
 
-  Future<bool> sair() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.clear();
-    return true;
-  }
-
   Future<void> criar() async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
     var client = http.Client();
@@ -360,17 +366,27 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
     final headers = {
       'Authorization': '${sharedPreference.getString("token")}',
     };
+    print({
+       
+       
+       
+     tipoController,
+     complementoController,
+     numeroController,
+     
+
+    });
 
     var response = await client.post(
       url, 
       body: {
-        'name'        : _tipoController,
-        'street'      : _logradouroController,
-        'number'      : _numeroController,
-        'complement'  : _complementoController,
-        'zip_code'    : _cepController,
-        'city'        : _cidadeController,
-        'state'       : _estadoController,
+        'name'        : tipoController,
+        'street'      : logradouroController,
+        'number'      : numeroController,
+        'complement'  : complementoController,
+        'zip_code'    : cepController,
+        'city'        : cidadeController,
+        'state'       : estadoController,
       }, headers: headers
     );
     if (response.statusCode == 201) {
@@ -397,4 +413,27 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
      
     throw Exception('Ocorreu um erro ao cadastrar o endereço');
   }
+
+  Future<void> buscarDadosCEP() async {
+    try {
+      String cep = cepController.text;
+      final url = 'https://viacep.com.br/ws/$cep/json/';
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> dados = jsonDecode(response.body);
+  print(dados);
+        setState(() {
+          logradouroController.text = dados['logradouro'];
+          cidadeController.text = dados['localidade'];
+          estadoController.text = dados['uf'];
+        });
+      } else {
+        throw Exception('Erro ao buscar CEP');
+      }
+    } catch (e) {
+      // Tratar erro de busca do CEP
+    }
+  }
 }
+
