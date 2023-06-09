@@ -2,7 +2,7 @@ import 'package:deltasports_app/carrinho/carrinho.dart';
 import 'package:deltasports_app/index/index.dart';
 import 'package:deltasports_app/index/listagem.dart';
 import 'package:deltasports_app/perfil/perfil.dart';
-import 'package:deltasports_app/utilis/get_cep.dart';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;

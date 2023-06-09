@@ -36,17 +36,20 @@ class ProdutosPageState extends State<ProdutosPage> {
   //late Future<List> listaFotos;
   late Future<List<dynamic>> _data;
   late Future<dynamic> _category;
+  late Future<dynamic> _profile;
+
   late int id;
   var random = Random();
   
   @override
   Widget build(BuildContext context) {
-    double screenWidth  = MediaQuery.of(context).size.width;
-    double screenHeight  = MediaQuery.of(context).size.height;
+    double screenWidth    = MediaQuery.of(context).size.width;
+    double screenHeight   = MediaQuery.of(context).size.height;
 
     setState(() { 
       _data     = mostrar(); 
       _category = mostrarCategorias();
+      _profile  = perfil();
     });
 
     return Scaffold(
@@ -55,75 +58,9 @@ class ProdutosPageState extends State<ProdutosPage> {
         child: SingleChildScrollView(
           child: Center(
             child: SizedBox(
-              width: screenWidth * 0.8,
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 135,
-                    child: HeaderTwo()
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    children: [
-                      Expanded(
-                        child:  LayoutBuilder(
-                          builder: (BuildContext context, BoxConstraints constraints) {
-                            return FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerLeft,
-                              child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    const TextSpan(
-                                      text: 'Bem-vindo(a) ao ',
-                                      style: TextStyle(
-                                        color: Color(0xFF3D3D3D),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 24
-                                      )
-                                    ),
-                                    TextSpan(
-                                      text: 'Delta !',
-                                      style: TextStyle(
-                                        color: GlobalColors.blue,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 24
-                                      )
-                                    )
-                                  ]
-                                )
-                              )
-                            );
-                          }
-                        )
-                      )   
-                    ]
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: LayoutBuilder(
-                          builder: (BuildContext context, BoxConstraints constraints) {
-                            return const FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Usuário',
-                                  style: TextStyle(
-                                  color: Color(0xFF3D3D3D),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24
-                                )
-                              )
-                            );
-                          }
-                        )
-                      )
-                    ]
-                  ),
-                  const SizedBox(height: 30),
-                 FutureBuilder(
-                    future: Future.wait([_data, _category]),
+              width: screenWidth * 0.85,
+                child: FutureBuilder(
+                    future: Future.wait([_data, _category, _profile]),
                     builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
                       if(snapshot.connectionState == ConnectionState.waiting) {
                         return LayoutBuilder(
@@ -132,7 +69,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.center,
                               child: SizedBox(
-                                height: screenHeight - 315,
+                                height: screenHeight - 58,
                                 child: const Center(
                                   child: CircularProgressIndicator(
                                     color: Color(0xFFBABABA)
@@ -149,7 +86,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.center,
                               child: SizedBox(
-                                height: screenHeight - 315,
+                                height: screenHeight - 58,
                                 child: Center(
                                   child: Text(
                                     snapshot.error.toString().substring(11),
@@ -164,10 +101,83 @@ class ProdutosPageState extends State<ProdutosPage> {
                           }
                         );
                       } else {
-                        int val = random.nextInt(snapshot.data!.length - 1 + 1);
+                        int val = random.nextInt(snapshot.data![0].length - 1 + 1);
+                        final double priceTotal = double.parse(snapshot.data![0][val]['price']) - double.parse(snapshot.data![0][val]['discount']);
 
                         return Column(
                           children: [
+                            const SizedBox(
+                              height: 135,
+                              child: HeaderTwo()
+                            ),
+                            const SizedBox(height: 30),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child:  LayoutBuilder(
+                                    builder: (BuildContext context, BoxConstraints constraints) {
+                                      return FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        alignment: Alignment.centerLeft,
+                                        child: RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                text: 'Bem-vindo(a) ao ',
+                                                style: TextStyle(
+                                                  color: Color(0xFF3D3D3D),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 24
+                                                )
+                                              ),
+                                              TextSpan(
+                                                text: 'Delta',
+                                                style: TextStyle(
+                                                  color: GlobalColors.blue,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 24
+                                                )
+                                              ),
+                                              const TextSpan(
+                                                text: ' !',
+                                                style: TextStyle(
+                                                  color: Color(0xFF3D3D3D),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 24
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        )
+                                      );
+                                    }
+                                  )
+                                )   
+                              ]
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: LayoutBuilder(
+                                    builder: (BuildContext context, BoxConstraints constraints) {
+                                      return FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            snapshot.data![2]['name'],
+                                            style: const TextStyle(
+                                            color: Color(0xFF3D3D3D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 24
+                                          )
+                                        )
+                                      );
+                                    }
+                                  )
+                                )
+                              ]
+                            ),
+                            const SizedBox(height: 30),
                            Row(
                             children: [
                               Expanded(
@@ -264,23 +274,58 @@ class ProdutosPageState extends State<ProdutosPage> {
                                                   const Spacer(),
                                                     Expanded(
                                                       flex: 3,
-                                                      child: LayoutBuilder(
-                                                        builder: (BuildContext context, BoxConstraints constraints) {
-                                                          return Container(
-                                                            constraints: const BoxConstraints(),
-                                                              alignment: Alignment.centerLeft,
-                                                              child: Text(
-                                                                intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![0][val]['price'])),                
-                                                                overflow: TextOverflow.ellipsis,
-                                                                style: const TextStyle(
-                                                                  color: Color(0xFF000000),
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: 16
-                                                                )
-                                                              )
-                                                            );
-                                                          }
-                                                        ),
+                                                      child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child: LayoutBuilder(
+                                                            builder: (BuildContext context, BoxConstraints constraints) {
+                                                              return Container(
+                                                                constraints: const BoxConstraints(),
+                                                                  alignment: Alignment.centerLeft,
+                                                                  child: Text(
+                                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![0][val]['price'])),                
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                     style: priceTotal != double.parse(snapshot.data![0][val]['price']) ? 
+                                                                      const TextStyle(
+                                                                        decoration: TextDecoration.lineThrough,
+                                                                        color: Color(0xFF000000),
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 13.5,
+                                                                      ) 
+                                                                      : 
+                                                                      const TextStyle(
+                                                                      decoration: TextDecoration.none,
+                                                                      color: Color(0xFF000000),
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontSize: 16 
+                                                                    )
+                                                                  )
+                                                                );
+                                                              }
+                                                            ),
+                                                          ),
+                                                          priceTotal < double.parse(snapshot.data![0][val]['price']) ? 
+                                                          Expanded(
+                                                            child: LayoutBuilder(
+                                                            builder: (BuildContext context, BoxConstraints constraints) {
+                                                              return Container(
+                                                                constraints: const BoxConstraints(),
+                                                                  alignment: Alignment.centerLeft,
+                                                                  child: Text(
+                                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(priceTotal),                
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    style: const TextStyle(
+                                                                      color: Color(0xFF000000),
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontSize: 16
+                                                                    )
+                                                                  )
+                                                                );
+                                                              }
+                                                            )
+                                                          ) : Container(),
+                                                        ]
+                                                      )
                                                       )
                                                     ],
                                                   );
@@ -575,13 +620,13 @@ class ProdutosPageState extends State<ProdutosPage> {
                                   enableInfiniteScroll: true,
                                   reverse: false,
                                   autoPlay: true,
-                                  autoPlayInterval: Duration(seconds: 6),
-                                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                                  autoPlayInterval: const Duration(seconds: 6),
+                                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
                                   autoPlayCurve: Curves.fastOutSlowIn,
                                   enlargeCenterPage: true,
                                   onPageChanged: (index, reason) {},
                                   scrollDirection: Axis.horizontal,
-                                  height: 310
+                                  height: 340
                                 ),
                               ),
                               const SizedBox(height: 10),
@@ -662,13 +707,13 @@ class ProdutosPageState extends State<ProdutosPage> {
                                 enableInfiniteScroll: true,
                                 reverse: false,
                                 autoPlay: true,
-                                autoPlayInterval: Duration(seconds: 6),
-                                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                                autoPlayInterval: const Duration(seconds: 6),
+                                autoPlayAnimationDuration: const Duration(milliseconds: 800),
                                 autoPlayCurve: Curves.fastOutSlowIn,
                                 enlargeCenterPage: true,
                                 onPageChanged: (index, reason) {},
                                 scrollDirection: Axis.horizontal, 
-                                height: 310
+                                height: 340
                               ),
                             )
                           ]
@@ -676,8 +721,6 @@ class ProdutosPageState extends State<ProdutosPage> {
                       }
                     }
                   )
-                ]
-              )
             )
           )
         )
@@ -726,5 +769,23 @@ class ProdutosPageState extends State<ProdutosPage> {
     }
 
     throw Exception('Ocorreu um erro ao retornar as categorias');
+  }
+
+  Future<void> perfil() async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    var client = http.Client();
+    var url = Uri.parse('http://127.0.0.1:8000/api/user');
+
+    final headers = {'Authorization': '${sharedPreference.getString("token")}'};
+
+    var response = await client.get(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> user = json.decode(response.body);
+
+      return user['data'];
+    }
+
+    throw Exception('Erro ao carregar os dados do Usuário');
   }
 }

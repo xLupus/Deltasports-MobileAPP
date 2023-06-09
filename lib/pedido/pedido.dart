@@ -43,7 +43,7 @@ class PedidoPageState extends State<PedidoPage> {
         child: SingleChildScrollView(
           child: Center(
               child: SizedBox(
-                 width: screenWidth * 0.8,
+                 width: screenWidth * 0.85,
                   child: FutureBuilder(
                     future: _data,
                       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -403,6 +403,8 @@ class PedidoPageState extends State<PedidoPage> {
                                       shrinkWrap: true,
                                       itemCount: snapshot.data['items'].length,
                                       itemBuilder: (context, index) {
+                                        final double priceTotal = double.parse(snapshot.data['items'][index]['product']['price']) - double.parse(snapshot.data['items'][index]['product']['discount']);
+
                                         return Container(
                                           margin: const EdgeInsets.only(top: 20, bottom: 20),
                                           height: 130,                               
@@ -498,23 +500,59 @@ class PedidoPageState extends State<PedidoPage> {
                                                   const Spacer(),
                                                    Expanded(
                                                     flex: 3,
-                                                    child: LayoutBuilder(
-                                                          builder: (BuildContext context, BoxConstraints constraints) {
-                                                            return Container(
-                                                              constraints: const BoxConstraints(),
-                                                              alignment: Alignment.centerLeft,
-                                                              child: Text(
-                                                                intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data['items'][index]['product']['price'])),                
-                                                                overflow: TextOverflow.ellipsis,
-                                                                style: const TextStyle(
-                                                                  color: Color(0xFF000000),
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: 16
-                                                                )
-                                                              )
-                                                            );
-                                                          }
-                                                        ),
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                            child: LayoutBuilder(
+                                                            builder: (BuildContext context, BoxConstraints constraints) {
+                                                              return Container(
+                                                                constraints: const BoxConstraints(),
+                                                                  alignment: Alignment.centerLeft,
+                                                                  child: Text(
+                                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data['items'][index]['product']['price'])),                
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                     style: priceTotal != double.parse(snapshot.data['items'][index]['product']['price']) ? 
+                                                                      const TextStyle(
+                                                                        decoration: TextDecoration.lineThrough,
+                                                                        color: Color(0xFF000000),
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 13.5,
+                                                                      ) 
+                                                                      : 
+                                                                      const TextStyle(
+                                                                      decoration: TextDecoration.none,
+                                                                      color: Color(0xFF000000),
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontSize: 16 
+                                                                    )
+                                                                  )
+                                                                );
+                                                              }
+                                                            ),
+                                                          ),
+                                                           priceTotal < double.parse(snapshot.data['items'][index]['product']['price']) ? 
+                                                          Expanded(
+                                                            child: LayoutBuilder(
+                                                            builder: (BuildContext context, BoxConstraints constraints) {
+                                                              return Container(
+                                                                constraints: const BoxConstraints(),
+                                                                  alignment: Alignment.centerLeft,
+                                                                  child: Text(
+                                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(priceTotal),                
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    style: const TextStyle(
+                                                                      color: Color(0xFF000000),
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontSize: 16
+                                                                    )
+                                                                  )
+                                                                );
+                                                              }
+                                                            )
+                                                          ) : Container(),
+                                                        
+                                                      ],
+                                                    )
                                                    )
                                                   ],
                                                 );

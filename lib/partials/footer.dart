@@ -20,8 +20,8 @@ class FooterState extends State<Footer> {
   PageController _pageController = PageController();
   
   final List<Widget> _screens = [
-    const ListagemPage(foto: {}),
     const ProdutosPage(),
+    const ListagemPage(foto: {}),
     const CarrinhoPage(),
     const PerfilPage()
   ];

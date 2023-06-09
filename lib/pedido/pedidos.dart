@@ -13,7 +13,7 @@ import '../partials/header.dart';
 import '../produto/produtos.dart';
 
 class PedidosPage extends StatefulWidget {
-  const PedidosPage({Key? key}) : super(key: key);
+  const PedidosPage({Key? key, required Map dados}) : super(key: key);
 
   @override
   State<PedidosPage> createState() => PedidosPageState();
@@ -36,7 +36,7 @@ class PedidosPageState extends State<PedidosPage> {
         child: SingleChildScrollView(
           child: Center(
             child: SizedBox(
-              width: screenWidth * 0.8,
+              width: screenWidth * 0.85,
               child: Column(
                 children: [
                   const SizedBox(
