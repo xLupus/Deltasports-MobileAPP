@@ -86,10 +86,6 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         print(snapshot.data![index]);
-                    while(snapshot.data![index]['total_price'] > val) {
-                            val += 700;
-                            frete += 7.37;
-                          }
                         return ListTile(
                           title: Text(snapshot.data![index]['name']),
                           trailing: Row(

@@ -104,19 +104,16 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                     },
                     child: FocusTraversalGroup(
                       child:  Form(
-            
                         key: _formkey,
                         child: SizedBox(
                           width: screenWidth * 0.80,
                           child: Column(
                             children: [
-                               
                               Row(
                                 children: [
                                   Expanded(
                                     child: TextFormField(
                                       controller: logradouroController,
-                              
                                       autofocus: true,
                                       keyboardType: TextInputType.text,
                                       validator: (logradouro) {
@@ -366,29 +363,20 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
     final headers = {
       'Authorization': '${sharedPreference.getString("token")}',
     };
-    print({
-       
-       
-       
-     tipoController,
-     complementoController,
-     numeroController,
-     
-
-    });
 
     var response = await client.post(
       url, 
       body: {
         'name'        : tipoController,
-        'street'      : logradouroController,
+        'street'      : logradouroController.text,
         'number'      : numeroController,
         'complement'  : complementoController,
-        'zip_code'    : cepController,
-        'city'        : cidadeController,
-        'state'       : estadoController,
+        'zip_code'    : cepController.text,
+        'city'        : cidadeController.text,
+        'state'       : estadoController.text,
       }, headers: headers
     );
+
     if (response.statusCode == 201) {
       Map<String, dynamic> data = jsonDecode(response.body);
       WidgetsBinding.instance.addPostFrameCallback((_) { 
@@ -422,7 +410,7 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
 
       if (response.statusCode == 200) {
         Map<String, dynamic> dados = jsonDecode(response.body);
-  print(dados);
+        
         setState(() {
           logradouroController.text = dados['logradouro'];
           cidadeController.text = dados['localidade'];
