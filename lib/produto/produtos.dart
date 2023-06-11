@@ -1,29 +1,21 @@
 import 'dart:convert';
-import 'dart:html';
 import 'dart:math';
-import 'package:carousel_slider/carousel_options.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:deltasports_app/categoria/categorias.dart';
-import 'package:deltasports_app/index/home.dart';
-import 'package:deltasports_app/carrinho/carrinho.dart';
-import 'package:deltasports_app/auth/login_page.dart';
-import 'package:deltasports_app/perfil/perfil.dart';
-import 'package:deltasports_app/produto/pesquisa.dart';
+
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../categoria/categoria.dart';
-import '../index/index.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart' as intl;
 
-import '../index/listagem.dart';
 import '../partials/footer.dart';
 import '../partials/header.dart';
 import '../utilis/obter_imagem.dart';
 import 'produto.dart';
-
-
 
 class ProdutosPage extends StatefulWidget {
   const ProdutosPage({Key? key}) : super(key: key);
@@ -184,20 +176,16 @@ class ProdutosPageState extends State<ProdutosPage> {
                                 child:  Container(
                                   margin: const EdgeInsets.only(top: 20, bottom: 20),
                                   height: 130,                               
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Colors.white,
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Color(0x6D000000),
                                         offset: Offset(0, 4),
                                         blurRadius: 4
                                       )
                                     ],
-                                    border: Border.all(
-                                      width: 3,
-                                      color: Colors.transparent
-                                    ),
-                                    borderRadius: const BorderRadius.all(Radius.circular(22.0))
+                                    borderRadius: BorderRadius.all(Radius.circular(22.0))
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 22.0),
@@ -206,8 +194,8 @@ class ProdutosPageState extends State<ProdutosPage> {
                                           LayoutBuilder(
                                             builder: (context, constraints) {
                                             return Container(              
-                                              height: 106,
-                                              width: 106,
+                                              height: 110,
+                                              width: 110,
                                               decoration: BoxDecoration(
                                                   borderRadius: const BorderRadius.all(Radius.circular(14.0)),
                                                   color: const Color(0xFFE5E5E5),
@@ -372,7 +360,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                               )
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
                           Row(
                             children: [
                               Expanded(
@@ -416,15 +404,17 @@ class ProdutosPageState extends State<ProdutosPage> {
                               )
                             ]
                           ),
-                          const SizedBox(height: 10),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child:  SizedBox(
-                              height: 86,
-                              child: ListView.builder(
+                          const SizedBox(height: 30),
+                           SizedBox(
+                            
+                              height: 66,
+                              child: ListView.separated(
                               shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
                               itemCount: snapshot.data![1].length,
+                              scrollDirection: Axis.horizontal,
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(width: 10);
+                              },
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
@@ -434,9 +424,9 @@ class ProdutosPageState extends State<ProdutosPage> {
                                     );
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 15, bottom: 15, right: 10),
+                                    margin: const EdgeInsets.only(bottom: 6),
                                     width: 100,
-                                    height: 70,                               
+                                    height: 66,
                                     decoration: BoxDecoration(
                                       color: GlobalColors.blue,
                                       boxShadow: const [
@@ -446,16 +436,11 @@ class ProdutosPageState extends State<ProdutosPage> {
                                           blurRadius: 4
                                         )
                                       ],
-                                      border: Border.all(
-                                        width: 3,
-                                        color: GlobalColors.blue
-                                      ),
                                       borderRadius: const BorderRadius.all(Radius.circular(10.0))
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.all(15.0),
-                                      child: Column(
-                                        children: [
+                                      child: 
                                           Row(
                                             children: [
                                               Expanded(
@@ -467,6 +452,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                                                           alignment: Alignment.center,
                                                           child: Text(
                                                             '${snapshot.data![1][index]['name']}',
+
                                                             style: const TextStyle(
                                                               color: Color(0xFFFFFFFF),
                                                               fontWeight: FontWeight.bold,
@@ -479,17 +465,17 @@ class ProdutosPageState extends State<ProdutosPage> {
                                                   )
                                                 )
                                               ]
-                                            )
-                                          ]
+                                            
+                                          
                                         )
                                       )
                                     )
                                   );
                                 }
                               )
-                              )
-                            ),
-                            const SizedBox(height: 10),
+                              ),
+                         
+                            const SizedBox(height: 20),
                             Row(
                               children: [
                                 Expanded(
@@ -552,7 +538,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                                   crossAxisSpacing: 15,
                                   mainAxisSpacing: 8,
                                   childAspectRatio: 1 / 1.6,
-                                ), 
+                                ),
                                 itemBuilder: (context, index) {
                                   return Column(
                                     children: [

@@ -1,14 +1,9 @@
 import 'dart:convert';
-import 'package:deltasports_app/perfil/perfil.dart';
-import 'package:deltasports_app/produto/produtos.dart';
 import 'package:http/http.dart' as http;
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../carrinho/carrinho.dart';
-import '../index/index.dart';
-import '../index/listagem.dart';
 import '../partials/footer.dart';
 import '../partials/header.dart';
 
@@ -245,6 +240,6 @@ class _EditperfilPageState extends State<EditperfilPage> {
       return false;
     }
 
-    throw Exception('Erro ao carregar dados do Usuario');
+   //throw Exception('Erro ao carregar dados do Usuario');
   }
 }

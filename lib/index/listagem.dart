@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:http/http.dart' as http;
 
-import '../endereco/criar_endereco.dart';
 import '../partials/footer.dart';
 import '../partials/header.dart';
 import '../utilis/obter_imagem.dart';
@@ -82,12 +81,7 @@ class ListagemPageState extends State<ListagemPage> {
                           ),
                           Expanded(
                             child: GestureDetector(
-                            onTap: () { 
-                              Navigator.pushReplacement(
-                                context,
-                              MaterialPageRoute(builder: (context) => const CriarEnderecoPage()),
-                            );    
-                          },
+                            onTap: () { Navigator.pushNamed(context, '/Filtro');},
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: Icon(
@@ -145,14 +139,15 @@ class ListagemPageState extends State<ListagemPage> {
                       } else {
                         return Column(
                         children: [  
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child:  SizedBox(
-                              height: 86,
-                              child: ListView.builder(
+                           SizedBox(
+                              height: 66,
+                              child: ListView.separated(
                                 shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
                                 itemCount: snapshot.data![0].length,
+                                scrollDirection: Axis.horizontal,
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(width: 10);
+                                },
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
@@ -162,9 +157,9 @@ class ListagemPageState extends State<ListagemPage> {
                                       );
                                     },
                                     child: Container(
-                                      margin: const EdgeInsets.only(top: 15, bottom: 15, right: 10),
+                                       margin: const EdgeInsets.only(bottom: 6),
                                       width: 100,
-                                      height: 70,                               
+                                      height: 66,                             
                                       decoration: BoxDecoration(
                                         color: GlobalColors.blue,
                                         boxShadow: const [
@@ -182,8 +177,7 @@ class ListagemPageState extends State<ListagemPage> {
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(15.0),
-                                        child: Column(
-                                          children: [
+                                        child: 
                                             Row(
                                               children: [
                                                 Expanded(
@@ -208,15 +202,15 @@ class ListagemPageState extends State<ListagemPage> {
                                                   )
                                                 ]
                                               )
-                                            ]
-                                          )
+                                            
+                                          
                                         )
                                       )
                                     );
                                   }
                                 )
-                              )
-                            ),
+                              ),
+                            
                             const SizedBox(height: 30),
                             GridView.builder(
                               shrinkWrap: true,

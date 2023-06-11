@@ -1,16 +1,11 @@
-import 'package:deltasports_app/perfil/perfil.dart';
-import 'package:deltasports_app/produto/produtos.dart';
 import 'package:flutter/material.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
-import 'package:deltasports_app/auth/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:intl/intl.dart' as intl;
 
 import '../carrinho/carrinho.dart';
-import '../index/index.dart';
-import '../index/listagem.dart';
 import '../partials/footer.dart';
 
 class ProdutoPage extends StatefulWidget {

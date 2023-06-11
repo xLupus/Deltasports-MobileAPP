@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:deltasports_app/carrinho/carrinho.dart';
-import 'package:deltasports_app/index/listagem.dart';
-import 'package:deltasports_app/produto/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +10,6 @@ import 'package:http/http.dart' as http;
 
 import '../partials/footer.dart';
 import '../partials/header.dart';
-import '../perfil/perfil.dart';
 import '../utilis/obter_imagem.dart';
 
 class PedidoPage extends StatefulWidget {
@@ -408,30 +404,26 @@ class PedidoPageState extends State<PedidoPage> {
                                         return Container(
                                           margin: const EdgeInsets.only(top: 20, bottom: 20),
                                           height: 130,                               
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Colors.white,
-                                            boxShadow: const [
+                                            boxShadow: [
                                               BoxShadow(
                                                 color: Color(0x6D000000),
                                                 offset: Offset(0, 4),
                                                 blurRadius: 4
                                               )
                                             ],
-                                            border: Border.all(
-                                              width: 3,
-                                              color: Colors.transparent
-                                            ),
-                                            borderRadius: const BorderRadius.all(Radius.circular(22.0))
+                                            borderRadius: BorderRadius.all(Radius.circular(22.0))
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: const EdgeInsets.all(10.0),
                                             child: Row(
                                               children: [                  
                                                 LayoutBuilder(
                                                   builder: (context, constraints) {
                                                     return Container(              
-                                                      height: 106,
-                                                      width: 106,
+                                                      height: 110,
+                                                      width: 110,
                                                       decoration: 
                                                       BoxDecoration(
                                                         borderRadius: const BorderRadius.all(Radius.circular(14.0)),

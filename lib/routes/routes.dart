@@ -1,4 +1,5 @@
 import 'package:deltasports_app/categoria/categorias.dart';
+import 'package:deltasports_app/index/filtro.dart';
 import 'package:flutter/material.dart';
 
 import 'package:deltasports_app/pedido/pedidos.dart';
@@ -27,6 +28,7 @@ class AppPage {
     '/Editperfil'   : (context) => const EditperfilPage(),
     '/Enderecos'    : (context) => const EnderecoPage(),
     '/MeusPedidos'  : (context) => const PedidosPage(dados: {},),
-    '/Categorias'   : (context) => const CategoriasPage()
+    '/Categorias'   : (context) => const CategoriasPage(),
+    '/Filtro'       : (context) => const FiltroPage(),
   };
 }

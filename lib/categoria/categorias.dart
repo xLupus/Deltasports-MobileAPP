@@ -1,17 +1,13 @@
-import 'package:deltasports_app/carrinho/carrinho.dart';
-import 'package:deltasports_app/categoria/categoria.dart';
-import 'package:deltasports_app/index/index.dart';
-import 'package:deltasports_app/index/listagem.dart';
-
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:deltasports_app/categoria/categoria.dart';
+
 import '../../../utilis/global_colors.dart';
 import '../partials/footer.dart';
 import '../partials/header.dart';
-import '../produto/produtos.dart';
 
 class CategoriasPage extends StatefulWidget {
   const CategoriasPage({Key? key}) : super(key: key);
@@ -144,40 +140,32 @@ class CategoriasPageState extends State<CategoriasPage> {
                                       blurRadius: 4
                                     )
                                   ],
-                                  border: Border.all(
-                                    width: 3,
-                                    color: GlobalColors.blue
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10.0))
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Column(
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0))
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: 
+                                  Row(
                                     children: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Center(
-                                              child: LayoutBuilder(
-                                                  builder: (BuildContext context, BoxConstraints constraints) {
-                                                    return FittedBox(
-                                                      fit: BoxFit.scaleDown,
-                                                      alignment: Alignment.center,
-                                                      child: Text(
-                                                        '${snapshot.data![index]['name']}',
-                                                        style: const TextStyle(
-                                                          color: Color(0xFFFFFFFF),
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: 24
-                                                        )
-                                                      )
-                                                    );
-                                                  }
-                                                ),
-                                              
-                                            ),
-                                          )
-                                        ]
+                                      Expanded(
+                                        child: Center(
+                                          child: LayoutBuilder(
+                                            builder: (BuildContext context, BoxConstraints constraints) {
+                                              return FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  '${snapshot.data![index]['name']}',
+                                                   style: const TextStyle(
+                                                    color: Color(0xFFFFFFFF),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 24
+                                                  )
+                                                )
+                                              );
+                                            }
+                                          ),
+                                        ),
                                       )
                                     ]
                                   )

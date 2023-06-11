@@ -1,5 +1,3 @@
-import 'package:deltasports_app/carrinho/carrinho.dart';
-import 'package:deltasports_app/index/listagem.dart';
 import 'package:deltasports_app/pedido/pedido.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -10,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../utilis/global_colors.dart';
 import '../partials/footer.dart';
 import '../partials/header.dart';
-import '../produto/produtos.dart';
 
 class PedidosPage extends StatefulWidget {
   const PedidosPage({Key? key, required Map dados}) : super(key: key);
@@ -128,30 +125,26 @@ class PedidosPageState extends State<PedidosPage> {
                             return Container(
                               margin: const EdgeInsets.only(top: 20, bottom: 20),
                               height: 130,                               
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Colors.white,
-                                boxShadow: const [
+                                boxShadow: [
                                   BoxShadow(
                                     color: Color(0x6D000000),
                                     offset: Offset(0, 4),
                                     blurRadius: 4
                                   )
                                 ],
-                                border: Border.all(
-                                  width: 3,
-                                  color: Colors.transparent
-                                ),
-                                borderRadius: const BorderRadius.all(Radius.circular(22.0))
+                                borderRadius: BorderRadius.all(Radius.circular(22.0))
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(10.0),
                                 child: Row(
                                   children: [                  
                                      LayoutBuilder(
                                         builder: (context, constraints) {
                                           return Container(
-                                            width: 106, // usa a largura máxima disponível
-                                            height: 106, // usa a altura máxima disponível
+                                            width: 110, // usa a largura máxima disponível
+                                            height: 110, // usa a altura máxima disponível
                                             decoration: const BoxDecoration(
                                               color: Color(0xFFE5E5E5),
                                               borderRadius: BorderRadius.all(Radius.circular(14.0)),
@@ -165,7 +158,7 @@ class PedidosPageState extends State<PedidosPage> {
                                                       'Pedido',
                                                       style: TextStyle(
                                                         color: Color(0xFF656565),
-                                                        fontSize: 18.5,
+                                                        fontSize: 20,
                                                         fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
@@ -178,7 +171,7 @@ class PedidosPageState extends State<PedidosPage> {
                                                       snapshot.data![index]['id'] < 100  ? '#00${snapshot.data![index]['id']}' : '#0${snapshot.data![index]['id']}' ,
                                                       style: const TextStyle(
                                                         color: Color(0xFF656565),
-                                                        fontSize: 18.5,
+                                                        fontSize: 20,
                                                         fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
@@ -192,11 +185,10 @@ class PedidosPageState extends State<PedidosPage> {
  
                                     const Spacer(),
                                     Expanded(
-                                      flex: 6,
+                                      flex: 5,
                                       child: LayoutBuilder(
                                         builder: (BuildContext context, BoxConstraints constraints) {
                                           return Container(
-
                                             constraints: const BoxConstraints(),
                                             alignment: Alignment.center,
                                             child: Text(

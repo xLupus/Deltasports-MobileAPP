@@ -14,7 +14,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/global_colors.dart';
 import '../../utilis/snack_bar.dart';
-import '../produto/produtos.dart';
 
 
 void main() {
