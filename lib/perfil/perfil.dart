@@ -1,10 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:deltasports_app/auth/login_page.dart';
-import 'package:deltasports_app/carrinho/carrinho.dart';
-import 'package:deltasports_app/index/listagem.dart';
-import 'package:deltasports_app/produto/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
 
-import '../index/index.dart';
 import '../partials/footer.dart';
 import '../partials/header.dart';
 

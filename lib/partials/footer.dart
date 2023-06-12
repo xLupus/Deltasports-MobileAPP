@@ -4,7 +4,6 @@ import '../carrinho/carrinho.dart';
 import '../index/listagem.dart';
 import '../perfil/perfil.dart';
 import '../produto/produtos.dart';
-import '../main.dart';
 import '../utilis/global_colors.dart';
 
 class Footer extends StatefulWidget {
@@ -17,7 +16,7 @@ class Footer extends StatefulWidget {
 class FooterState extends State<Footer> {
   int _selectedIndex = 0;
   final Color backgroundColor = GlobalColors.red;
-  PageController _pageController = PageController();
+  //PageController _pageController = PageController();
   
   final List<Widget> _screens = [
     const ProdutosPage(),

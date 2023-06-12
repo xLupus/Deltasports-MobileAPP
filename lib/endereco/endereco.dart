@@ -1,8 +1,3 @@
-import 'package:deltasports_app/carrinho/carrinho.dart';
-import 'package:deltasports_app/index/index.dart';
-import 'package:deltasports_app/index/listagem.dart';
-import 'package:deltasports_app/perfil/perfil.dart';
-
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -12,7 +7,6 @@ import '../../utilis/global_colors.dart';
 import '../../utilis/snack_bar.dart';
 import '../partials/footer.dart';
 import '../partials/header.dart';
-import '../produto/produtos.dart';
 import 'criar_endereco.dart';
 import 'editar_endereco.dart';
 
