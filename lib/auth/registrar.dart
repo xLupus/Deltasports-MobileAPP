@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import '../utilis/global_colors.dart';
 import 'package:http/http.dart' as http;
-import 'login_page.dart';
+import 'login.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);

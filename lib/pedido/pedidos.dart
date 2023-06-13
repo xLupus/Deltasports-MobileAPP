@@ -18,7 +18,6 @@ class PedidosPage extends StatefulWidget {
 
 class PedidosPageState extends State<PedidosPage> {
   late Future<List<dynamic>> _data;
-  late int id;
 
   @override
   Widget build(BuildContext context) {

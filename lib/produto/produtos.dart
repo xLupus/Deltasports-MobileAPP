@@ -25,12 +25,10 @@ class ProdutosPage extends StatefulWidget {
 }
 
 class ProdutosPageState extends State<ProdutosPage> {
-  //late Future<List> listaFotos;
   late Future<List<dynamic>> _data;
   late Future<dynamic> _category;
   late Future<dynamic> _profile;
 
-  late int id;
   var random = Random();
   
   @override

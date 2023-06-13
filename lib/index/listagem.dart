@@ -81,7 +81,7 @@ class ListagemPageState extends State<ListagemPage> {
                           ),
                           Expanded(
                             child: GestureDetector(
-                            onTap: () { Navigator.pushNamed(context, '/Filtro');},
+                            onTap: () { Navigator.pushNamed(context, '/Filtros');},
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: Icon(

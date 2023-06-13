@@ -1,62 +1,35 @@
 import 'dart:convert';
 
-import 'package:deltasports_app/index/home.dart';
-import 'package:deltasports_app/carrinho/carrinho.dart';
-import 'package:deltasports_app/auth/login_page.dart';
-import 'package:deltasports_app/pedido/pedidos.dart';
-import 'package:deltasports_app/perfil/perfil.dart';
-import 'package:deltasports_app/produto/pesquisa.dart';
-import 'package:deltasports_app/produto/produtos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../index/index.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart' as intl;
 
-import '../index/listagem.dart';
 import '../partials/footer.dart';
-import '../produto/produto.dart';
-
-/*void main() => runApp(MyApp());
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Carrinho de Compras',
-      home: Carrinho(),
-    );
-  }
-} */
+import '../partials/header.dart';
+import '../utilis/obter_imagem.dart';
 
 class CarrinhoPage extends StatefulWidget {
   const CarrinhoPage({Key? key}) : super(key: key);
   @override
-  _CarrinhoPageState createState() => _CarrinhoPageState();
+  CarrinhoPageState createState() => CarrinhoPageState();
 }
 
-class _CarrinhoPageState extends State<CarrinhoPage> {
-  late Future<List> exibirCarrinho;
+class CarrinhoPageState extends State<CarrinhoPage> {
+  late Future<dynamic>_data;
   // dynamic items;
 
-  double frete = 0;
-  int val = 700;
+  double frete  = 0;
+  int val       = 700;
 
   @override
-  initState() {
+  initState() { 
     super.initState();
-    exibirCarrinho = produtos();
+    _data = mostrar(); 
   }
 
-  final List<Product> items = [
-    Product(
-      name: 'oi',
-      price: 10.0,
-      quantity: 1,
-      description: 'Descrição do Item 1',
-      image: 'https://picsum.photos/200',
-    ),
-  ];
+  List<Product> items = [];
 
   double _totalPrice = 0;
 
@@ -68,190 +41,502 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-        appBar: AppBar(
-            title: const Text('Carrinho de Compras'),
-            backgroundColor: GlobalColors.red),
-        body: Column(
-          children: [
-            Expanded(
-              child: FutureBuilder<List>(
-                future: exibirCarrinho,
-                builder: (context, snapshot) {
-                  
-                  if (snapshot.hasData) {
-                    
-                    print(snapshot.data);
-                    return ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        print(snapshot.data![index]);
-                        return ListTile(
-                          title: Text(snapshot.data![index]['name']),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.remove),
-                                onPressed: () {
-                                  setState(() {
-                                    if (items[index].quantity > 1) {
-                                      items[index].quantity--;
-                                      items[index].updateTotalPrice();
-                                      _updateTotalPrice();
-                                    } else {
-                                      items.removeAt(index);
-                                      print({items, index});
-                                      _updateTotalPrice();
-                                    }
-                                  });
-                                },
-                              ),
-                              Text('${_totalPrice}'),
-                              IconButton(
-                                icon: const Icon(Icons.add),
-                                onPressed: () {
-                                  setState(() {
-                                    items[index].quantity++;
-                                    items[index].updateTotalPrice();
-                                    _updateTotalPrice();
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                          subtitle: Text(
-                            '${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![index]['price']))}',
-                            style: const TextStyle(fontSize: 18.0),
-                          ),
-                          /*onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ProdutoPage(dados: {},),
-                            ),
-                          );
-                        },*/
-                        );
-                      },
-                      
-                    );
-                    
-                  } else if (snapshot.hasError) {
-                   
-                    //print(snapshot.hasError);
-                    //print(snapshot.error);
-
-                    return const Center(
-                      child: Text('Carrinho Vazio'),
-                    );
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(40.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Total:', style: TextStyle(fontSize: 24.0)),
-                  Text(
-                    '${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(_totalPrice + frete)}',
-                    style: const TextStyle(fontSize: 24.0),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Frete: ${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(frete)}',
-                    style: const TextStyle(fontSize: 20.0),
-                  ),
-                ],
-              ),
-            ),
-            Column(
+      backgroundColor: GlobalColors.white,
+      body: SafeArea(
+        child: Center(
+          child: SizedBox(
+            width: screenWidth * 0.85,
+            child: Column(
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Confirmar Compra'),
-                          content: const Text('Deseja confirmar a compra?'),
-                          actions: [
-                            TextButton(
-                              child: const Text('Cancelar'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            TextButton(
-                              child: const Text('Confirmar'),
-                              onPressed: () {
-                                checkout();
-
-                                Navigator.of(context).pop();
-
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text('Compra Realizada'),
-                                      content: const Text(
-                                          'Sua compra foi realizada com sucesso!'),
-                                      actions: [
-                                        TextButton(
-                                          child: const Text('OK'),
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const PedidosPage(
-                                                  dados: {},
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
+                const SizedBox(
+                 height: 135,
+                 child: HeaderTwo()
+                ),
+                Row(
+                  children: [
+                      Expanded(
+                        child: Align(
+                        alignment: Alignment.centerLeft,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                    color: GlobalColors.red,
+                                    width: 5
+                                  )
+                                )
+                              ),
+                              child: LayoutBuilder(
+                              builder: (BuildContext context, BoxConstraints constraints) {
+                                return const FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Meu Carrinho',
+                                    style: TextStyle(
+                                      color: Color(0xFF1E1E1E),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22
+                                    )
+                                  )
                                 );
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: Text('Confirmar Compra',
-                      style:
-                          TextStyle(fontSize: 20, color: GlobalColors.white)),
-                  style: ElevatedButton.styleFrom(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-                      backgroundColor: GlobalColors.blue,
-                      foregroundColor: GlobalColors.white),
+                              }
+                            )
+                          )  
+                        )
+                      )        
+                  ]
                 ),
                 const SizedBox(height: 30),
-              ],
-            ),
-            //Final Botão de Confirmação de Compra
-          ],
-        ),
+                FutureBuilder(
+                  future: _data,
+                  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    if(snapshot.connectionState == ConnectionState.waiting) {
+                      return LayoutBuilder(
+                        builder: (BuildContext context, BoxConstraints constraints) {
+                            return FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                              height: screenHeight - 259,
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  color: Color(0xFFBABABA),
+                                ),
+                              )
+                            )
+                          );
+                        }
+                      );
+                    } else if(snapshot.hasError) {
+                      return LayoutBuilder(
+                        builder: (BuildContext context, BoxConstraints constraints) {
+                          return FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                              height: screenHeight - 259,
+                                child: Center(
+                                child: Text(
+                                  snapshot.error.toString().substring(11),
+                                    style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20
+                                  )
+                                ),
+                              )
+                            )
+                          );
+                        }
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                           SizedBox(       
+                            height: screenHeight - 449,
+                            child:  ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data['cart'].length,
+                        itemBuilder: (context, index) {
+                          final double priceTotal = double.parse(snapshot.data['cart'][index]['price']) - double.parse(snapshot.data['cart'][index]['discount']);
+                           
+                          return Container(
+                            margin: const EdgeInsets.only(top: 12, bottom: 12),
+                            height: 130,                               
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x6D000000),
+                                  offset: Offset(0, 4),
+                                  blurRadius: 4
+                                )
+                              ],
+                              borderRadius: BorderRadius.all(Radius.circular(22.0))
+                            ),
+                            child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Row(
+                                              children: [                  
+                                                LayoutBuilder(
+                                                  builder: (context, constraints) {
+                                                    return Container(              
+                                                      height: 110,
+                                                      width: 110,
+                                                      decoration: 
+                                                      BoxDecoration(
+                                                        borderRadius: const BorderRadius.all(Radius.circular(14.0)),
+                                                          color: const Color(0xFFE5E5E5),
+                                                          image: DecorationImage(
+                                                          image: obterImagem(snapshot.data['cart'][index]['images']),
+                                                          fit: BoxFit.fitWidth                                                                          
+                                                        )                   
+                                                      ),
+                                                    ); 
+                                                  }
+                                                ),
+            
+                                                const Spacer(),
+                                                Flexible(
+                                                  flex: 7,
+                                        child: LayoutBuilder(
+                                          builder: (BuildContext context, BoxConstraints constraints) {
+                                            return Column(
+                                              children: [
+                                                Expanded(
+                                                      flex: 5,
+                                                      child: LayoutBuilder(
+                                                            builder: (BuildContext context, BoxConstraints constraints) {
+                                                              return Container(
+                                                                constraints: const BoxConstraints(),
+                                                                alignment: Alignment.centerLeft,
+                                                                child: Text(
+                                                                  '${snapshot.data['cart'][index]['name']}',
+                                                                  maxLines: 2,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: const TextStyle(
+                                                                    color: Color(0xFF000000),
+                                                                    height: 1.15,
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: 16
+                                                                  )
+                                                                )
+                                                              );
+                                                            }
+                                                          ),
+                                                ),
+                                                const Spacer(),
+                                                Expanded(
+                                                    flex: 4,
+                                                    child:  LayoutBuilder(
+                                                          builder: (BuildContext context, BoxConstraints constraints) {
+                                                            return Container(
+                                                              constraints: const BoxConstraints(),
+                                                              alignment: Alignment.centerLeft,
+                                                              child: Text(
+                                                                '${snapshot.data['cart'][index]['description']}',   
+                                                                maxLines: 2,                         
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: const TextStyle(
+                                                                  color: Color(0xFF848484),
+                                                                  fontWeight: FontWeight.w400,
+                                                                  height: 1.15,
+                                                                  fontSize: 12
+                                                                )
+                                                              )
+                                                            );
+                                                          }
+                                                        ),
+                                                ),
+                                                const Spacer(),
+                                                Expanded(
+                                                  flex: 3,
+                                                  child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                            child: LayoutBuilder(
+                                                            builder: (BuildContext context, BoxConstraints constraints) {
+                                                              return Container(
+                                                                constraints: const BoxConstraints(),
+                                                                  alignment: Alignment.centerLeft,
+                                                                  child: Text(
+                                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data['cart'][index]['price'])),                
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                     style: priceTotal != double.parse(snapshot.data['cart'][index]['price']) ? 
+                                                                      const TextStyle(
+                                                                        decoration: TextDecoration.lineThrough,
+                                                                        color: Color(0xFF000000),
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 13.5,
+                                                                      ) 
+                                                                      : 
+                                                                      const TextStyle(
+                                                                      decoration: TextDecoration.none,
+                                                                      color: Color(0xFF000000),
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontSize: 16 
+                                                                    )
+                                                                  )
+                                                      );
+                                                    }
+                                                  ),
+                                                ),
+                                                priceTotal < double.parse(snapshot.data['cart'][index]['price']) ? 
+                                                  Expanded(
+                                                    child: LayoutBuilder(
+                                                      builder: (BuildContext context, BoxConstraints constraints) {
+                                                        return Container(
+                                                          constraints: const BoxConstraints(),
+                                                          alignment: Alignment.centerLeft,
+                                                          child: Text(
+                                                            intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(priceTotal),                
+                                                            overflow: TextOverflow.ellipsis,
+                                                            style: const TextStyle(
+                                                              color: Color(0xFF000000),
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: 16
+                                                            )
+                                                          )
+                                                        );
+                                                      }
+                                                    )
+                                                  ) : Container(),
+                                                ],
+                                              )
+                                            )
+                                          ],
+                                        );
+                                      }
+                                    )
+                                  ),       
+                                  const Spacer(),
+                                  Column(
+                                    children: [
+                                      Expanded(
+                                        child: Align(
+                                          alignment: Alignment.topRight,
+                                          child: SizedBox(
+                                            height: 35,
+                                          width: 83,    
+                                            child: LayoutBuilder(
+                                              builder: (BuildContext context, BoxConstraints constraints) {
+                                               return GestureDetector(
+                                                  onTap: () { /*  */},
+                                                  child: Align(
+                                                    alignment: Alignment.centerRight,
+                                                    child: Icon(
+                                                      Icons.delete,
+                                                      color: GlobalColors.red,
+                                                      size: 22
+                                                    )
+                                                  )
+                                                );
+                                              }
+                                            ) 
+                                          )
+                                        )
+                                      ),
+                                      Expanded(
+                                        child:  Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: SizedBox(
+                                            height: 35,
+                                            width: 83,    
+                                            child: LayoutBuilder(
+                                              builder: (BuildContext context, BoxConstraints constraints) {
+                                                return  Container(          
+                                                  padding: const EdgeInsets.all(6),                                  
+                                                  decoration: const BoxDecoration(
+                                                    color: Color(0x991C8394),
+                                                    borderRadius: BorderRadius.all(Radius.circular(12.0))
+                                                  ),
+                                                  constraints: const BoxConstraints(),
+                                                  alignment: Alignment.center,
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: GestureDetector(
+                                                          onTap: () { 
+                                                            
+                                                          },
+                                                          child: Align(
+                                                            alignment: Alignment.centerLeft,
+                                                            child: Icon(
+                                                              Icons.remove,
+                                                              color: GlobalColors.white,
+                                                              size: 14
+                                                            )
+                                                          )
+                                                        )
+                                                      ),
+                                                      Text(
+                                                        '$_totalPrice',                 
+                                                        textAlign: TextAlign.center,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                          color: GlobalColors.white,
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 16
+                                                        )
+                                                      ),
+                                                      Expanded(
+                                                        child: GestureDetector(
+                                                          onTap: () { 
+                                                             setState(() {
+                                                              items[index].quantity++;
+                                                              items[index].updateTotalPrice();
+                                                              _updateTotalPrice();
+                                                            });
+                                                          },
+                                                          child: Align(
+                                                            alignment: Alignment.centerRight,
+                                                            child: Icon(
+                                                              Icons.add,
+                                                              color: GlobalColors.white,
+                                                              size: 14
+                                                            )
+                                                          )
+                                                        )
+                                                      )
+                                                    ]
+                                                  )
+                                                );  
+                                              }
+                                            )
+                                          )
+                                        )
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            )
+                          );
+                        }
+                      ),
+                          ),
+                      const SizedBox(height: 30),
+                      Row(
+                              children: [
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                                      return const FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                            'Subtotal:',
+                                            style: TextStyle(
+                                              color:Color(0xFF1E1E1E),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14
+                                            )
+                                          )
+                                        );
+                                      }
+                                    )
+                                  )
+                                ),
+                                Expanded(
+                                  child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                                    return Row(
+                                            children: [
+                                             Expanded(
+                                              child:  LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                                                  return FittedBox( 
+                                                    fit: BoxFit.scaleDown,
+                                                    alignment: Alignment.centerRight,
+                                                    child: Text(
+                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(snapshot.data['sub_total']),
+                                                        style: const TextStyle(
+                                                          color: Color(0xFF1E1E1E),
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 14
+                                                        )
+                                                      )
+                                                    );
+                                                  }
+                                                ),
+                                             )
+                                            ],
+                                          );
+                                    }
+                                  ),
+                                  
+                                ),
+                              ]
+                ),
+                 Row(
+                              children: [
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                                      return const FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                            'Total:',
+                                            style: TextStyle(
+                                              color:Color(0xFF1E1E1E),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 22
+                                            )
+                                          )
+                                        );
+                                      }
+                                    )
+                                  )
+                                ),
+                                Expanded(
+                                  child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                                    return Row(
+                                            children: [
+                                             Expanded(
+                                              child:  LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                                                  return FittedBox( 
+                                                    fit: BoxFit.scaleDown,
+                                                    alignment: Alignment.centerRight,
+                                                    child: Text(
+                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(snapshot.data['total_price']),
+                                                        style: const TextStyle(
+                                                          color: Color(0xFF1E1E1E),
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 22
+                                                        )
+                                                      )
+                                                    );
+                                                  }
+                                                ),
+                                             )
+                                            ],
+                                          );
+                                    }
+                                  ),
+                                  
+                                ),
+                              ]
+                ),
+                  SizedBox(
+                    height: screenHeight - 850,
+                        child: Center(
+                          child: ElevatedButton(               
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: GlobalColors.blue,
+                              foregroundColor: GlobalColors.white,
+                              padding: const EdgeInsets.all(10.0),
+                              fixedSize: Size(screenWidth * 0.85, 55.0),
+                              textStyle: const TextStyle(
+                                fontSize: 24.0,
+                                  fontWeight: FontWeight.w700,
+                              ),
+                              elevation: 20.0,
+                              shadowColor: const Color(0xD2000000),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                            ),
+                            onPressed: () { Navigator.of(context).pushNamed('/Checkout'); },
+                            child: const Text('Ir para Checkout')
+                          ),
+                        )
+                      )
 
-        //Footer
-        bottomNavigationBar: const Footer());
+                        ],
+                      );
+                    }
+                  }
+                ),
+              ]
+            )
+          )
+        )
+      ),
+      bottomNavigationBar: const Footer()
+    );
   }
 }
 
@@ -260,7 +545,7 @@ class _CarrinhoPageState extends State<CarrinhoPage> {
 class Product {
   final String name;
   final double price;
-  int quantity;
+  late int quantity;
   final String description;
   final String image;
 
@@ -272,6 +557,16 @@ class Product {
     required this.image,
   });
 
+  factory Product.fromJson(Map<String, dynamic> json){ 
+    return Product(
+      name: json['name'], 
+      price: json['price'],
+      image: json['image'],
+      description:  json['description'],
+      quantity: json['quanatity'], 
+    );
+  }
+
   double get totalPrice => price * quantity;
 
   void updateTotalPrice() {
@@ -279,86 +574,9 @@ class Product {
   }
 }
 
-class ProductDetailScreen extends StatelessWidget {
-  final Product product;
-
-  ProductDetailScreen({required this.product});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Detalhes do Produto'),
-          backgroundColor: GlobalColors.red,
-        ),
-        body: Column(
-          children: [
-            Image.network(
-              product.image,
-              height: 200.0,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            const SizedBox(height: 16.0),
-            Text(
-              product.name,
-              style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16.0),
-            Text(
-              product.description,
-              style: const TextStyle(fontSize: 18.0),
-            ),
-            const SizedBox(height: 16.0),
-            Text(
-              'Reais: ${product.price.toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-
-        //Footer
-        bottomNavigationBar: const Footer() //fimFooter
-        );
-  }
-}
-
-Future<bool> sair() async {
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  await sharedPreferences.clear();
-  return true;
-}
-
-Future<bool> checkout() async {
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-  var client = http.Client();
-
-  final headers = {
-    'Authorization': '${sharedPreferences.getString("token")}',
-  };
-
-  final url = Uri.parse('http://127.0.0.1:8000/api/order');
-
-  var resposta = await client.post(url, body: {}, headers: headers);
-
-  if (resposta.statusCode == 200) {
-    /* Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => MeusPedidos()),
-    ); */
-    print('Pedido realizado com sucesso');
-    return true;
-  } else {
-    return false;
-  }
-}
-
-Future<List> produtos() async {
+Future<Map<String, dynamic>> mostrar() async {
   SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-
   var url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
-
   final headers = {
     'Authorization': '${sharedPreference.getString("token")}',
     'Content-Type': 'application/json'
@@ -367,12 +585,12 @@ Future<List> produtos() async {
   var response = await http.get(url, headers: headers);
 
   if (response.statusCode == 200) {
-    Map<String, dynamic> r = json.decode(response.body);
-    var items = r['data']['cart'];
-
-    //print(items);
-
-    return items;
+    Map<String, dynamic> cart = json.decode(response.body);
+    
+    return cart['data'];
+  } else if(response.statusCode == 404) {
+    Map<String, dynamic> error = json.decode(response.body);
+    return error['message'];
   }
 
   throw Exception('Erro ao carregar Carrinho');
