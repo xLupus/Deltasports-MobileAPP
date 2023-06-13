@@ -29,7 +29,15 @@ class CarrinhoPageState extends State<CarrinhoPage> {
     _data = mostrar(); 
   }
 
-  List<Product> items = [];
+  List<Product> items = [
+    Product(
+      name: 'oi',
+      price: 1,
+      quantity: 0,
+      description: 'Descrição do Item 1',
+      image: 'https://picsum.photos/200',
+    ),
+  ];
 
   double _totalPrice = 0;
 
@@ -136,8 +144,9 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                     } else {
                       return Column(
                         children: [
-                           SizedBox(       
-                            height: screenHeight - 449,
+                           SizedBox(    
+  
+                            height: screenHeight - 496,
                             child:  ListView.builder(
                         shrinkWrap: true,
                         itemCount: snapshot.data['cart'].length,
@@ -305,7 +314,10 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                             child: LayoutBuilder(
                                               builder: (BuildContext context, BoxConstraints constraints) {
                                                return GestureDetector(
-                                                  onTap: () { /*  */},
+                                                  onTap: () { 
+                                                    items.removeAt(index); 
+                                                    _updateTotalPrice();
+                                                  },
                                                   child: Align(
                                                     alignment: Alignment.centerRight,
                                                     child: Icon(
@@ -341,7 +353,15 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                       Expanded(
                                                         child: GestureDetector(
                                                           onTap: () { 
-                                                            
+                                                             if (items[index].quantity > 1) {
+                                      items[index].quantity--;
+                                      items[index].updateTotalPrice();
+                                      _updateTotalPrice();
+                                    } else {
+                                      items.removeAt(index);
+                                      print({items, index});
+                                      _updateTotalPrice();
+                                    }
                                                           },
                                                           child: Align(
                                                             alignment: Alignment.centerLeft,
@@ -399,7 +419,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                         }
                       ),
                           ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 77),
                       Row(
                               children: [
                                 Expanded(
@@ -432,7 +452,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                     fit: BoxFit.scaleDown,
                                                     alignment: Alignment.centerRight,
                                                     child: Text(
-                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(snapshot.data['sub_total']),
+                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(100.0),
                                                         style: const TextStyle(
                                                           color: Color(0xFF1E1E1E),
                                                           fontWeight: FontWeight.bold,
@@ -483,7 +503,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                     fit: BoxFit.scaleDown,
                                                     alignment: Alignment.centerRight,
                                                     child: Text(
-                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(snapshot.data['total_price']),
+                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(99.0),
                                                         style: const TextStyle(
                                                           color: Color(0xFF1E1E1E),
                                                           fontWeight: FontWeight.bold,
@@ -589,8 +609,7 @@ Future<Map<String, dynamic>> mostrar() async {
     
     return cart['data'];
   } else if(response.statusCode == 404) {
-    Map<String, dynamic> error = json.decode(response.body);
-    return error['message'];
+    throw Exception('Não há itens no carrinho ...');
   }
 
   throw Exception('Erro ao carregar Carrinho');

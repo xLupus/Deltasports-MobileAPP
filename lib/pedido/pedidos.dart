@@ -122,7 +122,7 @@ class PedidosPageState extends State<PedidosPage> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             return Container(
-                              margin: const EdgeInsets.only(top: 20, bottom: 20),
+                              margin: const EdgeInsets.only(top: 12, bottom: 12),
                               height: 130,                               
                               decoration: const BoxDecoration(
                                 color: Colors.white,

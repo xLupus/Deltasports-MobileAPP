@@ -21,18 +21,23 @@ class CheckoutPage extends StatefulWidget {
 class CheckoutPageState extends State<CheckoutPage> {
   late Future<dynamic> _data;
   late Future<dynamic> _address;
-  double frete  = 0;
-  int val       = 700;
+
+  bool isLoading = false;
+  double totalPrice = 0;
+  double frete      = 0;
+  int val           = 700;
+
+  @override
+  initState() {  
+    super.initState();
+    _data     = mostrar();
+    _address  = endereco(80);
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
-    setState(() {
-      _data     = mostrar();
-      _address  = endereco(80);
-    });
 
     return Scaffold(
       backgroundColor: GlobalColors.white,
@@ -124,11 +129,10 @@ class CheckoutPageState extends State<CheckoutPage> {
                           }
                         );
                     } else {
-                      print(snapshot.data[0]);
-                      while(snapshot.data[0]['total_price'] > val) {
+                      /* while(snapshot.data[0]['total_price'] > val) {
                         val += 700;
                         frete += 7.37;
-                      }
+                      } */
 
                       return Column(
                         children: [
@@ -280,7 +284,7 @@ class CheckoutPageState extends State<CheckoutPage> {
                                                   child: Align(
                                                     alignment: Alignment.centerLeft,
                                                     child: Text(
-                                                      intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(frete),                            
+                                                      intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(99.0),                            
                                                       overflow: TextOverflow.ellipsis,
                                                       style: const TextStyle(
                                                         color: Color(0xFF848484),
@@ -652,7 +656,7 @@ class CheckoutPageState extends State<CheckoutPage> {
                         child: Center(
                           child: ElevatedButton(               
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: GlobalColors.blue,
+                              backgroundColor: isLoading ? const Color(0xFF919191) : GlobalColors.blue,
                               foregroundColor: GlobalColors.white,
                               padding: const EdgeInsets.all(10.0),
                               fixedSize: Size(screenWidth * 0.85, 55.0),
@@ -665,7 +669,13 @@ class CheckoutPageState extends State<CheckoutPage> {
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                             ),
                             onPressed: () { checkout(); },
-                            child: const Text('Comprar')
+                            child: isLoading ? const SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: CircularProgressIndicator(
+                                color: Color(0xFFBABABA)
+                              ),
+                            ) : const Text('Comprar'),
                           ),
                         )
                       )
@@ -686,14 +696,18 @@ class CheckoutPageState extends State<CheckoutPage> {
   Future<void> checkout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var client = http.Client();
+
+    setState(() {
+      isLoading = true;
+    });
+    
     final headers = {
       'Authorization': '${sharedPreferences.getString("token")}',
     };
 
     final url = Uri.parse('http://127.0.0.1:8000/api/order');
-
     var response = await client.post(url, body: {}, headers: headers);
-  print(response.statusCode);
+
     if (response.statusCode == 200) {
       Map<String, dynamic> data = json.decode(response.body);
 
@@ -704,7 +718,14 @@ class CheckoutPageState extends State<CheckoutPage> {
         );
         snackBar(context, data['message']); 
       });
+    } else if(response.statusCode == 404) {
+      Map<String, dynamic> data = json.decode(response.body);
+      return data['message'];
     }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   Future<void> endereco(int id) async {

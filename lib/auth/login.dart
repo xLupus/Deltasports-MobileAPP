@@ -1,6 +1,5 @@
 import 'dart:convert' as convert;
 import 'dart:convert';
-import 'package:deltasports_app/produto/produtos.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:deltasports_app/utilis/global_colors.dart';
@@ -12,10 +11,10 @@ class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginPageState();
+  State<Login> createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<Login> {
+class LoginPageState extends State<Login> {
   final _formkey = GlobalKey<FormState>();
 
   bool show = false;

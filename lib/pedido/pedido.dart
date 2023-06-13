@@ -180,7 +180,7 @@ class PedidoPageState extends State<PedidoPage> {
                             ),
                             const SizedBox(height: 30),
                             Container(
-                              margin: const EdgeInsets.only(top: 20, bottom: 20),
+                              margin: const EdgeInsets.only(top: 12, bottom: 12),
                               height: 156,
                               decoration: BoxDecoration(
                                 color: Colors.white,
