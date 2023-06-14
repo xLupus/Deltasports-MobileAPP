@@ -39,7 +39,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
     ),
   ];
 
-  double _totalPrice = 0;
+  double _totalPrice = 1;
 
   void _updateTotalPrice() {
     setState(() {
@@ -353,15 +353,13 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                       Expanded(
                                                         child: GestureDetector(
                                                           onTap: () { 
-                                                             if (items[index].quantity > 1) {
-                                      items[index].quantity--;
-                                      items[index].updateTotalPrice();
-                                      _updateTotalPrice();
-                                    } else {
-                                      items.removeAt(index);
-                                      print({items, index});
-                                      _updateTotalPrice();
-                                    }
+                                                             setState(() {
+                                                              snapshot.data['cart'][index]['qtd']--;
+                                                              //Chamar o PUT
+                                                              //snapshot.data['cart'][index]['id']
+                                                              //snapshot.data['cart'][index]['qtd']
+                                                              _updateTotalPrice();
+                                                            });
                                                           },
                                                           child: Align(
                                                             alignment: Alignment.centerLeft,
@@ -374,7 +372,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                         )
                                                       ),
                                                       Text(
-                                                        '$_totalPrice',                 
+                                                        "${snapshot.data['cart'][index]['qtd']}",                 
                                                         textAlign: TextAlign.center,
                                                         overflow: TextOverflow.ellipsis,
                                                         style: TextStyle(
@@ -387,8 +385,10 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                         child: GestureDetector(
                                                           onTap: () { 
                                                              setState(() {
-                                                              items[index].quantity++;
-                                                              items[index].updateTotalPrice();
+                                                              snapshot.data['cart'][index]['qtd']++;
+                                                              //Chamar o PUT
+                                                              //snapshot.data['cart'][index]['id']
+                                                              //snapshot.data['cart'][index]['qtd']
                                                               _updateTotalPrice();
                                                             });
                                                           },
@@ -452,7 +452,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                     fit: BoxFit.scaleDown,
                                                     alignment: Alignment.centerRight,
                                                     child: Text(
-                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(100.0),
+                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(77),
                                                         style: const TextStyle(
                                                           color: Color(0xFF1E1E1E),
                                                           fontWeight: FontWeight.bold,
@@ -503,7 +503,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                     fit: BoxFit.scaleDown,
                                                     alignment: Alignment.centerRight,
                                                     child: Text(
-                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(99.0),
+                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(77),
                                                         style: const TextStyle(
                                                           color: Color(0xFF1E1E1E),
                                                           fontWeight: FontWeight.bold,
