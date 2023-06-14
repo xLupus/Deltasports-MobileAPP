@@ -23,7 +23,7 @@ class AppPage {
     '/Login'        : (context) => const Login(),
     '/Home'         : (context) => const HomePage(),
     '/Produtos'     : (context) => const ProdutosPage(),
-    '/Produto'      : (context) => ProdutoPage(dados: const {}),
+    '/Produto'      : (context) => ProdutoPage(data: const {}),
     '/Listagem'     : (context) => const ListagemPage(foto: {}),
     '/Carrinho'     : (context) => const CarrinhoPage(),
     '/Perfil'       : (context) => const PerfilPage(),

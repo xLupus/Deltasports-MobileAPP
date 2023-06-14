@@ -98,7 +98,7 @@ class PesquisaPage extends SearchDelegate<String> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            ProdutoPage(dados: snapshot.data![index])));
+                            ProdutoPage(data: snapshot.data![index])));
                       query = snapshot.data![index]['id'];
                       showResults(context);
                     },

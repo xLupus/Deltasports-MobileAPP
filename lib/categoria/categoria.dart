@@ -143,7 +143,7 @@ class CategoriaPageState extends State<CategoriaPage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => ProdutoPage(dados: snapshot.data['products'][index])
+                                        builder: (context) => ProdutoPage(data: snapshot.data['products'][index])
                                       )
                                     );
                                   },

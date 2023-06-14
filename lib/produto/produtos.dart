@@ -328,7 +328,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                                                   onTap: () {
                                                     Navigator.pushReplacement(
                                                     context,
-                                                    MaterialPageRoute(builder: (context) => ProdutoPage(dados: snapshot.data![0][val])),
+                                                    MaterialPageRoute(builder: (context) => ProdutoPage(data: snapshot.data![0][val])),
                                                   );
                                                 },
                                                 child: LayoutBuilder(
@@ -545,7 +545,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => ProdutoPage(dados: snapshot.data![0][index])
+                                              builder: (context) => ProdutoPage(data: snapshot.data![0][index])
                                             )
                                           );
                                         },
@@ -633,7 +633,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => ProdutoPage(dados: snapshot.data![0][index])
+                                                builder: (context) => ProdutoPage(data: snapshot.data![0][index])
                                               )
                                             );
                                           },
