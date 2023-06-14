@@ -7,152 +7,325 @@ import 'package:intl/intl.dart' as intl;
 
 import '../carrinho/carrinho.dart';
 import '../partials/footer.dart';
+import '../utilis/obter_imagem.dart';
 
 class ProdutoPage extends StatefulWidget {
-  Map<String, dynamic> dados;
+  final Map<String, dynamic> data;
 
-  ProdutoPage({Key? key, required this.dados}) : super(key: key);
+  const ProdutoPage({Key? key, required this.data}) : super(key: key);
 
   @override
-  State<ProdutoPage> createState() => _ProdutoPageState();
+  State<ProdutoPage> createState() => ProdutoPageState();
 }
 
-class _ProdutoPageState extends State<ProdutoPage> {
+class ProdutoPageState extends State<ProdutoPage> {
   int _qtdController = 1;
 
-  
   @override
   Widget build(BuildContext context) {
+    double screenWidth    = MediaQuery.of(context).size.width;
+    double screenHeight   = MediaQuery.of(context).size.height;
+
     setQtd(int value) => setState(() {
-          _qtdController = value;
-        });
+      _qtdController = value;
+    });
 
-  final double _priceTotal = double.parse(widget.dados['price']) - double.parse(widget.dados['discount']);
-
+    final double _priceTotal = double.parse(widget.data['price']) - double.parse(widget.data['discount']);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: GlobalColors.red,
-        title: Text(
-          widget.dados['name'],
-          textAlign: TextAlign.center,
-        ),
-      ),
-      body: Center(
-        child: ListView(
-          children: [
-            Image(
-              image: obterImagem(widget.dados['images']),
-              height: 400,
-            ),
-            SizedBox(height: 50),
-            Text(
-              widget.dados['name'],
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      backgroundColor: GlobalColors.white,
+      body: SafeArea(
+        child: Center(
+          child: SizedBox(
+            height: screenHeight,
+            child: Stack(
               children: [
-                Text('Unidades:'),
-                SizedBox(width: 4),
-                IconButton(
-                  icon: Icon(Icons.remove),
-                  onPressed: () {
-                    if (_qtdController > 1) {
-                      setQtd(_qtdController - 1);
-                    }
-                  },
+                 Positioned(
+                  child: Container(
+                    height: 600,
+                    width: screenWidth,
+                    decoration: BoxDecoration(                       
+                      color: const Color(0xFFD9D9D9),
+                      image: DecorationImage(
+                      image: obterImagem(widget.data['images']),
+                        fit: BoxFit.fitWidth                                                                            
+                      )                  
+                    )
+                  ),
                 ),
-                Text('${_qtdController}'),
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    if (_qtdController < widget.dados['stock']) {
-                      setQtd(_qtdController + 1);
-                    }
-
-                    print(_qtdController);
-                  },
-                ),
+               Positioned(
+                bottom: -5,
+                 child: Center(
+                   child: ClipRRect(
+                       borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                       child: Container(
+                        color: Color.fromARGB(255, 180, 180, 180),
+                         width: screenWidth,
+                         height: screenHeight - 550,
+                         child: Column(
+                           children: [
+                             SizedBox(
+                               width: screenWidth * 0.85,
+                               child:  Column(
+                         children: [
+                           const SizedBox(height: 30),
+                           Row(
+                             children: [
+                               Expanded(
+                                 child:   LayoutBuilder(
+                                           builder: (BuildContext context, BoxConstraints constraints) {
+                                             return Container(
+                                               constraints: const BoxConstraints(),
+                                               alignment: Alignment.center,
+                                               child: Text(
+                                                 widget.data['name'],
+                                                 maxLines: 2,                         
+                                                 textAlign: TextAlign.center,
+                                                 overflow: TextOverflow.ellipsis,
+                                                 style: const TextStyle(
+                                                   color: Color(0xFF1E1E1E),
+                                                   fontWeight: FontWeight.bold,
+                                                   fontSize: 22
+                                                 )
+                                               )
+                                             );
+                                           }
+                                 ),
+                               )
+                             ],
+                           ),
+                           const SizedBox(height: 20),
+                           Row(
+                             children: [
+                               SizedBox(
+                                 width: 105,
+                                 height: 38,
+                                 child:  LayoutBuilder(
+                                              builder: (BuildContext context, BoxConstraints constraints) {
+                                                return  Container(          
+                                                  padding: const EdgeInsets.all(8),                                  
+                                                  decoration: const BoxDecoration(
+                                                    color: Color(0xFFD9D9D9),
+                                                    borderRadius: BorderRadius.all(Radius.circular(14.0))
+                                                  ),
+                                                  constraints: const BoxConstraints(),
+                                                  alignment: Alignment.center,
+                                                  child: Row(
+                                   children: [
+                                     Expanded(
+                                        child:  GestureDetector(
+                                                  onTap: () { 
+                                                    if (_qtdController > 1) {
+                                             setQtd(_qtdController - 1);
+                                           }
+                                                  },
+                                                  child:const Align(
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Icon(
+                                                      Icons.remove,
+                                                      size: 22
+                                                    )
+                                                  )
+                                        )
+                                     ),
+                                   Text(
+                                            '$_qtdController',
+                                            maxLines: 2,                         
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16
+                                            )
+                                          ),
+                                    Expanded(
+                                      child: GestureDetector(
+                                        onTap: () { 
+                                        if (_qtdController < widget.data['stock']) {
+                                            setQtd(_qtdController + 1);
+                                          }
+                                        },
+                                        child: const Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Icon(
+                                            Icons.add,
+                                            size: 22
+                                          )
+                                        )
+                                      )
+                                    )
+                                  ]
+                                )
+                                                );
+                                 
+                                 
+                                 
+                                              }
+                                )
+                                ),
+                                const SizedBox(width: 10),
+                               Expanded(
+                                 child: LayoutBuilder(
+                                   builder: (BuildContext context, BoxConstraints constraints) {
+                                     return Container(
+                                       constraints: const BoxConstraints(),
+                                       alignment: Alignment.centerLeft,
+                                       child: const Text(
+                                         'Unidades',                        
+                                         overflow: TextOverflow.ellipsis,
+                                         style: TextStyle(
+                                           color: Color(0xFF1E1E1E),
+                                           fontWeight: FontWeight.w400,
+                                           fontSize: 18
+                                         )
+                                       )
+                                     );
+                                   }
+                                 )
+                               )
+                             ],
+                           ),
+                           const SizedBox(height: 15),
+                           Row(
+                             children: [
+                               Expanded(
+                                 child: LayoutBuilder(
+                                 builder: (BuildContext context, BoxConstraints constraints) {
+                                   return Container(
+                                     constraints: const BoxConstraints(),
+                                     child: Text(
+                                       widget.data['description'],   
+                                       maxLines: 2,                        
+                                       overflow: TextOverflow.ellipsis,
+                                       style: const TextStyle(
+                                         color: Color(0xFF3A3A3A),
+                                           fontWeight: FontWeight.w400,
+                                           fontSize: 16
+                                         )
+                                       )
+                                     );
+                                   }
+                                 )
+                               )
+                             ]
+                           ),
+                           const SizedBox(height: 20),
+                           Row(
+                             children: [
+                               Flexible(
+                                 child: LayoutBuilder(
+                                                   builder: (BuildContext context, BoxConstraints constraints) {
+                                                     return Container(
+                                                       constraints: const BoxConstraints(),
+                                           
+                                                       child: Text(
+                                                         intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(widget.data['price'])),   
+                                                         maxLines: 2,           
+                                                         overflow: TextOverflow.ellipsis,
+                                                         style: const TextStyle(
+                                                           color: Color(0xFF1E1E1E),
+                                                           fontWeight: FontWeight.bold,
+                                                           fontSize: 22
+                                                         )
+                                                       )
+                                                     );
+                                                   }
+                                 ),
+                               ),
+                               const SizedBox(width: 20),
+                               Flexible(
+                                 child: LayoutBuilder(
+                                                   builder: (BuildContext context, BoxConstraints constraints) {
+                                                     return Container(
+                                                       constraints: const BoxConstraints(),
+                                                       child: Text(
+                                                         intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(_priceTotal),   
+                                                         maxLines: 2,          
+                                                         overflow: TextOverflow.ellipsis,
+                                                         style: const TextStyle(
+                                                           color: Color(0xFF1E1E1E),
+                                                           fontWeight: FontWeight.bold,
+                                                           fontSize: 22
+                                                         )
+                                                       )
+                                                     );
+                                                   }
+                                 ),
+                               )
+                             ],
+                           ),
+                           const SizedBox(height: 20),
+                           Container(
+                                       margin: const EdgeInsets.only(bottom: 20.0),
+                                       child: ElevatedButton(
+                                         style: ElevatedButton.styleFrom(
+                                           backgroundColor: GlobalColors.blue,
+                                           padding: const EdgeInsets.all(10.0),
+                                           fixedSize: Size(screenWidth * 0.85, 55.0),
+                                           foregroundColor: GlobalColors.white,
+                                           textStyle: const TextStyle(
+                                             fontSize: 24.0,
+                                             fontWeight: FontWeight.w700,
+                                           ),
+                                           elevation: 20.0,            
+                                           shadowColor: const Color(0xD2000000),                
+                                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                                         ),
+                                         onPressed: () { 
+                                           AdicionarCart();
+                                         //  Navigator.of(context).pushNamed('/Carrinho'); 
+                                           }, 
+                                         child: const Text('Adicionar ao Carrinho')
+                                       ),
+                                     ),
+                                     Row(
+                                       children: [
+                                         Expanded(
+                                           child: GestureDetector(
+                                             onTap: () {
+                                               Navigator.of(context).pushNamed('/Produtos');
+                                             },
+                                             child: LayoutBuilder(
+                                                   builder: (BuildContext context, BoxConstraints constraints) {
+                                                     return Container(
+                                                       constraints: const BoxConstraints(),
+                                                       child: const Text(
+                                                         'Voltar a Produtos',                      
+                                                         textAlign: TextAlign.center,
+                                                         overflow: TextOverflow.ellipsis,
+                                                         style: TextStyle(
+                                                           color: Color(0xFF3D3D3D),
+                
+                                                           fontSize: 16
+                                                         )
+                                                       )
+                                                     );
+                                                   }
+                                 ),
+                                           )
+                               ),
+                                         
+                                       ],
+                                     )
+                         ],
+                       ),
+                             )
+                           ],
+                         )
+                       )
+                   ) 
+                 ),
+               )
               ],
             ),
-            SizedBox(height: 4),
-            Text(
-              widget.dados['description'],
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 15),
-            Text('${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(widget.dados['price']))}',
-              style: TextStyle(
-                decoration: TextDecoration.lineThrough,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 15),
-            Text('${intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(_priceTotal)}',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 80.0),
-              child: GestureDetector(
-                onTap: () => {
-                  AdicionarCart()
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: GlobalColors.blue,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset: Offset(0, 5), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Adicionar ao Carrinho',
-                      style: TextStyle(
-                        color: GlobalColors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        )
       ),
 
-      //Fotter
       bottomNavigationBar: const Footer(),
     );
   }
 
-  dynamic obterImagem(dynamic url) {
-    if (url.length > 0 && url[0] != null && url[0]['url'] != '') {
-      return NetworkImage(url[0]['url']);
-    } else {
-      return const AssetImage('images/no_image.png');
-    }
-  }
 
   Future<bool> AdicionarCart() async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
@@ -162,11 +335,11 @@ class _ProdutoPageState extends State<ProdutoPage> {
     };
     final url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
 
-    print([widget.dados['id'], widget.dados['stock']]);
+    print([widget.data['id'], widget.data['stock']]);
 
     var resposta = await client.post(url,
         body: {
-          'product': widget.dados['id'].toString(),
+          'product': widget.data['id'].toString(),
           'qtd': _qtdController.toString()
         },
         headers: headers);

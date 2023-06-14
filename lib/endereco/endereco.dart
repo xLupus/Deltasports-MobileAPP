@@ -408,12 +408,6 @@ class EnderecoPageState extends State<EnderecoPage> {
     );
   }
 
-  Future<bool> sair() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.clear();
-    return true;
-  }
-
   Future<List<dynamic>> mostrar() async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
     final url = Uri.parse('http://127.0.0.1:8000/api/user/addresses');

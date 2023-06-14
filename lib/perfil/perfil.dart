@@ -26,11 +26,14 @@ class _PerfilPageState extends State<PerfilPage> {
   dynamic email = '';
 
   @override
+  initState() {  
+    super.initState();
+    _data = perfil();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenWidth  = MediaQuery.of(context).size.width;
-      setState(() {
-        _data = perfil();
-      });
 
     return Scaffold(
       backgroundColor: GlobalColors.white,
@@ -328,7 +331,7 @@ class _PerfilPageState extends State<PerfilPage> {
                         child: Center(
                           child: ElevatedButton(               
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: GlobalColors.red,
+                              backgroundColor: isLoading ? const Color(0xFF919191) : GlobalColors.red,
                               foregroundColor: GlobalColors.white,
                               padding: const EdgeInsets.all(10.0),
                               fixedSize: Size(screenWidth * 0.8, 55.0),
@@ -341,7 +344,13 @@ class _PerfilPageState extends State<PerfilPage> {
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                             ),
                             onPressed: () { logout(); },
-                            child: const Text('Sair')
+                             child: isLoading ? const SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: CircularProgressIndicator(
+                                color: Color(0xFFBABABA)
+                              ),
+                            ) : const Text('Sair'),
                           ),
                         )
                       )
@@ -361,6 +370,11 @@ class _PerfilPageState extends State<PerfilPage> {
   Future<void> logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var client = http.Client();
+
+    setState(() {
+      isLoading = true;
+    });
+
     var url = Uri.parse('http://127.0.0.1:8000/api/auth/logout');
     final headers = {'Authorization': '${sharedPreferences.getString("token")}'};
     await client.get(url,  headers: headers);
@@ -371,6 +385,10 @@ class _PerfilPageState extends State<PerfilPage> {
         '/',
         (route) => false,
       );
+    });
+
+    setState(() {
+      isLoading = false;
     });
   }
 

@@ -18,62 +18,56 @@ class FooterState extends State<Footer> {
   final Color backgroundColor = GlobalColors.red;
   //PageController _pageController = PageController();
   
-  final List<Widget> _screens = [
-    const ProdutosPage(),
-    const ListagemPage(foto: {}),
-    const CarrinhoPage(),
-    const PerfilPage()
+  final List<String> _screens = [
+    '/Produtos',
+    '/Listagem',
+    '/Carrinho',
+    '/Perfil'
   ];
-
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
 
-    Navigator.pushReplacement(
-      context,
-        MaterialPageRoute(builder: (context) => _screens[index]
-      )
-    );
+    Navigator.of(context).pushNamed(_screens[index]);
   }
 
   @override
   Widget build(BuildContext context) {
-     return ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(20.0),
-          topLeft: Radius.circular(20.0),
-        ),
-        child: BottomNavigationBar(
-          unselectedItemColor: const Color(0x8FFFFFFF),
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
-              label: 'Home',
-              backgroundColor: backgroundColor
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.category),
-              label: 'Produtos',
-              backgroundColor: backgroundColor
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.add_shopping_cart),
-              label: 'Carrinho',
-              backgroundColor: backgroundColor
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.person),
-              label: 'Perfil',
-              backgroundColor: backgroundColor
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: GlobalColors.white,
-          onTap: _onItemTapped,
-        )
-      
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topRight: Radius.circular(20.0),
+        topLeft: Radius.circular(20.0),
+      ),
+      child: BottomNavigationBar(
+        unselectedItemColor: const Color(0x8FFFFFFF),
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: backgroundColor
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.category),
+            label: 'Produtos',
+            backgroundColor: backgroundColor
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.add_shopping_cart),
+            label: 'Carrinho',
+            backgroundColor: backgroundColor
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.person),
+            label: 'Perfil',
+            backgroundColor: backgroundColor
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: GlobalColors.white,
+        onTap: _onItemTapped,
+      )
     );
   }
 }

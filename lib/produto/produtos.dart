@@ -25,12 +25,10 @@ class ProdutosPage extends StatefulWidget {
 }
 
 class ProdutosPageState extends State<ProdutosPage> {
-  //late Future<List> listaFotos;
   late Future<List<dynamic>> _data;
   late Future<dynamic> _category;
   late Future<dynamic> _profile;
 
-  late int id;
   var random = Random();
   
   @override
@@ -330,7 +328,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                                                   onTap: () {
                                                     Navigator.pushReplacement(
                                                     context,
-                                                    MaterialPageRoute(builder: (context) => ProdutoPage(dados: snapshot.data![0][val])),
+                                                    MaterialPageRoute(builder: (context) => ProdutoPage(data: snapshot.data![0][val])),
                                                   );
                                                 },
                                                 child: LayoutBuilder(
@@ -547,7 +545,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => ProdutoPage(dados: snapshot.data![0][index])
+                                              builder: (context) => ProdutoPage(data: snapshot.data![0][index])
                                             )
                                           );
                                         },
@@ -635,7 +633,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => ProdutoPage(dados: snapshot.data![0][index])
+                                                builder: (context) => ProdutoPage(data: snapshot.data![0][index])
                                               )
                                             );
                                           },

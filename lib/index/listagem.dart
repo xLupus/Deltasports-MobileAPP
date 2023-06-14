@@ -81,7 +81,7 @@ class ListagemPageState extends State<ListagemPage> {
                           ),
                           Expanded(
                             child: GestureDetector(
-                            onTap: () { Navigator.pushNamed(context, '/Filtro');},
+                            onTap: () { Navigator.pushNamed(context, '/Filtros');},
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: Icon(
@@ -223,7 +223,7 @@ class ListagemPageState extends State<ListagemPage> {
                               itemCount: snapshot.data![1].length,
                               itemBuilder: (context, index) {
                                 final double priceTotal = double.parse(snapshot.data![1][index]['price']) - double.parse(snapshot.data![1][index]['discount']);
-                                                          
+                                                          print(snapshot.data![1][index]);
                                 return Column(
                                   children: [
                                     GestureDetector(
@@ -231,7 +231,7 @@ class ListagemPageState extends State<ListagemPage> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => ProdutoPage(dados: snapshot.data![1][index])
+                                            builder: (context) => ProdutoPage(data: snapshot.data![1][index])
                                           )
                                         );
                                       },
