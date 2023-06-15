@@ -222,36 +222,47 @@ class ProdutoPageState extends State<ProdutoPage> {
                                                          intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(widget.data['price'])),   
                                                          maxLines: 2,           
                                                          overflow: TextOverflow.ellipsis,
-                                                         style: const TextStyle(
+                                                         style:  _priceTotal != double.parse(widget.data['price']) ? 
+                                                                      const TextStyle(
+                                                                        decoration: TextDecoration.lineThrough,
+                                                                        color: Color(0xFF000000),
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 22,
+                                                                      ) 
+                                                                      : 
+                                                                      const TextStyle(
                                                            color: Color(0xFF1E1E1E),
                                                            fontWeight: FontWeight.bold,
                                                            fontSize: 22
                                                          )
+                                                        
                                                        )
                                                      );
                                                    }
                                  ),
                                ),
                                const SizedBox(width: 20),
-                               Flexible(
-                                 child: LayoutBuilder(
-                                                   builder: (BuildContext context, BoxConstraints constraints) {
-                                                     return Container(
-                                                       constraints: const BoxConstraints(),
-                                                       child: Text(
-                                                         intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(_priceTotal),   
-                                                         maxLines: 2,          
-                                                         overflow: TextOverflow.ellipsis,
-                                                         style: const TextStyle(
-                                                           color: Color(0xFF1E1E1E),
-                                                           fontWeight: FontWeight.bold,
-                                                           fontSize: 22
-                                                         )
-                                                       )
-                                                     );
-                                                   }
-                                 ),
-                               )
+                               _priceTotal < double.parse(widget.data['price']) ? 
+                                                          Flexible(
+                                                            child: LayoutBuilder(
+                                                            builder: (BuildContext context, BoxConstraints constraints) {
+                                                              return Container(
+                                                                constraints: const BoxConstraints(),
+                                                                  alignment: Alignment.centerLeft,
+                                                                  child: Text(
+                                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(_priceTotal),                
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    style: const TextStyle(
+                                                                      color: Color(0xFF000000),
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontSize: 22
+                                                                    )
+                                                                  )
+                                                                );
+                                                              }
+                                                            )
+                                                          ) : Container(),
+        
                              ],
                            ),
                            const SizedBox(height: 20),
