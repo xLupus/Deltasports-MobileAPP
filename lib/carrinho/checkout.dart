@@ -14,6 +14,7 @@ import '../utilis/snack_bar.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({Key? key}) : super(key: key);
+  
   @override
   CheckoutPageState createState() => CheckoutPageState();
 }
@@ -129,10 +130,10 @@ class CheckoutPageState extends State<CheckoutPage> {
                           }
                         );
                     } else {
-                      /* while(snapshot.data[0]['total_price'] > val) {
+                      while(snapshot.data[0]['total_price'] > val) {
                         val += 700;
                         frete += 7.37;
-                      } */
+                      }
 
                       return Column(
                         children: [
@@ -284,7 +285,7 @@ class CheckoutPageState extends State<CheckoutPage> {
                                                   child: Align(
                                                     alignment: Alignment.centerLeft,
                                                     child: Text(
-                                                      intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(99.0),                            
+                                                      intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(frete),                            
                                                       overflow: TextOverflow.ellipsis,
                                                       style: const TextStyle(
                                                         color: Color(0xFF848484),
@@ -581,7 +582,7 @@ class CheckoutPageState extends State<CheckoutPage> {
                                                     fit: BoxFit.scaleDown,
                                                     alignment: Alignment.centerRight,
                                                     child: Text(
-                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(1.00),
+                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(snapshot.data[0]['sub_total']),
                                                         style: const TextStyle(
                                                           color: Color(0xFF1E1E1E),
                                                           fontWeight: FontWeight.bold,
@@ -632,7 +633,7 @@ class CheckoutPageState extends State<CheckoutPage> {
                                                     fit: BoxFit.scaleDown,
                                                     alignment: Alignment.centerRight,
                                                     child: Text(
-                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(20.0),
+                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(snapshot.data[0]['total_price'] + frete),
                                                         style: const TextStyle(
                                                           color: Color(0xFF1E1E1E),
                                                           fontWeight: FontWeight.bold,

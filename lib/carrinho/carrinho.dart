@@ -1,50 +1,37 @@
+import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:deltasports_app/utilis/global_colors.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart' as intl;
 
 import '../partials/footer.dart';
 import '../partials/header.dart';
 import '../utilis/obter_imagem.dart';
+import '../utilis/snack_bar.dart';
 
 class CarrinhoPage extends StatefulWidget {
   const CarrinhoPage({Key? key}) : super(key: key);
+
   @override
   CarrinhoPageState createState() => CarrinhoPageState();
 }
 
 class CarrinhoPageState extends State<CarrinhoPage> {
-  late Future<dynamic>_data;
-  // dynamic items;
+  late Future<dynamic> _data;
+  
+  double totalPrice = 0;
+  double frete      = 0;
 
-  double frete  = 0;
-  int val       = 700;
+  int val           = 700;
+  int qtd           = 0;
+  int productId     = 0;
 
   @override
   initState() { 
     super.initState();
     _data = mostrar(); 
-  }
-
-  List<Product> items = [
-    Product(
-      name: 'oi',
-      price: 1,
-      quantity: 0,
-      description: 'Descrição do Item 1',
-      image: 'https://picsum.photos/200',
-    ),
-  ];
-
-  double _totalPrice = 1;
-
-  void _updateTotalPrice() {
-    setState(() {
-      _totalPrice = items.fold(0.0, (total, item) => total + item.totalPrice);
-    });
   }
 
   @override
@@ -150,8 +137,11 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                             child:  ListView.builder(
                         shrinkWrap: true,
                         itemCount: snapshot.data['cart'].length,
-                        itemBuilder: (context, index) {
+                        itemBuilder: (context, index) { 
+                          final int stock = snapshot.data['cart'][index]['stock'];
                           final double priceTotal = double.parse(snapshot.data['cart'][index]['price']) - double.parse(snapshot.data['cart'][index]['discount']);
+
+                          productId = snapshot.data['cart'][index]['id'];
                            
                           return Container(
                             margin: const EdgeInsets.only(top: 12, bottom: 12),
@@ -315,8 +305,8 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                               builder: (BuildContext context, BoxConstraints constraints) {
                                                return GestureDetector(
                                                   onTap: () { 
-                                                    items.removeAt(index); 
-                                                    _updateTotalPrice();
+                                                    /* items.removeAt(index); 
+                                                    _updateTotalPrice(); */
                                                   },
                                                   child: Align(
                                                     alignment: Alignment.centerRight,
@@ -354,12 +344,18 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                         child: GestureDetector(
                                                           onTap: () { 
                                                              setState(() {
+                                                              if(snapshot.data['cart'][index]['qtd'] == 0) {
+                                                                return;
+                                                              }
+
                                                               snapshot.data['cart'][index]['qtd']--;
+                                                              print(snapshot.data['cart'][index]['qtd']);
                                                               //Chamar o PUT
                                                               //snapshot.data['cart'][index]['id']
                                                               //snapshot.data['cart'][index]['qtd']
-                                                              _updateTotalPrice();
+                                                        
                                                             });
+                                                                  //atualizar(productId, snapshot.data['cart'][index]['qtd']);
                                                           },
                                                           child: Align(
                                                             alignment: Alignment.centerLeft,
@@ -385,12 +381,17 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                         child: GestureDetector(
                                                           onTap: () { 
                                                              setState(() {
+                                                              if(snapshot.data['cart'][index]['qtd'] == stock) {
+                                                                return;
+                                                              }
+
                                                               snapshot.data['cart'][index]['qtd']++;
+                                                                print(snapshot.data['cart'][index]['qtd']);
                                                               //Chamar o PUT
                                                               //snapshot.data['cart'][index]['id']
-                                                              //snapshot.data['cart'][index]['qtd']
-                                                              _updateTotalPrice();
+                                                              //snapshot.data['cart'][index]['qtd']    
                                                             });
+                                                             // atualizar(productId, snapshot.data['cart'][index]['qtd']);                                                    
                                                           },
                                                           child: Align(
                                                             alignment: Alignment.centerRight,
@@ -558,59 +559,55 @@ class CarrinhoPageState extends State<CarrinhoPage> {
       bottomNavigationBar: const Footer()
     );
   }
-}
 
-// DETALHE DO ITEM NO CARRINHO
+  Future<Map<String, dynamic>> mostrar() async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    var url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
+    final headers = {
+      'Authorization': '${sharedPreference.getString("token")}',
+      'Content-Type': 'application/json'
+    };
 
-class Product {
-  final String name;
-  final double price;
-  late int quantity;
-  final String description;
-  final String image;
+    var response = await http.get(url, headers: headers);
 
-  Product({
-    required this.name,
-    required this.price,
-    required this.quantity,
-    required this.description,
-    required this.image,
-  });
+    if (response.statusCode == 200) {
+      Map<String, dynamic> cart = json.decode(response.body);
 
-  factory Product.fromJson(Map<String, dynamic> json){ 
-    return Product(
-      name: json['name'], 
-      price: json['price'],
-      image: json['image'],
-      description:  json['description'],
-      quantity: json['quanatity'], 
+      return cart['data'];
+    } else if(response.statusCode == 404) {
+      throw Exception('Não há itens no carrinho ...');
+    }
+
+    throw Exception('Ocorreu um erro ao carregar o carrinho');
+  }
+
+  /* Future<void> atualizar(int id, int qtd) async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    var url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
+    final headers = {
+      'Authorization': '${sharedPreference.getString("token")}',
+    };
+
+    var response = await http.patch(
+      url, 
+      body: {
+        'product' : id,
+        'qtd'     : qtd
+      },
+      headers: headers
     );
-  }
 
-  double get totalPrice => price * quantity;
-
-  void updateTotalPrice() {
-    totalPrice;
-  }
-}
-
-Future<Map<String, dynamic>> mostrar() async {
-  SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-  var url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
-  final headers = {
-    'Authorization': '${sharedPreference.getString("token")}',
-    'Content-Type': 'application/json'
-  };
-
-  var response = await http.get(url, headers: headers);
-
-  if (response.statusCode == 200) {
-    Map<String, dynamic> cart = json.decode(response.body);
+    if (response.statusCode == 200) {
+      setState(() { _data = mostrar(); });
     
-    return cart['data'];
-  } else if(response.statusCode == 404) {
-    throw Exception('Não há itens no carrinho ...');
-  }
+      Map<String, dynamic> data = json.decode(response.body);
+      WidgetsBinding.instance.addPostFrameCallback((_) { snackBar(context, data['message']); });
+    } else if(response.statusCode == 404) {
+      Map<String, dynamic> error = json.decode(response.body);
 
-  throw Exception('Erro ao carregar Carrinho');
+      WidgetsBinding.instance.addPostFrameCallback((_) { snackBar(context, error['message']); });
+    }
+
+    throw Exception('Ocorreu um erro ao carregar o carrinho');
+  } */
 }

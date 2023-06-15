@@ -68,7 +68,7 @@ class ProdutoPageState extends State<ProdutoPage> {
                                width: screenWidth * 0.85,
                                child:  Column(
                          children: [
-                           const SizedBox(height: 30),
+                           const SizedBox(height: 50),
                            Row(
                              children: [
                                Expanded(
@@ -314,29 +314,26 @@ class ProdutoPageState extends State<ProdutoPage> {
                                                    }
                                  ),
                                            )
-                               ),
-                                         
-                                       ],
-                                     )
-                         ],
-                       ),
-                             )
-                           ],
-                         )
-                       )
-                   ) 
-                 ),
-               )
-              ],
-            ),
-          ),
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            )
+                          ]
+                        )
+                      )
+                    ) 
+                  )
+                )
+              ]
+            )
+          )
         )
       ),
-
       bottomNavigationBar: const Footer(),
     );
   }
-
 
   Future<bool> AdicionarCart() async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
