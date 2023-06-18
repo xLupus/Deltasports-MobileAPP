@@ -49,7 +49,7 @@ class _IndexPageState extends State<IndexPage> {
                         shadowColor: const Color(0xD2000000),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                       ),
-                      onPressed: () { Navigator.of(context).pushNamed('/Login');  }, 
+                      onPressed: () { Navigator.of(context).pushNamed('/login');  }, 
                       child: const Text('Login'),
                     ),
                     
@@ -71,7 +71,7 @@ class _IndexPageState extends State<IndexPage> {
                           shadowColor: const Color(0xD2000000),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                         ),
-                        onPressed: () { Navigator.of(context).pushNamed('/Registrar');  }, 
+                        onPressed: () { Navigator.of(context).pushNamed('/registrar');  }, 
                         child: const Text('Registrar'),
                       )
                     )

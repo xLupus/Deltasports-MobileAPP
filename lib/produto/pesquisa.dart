@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PesquisaPage extends SearchDelegate<String> {
@@ -55,7 +56,7 @@ class PesquisaPage extends SearchDelegate<String> {
                         products!['name'],
                         style: const TextStyle(fontWeight: FontWeight.bold)
                       ),
-                        Text('R\$ ${products!['price'] - products!['discount']}')
+                        Text(intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(products!['price'] - products!['discount']))
                     ],
                   ),
                   Text(

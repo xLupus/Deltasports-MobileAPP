@@ -237,7 +237,7 @@ class CheckoutPageState extends State<CheckoutPage> {
                                                   child: Align(
                                                     alignment: Alignment.centerLeft,
                                                     child: Text(
-                                                      '${snapshot.data[1]['zip_code']}',                            
+                                                      '${snapshot.data[1]['zip_code'].substring(0, 5)}-${snapshot.data[1]['zip_code'].substring(5)}',
                                                       overflow: TextOverflow.ellipsis,
                                                       style: const TextStyle(
                                                         color: Color(0xFF848484),
@@ -653,33 +653,33 @@ class CheckoutPageState extends State<CheckoutPage> {
                               ]
                 ),
                            SizedBox(
-                    height: screenHeight - 850,
-                        child: Center(
-                          child: ElevatedButton(               
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: isLoading ? const Color(0xFF919191) : GlobalColors.blue,
-                              foregroundColor: GlobalColors.white,
-                              padding: const EdgeInsets.all(10.0),
-                              fixedSize: Size(screenWidth * 0.85, 55.0),
-                              textStyle: const TextStyle(
-                                fontSize: 24.0,
-                                  fontWeight: FontWeight.w700,
+                      height: screenHeight - 850,
+                          child: Center(
+                            child: ElevatedButton(               
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: isLoading ? const Color(0xFF919191) : GlobalColors.blue,
+                                foregroundColor: GlobalColors.white,
+                                padding: const EdgeInsets.all(10.0),
+                                fixedSize: Size(screenWidth * 0.85, 55.0),
+                                textStyle: const TextStyle(
+                                  fontSize: 24.0,
+                                    fontWeight: FontWeight.w700,
+                                ),
+                                elevation: 20.0,
+                                shadowColor: const Color(0xD2000000),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                               ),
-                              elevation: 20.0,
-                              shadowColor: const Color(0xD2000000),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                              onPressed: () { checkout(); },
+                              child: isLoading ? const SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: CircularProgressIndicator(
+                                  color: Color(0xFFBABABA)
+                                ),
+                              ) : const Text('Comprar'),
                             ),
-                            onPressed: () { checkout(); },
-                            child: isLoading ? const SizedBox(
-                              width: 25,
-                              height: 25,
-                              child: CircularProgressIndicator(
-                                color: Color(0xFFBABABA)
-                              ),
-                            ) : const Text('Comprar'),
-                          ),
+                          )
                         )
-                      )
                         ],
                       );
                     }
@@ -715,7 +715,7 @@ class CheckoutPageState extends State<CheckoutPage> {
       WidgetsBinding.instance.addPostFrameCallback((_) { 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const PedidosPage(dados: {})),
+          MaterialPageRoute(builder: (context) => const PedidosPage()),
         );
         snackBar(context, data['message']); 
       });

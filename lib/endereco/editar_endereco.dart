@@ -1,4 +1,4 @@
-import 'package:deltasports_app/endereco/endereco.dart';
+import 'package:deltasports_app/endereco/enderecos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
@@ -75,7 +75,7 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                   fit: BoxFit.scaleDown,
                                   alignment: Alignment.center,
                                   child: Text(
-                                    'Editar Endereço:',
+                                    'Editar Endereço',
                                     style: TextStyle(
                                       color: Color(0xFF1E1E1E),
                                       fontWeight: FontWeight.bold,

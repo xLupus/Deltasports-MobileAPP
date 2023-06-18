@@ -14,10 +14,10 @@ class FooterState extends State<Footer> {
   //PageController _pageController = PageController();
   
   final List<String> _screens = [
-    '/Produtos',
-    '/Listagem',
-    '/Carrinho',
-    '/Perfil'
+    '/home',
+    '/produtos',
+    '/carrinho',
+    '/perfil'
   ];
 
   void _onItemTapped(int index) {

@@ -10,7 +10,7 @@ import '../partials/footer.dart';
 import '../partials/header.dart';
 
 class PedidosPage extends StatefulWidget {
-  const PedidosPage({Key? key, required Map dados}) : super(key: key);
+  const PedidosPage({Key? key}) : super(key: key);
 
   @override
   State<PedidosPage> createState() => PedidosPageState();
@@ -283,7 +283,7 @@ class PedidosPageState extends State<PedidosPage> {
                               )
                             );
                           }
-                        );    
+                        );
                       }
                     }
                   )
@@ -293,8 +293,7 @@ class PedidosPageState extends State<PedidosPage> {
           )
         )
       ),
-
-     bottomNavigationBar: const Footer(),
+      bottomNavigationBar: const Footer(),
     );
   }
 

@@ -61,7 +61,7 @@ class EnderecoPageState extends State<EnderecoPage> {
                                   fit: BoxFit.scaleDown,
                                   alignment: Alignment.center,
                                   child: Text(
-                                    'Endereços:',
+                                    'Endereços',
                                     style: TextStyle(
                                       color: Color(0xFF1E1E1E),
                                       fontWeight: FontWeight.bold,
@@ -243,7 +243,7 @@ class EnderecoPageState extends State<EnderecoPage> {
                                                   child: Align(
                                                     alignment: const Alignment(-1, 0.5),
                                                     child: Text(
-                                                      snapshot.data![index]['zip_code'],                            
+                                                      '${snapshot.data![index]['zip_code'].substring(0, 5)}-${snapshot.data![index]['zip_code'].substring(5)}',                                        
                                                       overflow: TextOverflow.ellipsis,
                                                       style: const TextStyle(
                                                         color: Color(0xFF848484),

@@ -22,7 +22,6 @@ class CarrinhoPageState extends State<CarrinhoPage> {
   late Future<dynamic> _data;
   
   double totalPrice = 0;
-  double frete      = 0;
 
   int val           = 700;
   int qtd           = 0;
@@ -141,8 +140,6 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                           final int stock = snapshot.data['cart'][index]['stock'];
                           final double priceTotal = double.parse(snapshot.data['cart'][index]['price']) - double.parse(snapshot.data['cart'][index]['discount']);
 
-                          productId = snapshot.data['cart'][index]['id'];
-                           
                           return Container(
                             margin: const EdgeInsets.only(top: 12, bottom: 12),
                             height: 130,                               
@@ -304,10 +301,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                             child: LayoutBuilder(
                                               builder: (BuildContext context, BoxConstraints constraints) {
                                                return GestureDetector(
-                                                  onTap: () { 
-                                                    /* items.removeAt(index); 
-                                                    _updateTotalPrice(); */
-                                                  },
+                                                  onTap: () { atualizar(snapshot.data['cart'][index]['id'], 0); },
                                                   child: Align(
                                                     alignment: Alignment.centerRight,
                                                     child: Icon(
@@ -344,18 +338,9 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                         child: GestureDetector(
                                                           onTap: () { 
                                                              setState(() {
-                                                              if(snapshot.data['cart'][index]['qtd'] == 0) {
-                                                                return;
-                                                              }
-
                                                               snapshot.data['cart'][index]['qtd']--;
-                                                              print(snapshot.data['cart'][index]['qtd']);
-                                                              //Chamar o PUT
-                                                              //snapshot.data['cart'][index]['id']
-                                                              //snapshot.data['cart'][index]['qtd']
-                                                        
+                                                              atualizar(snapshot.data['cart'][index]['id'], snapshot.data['cart'][index]['qtd']);
                                                             });
-                                                                  //atualizar(productId, snapshot.data['cart'][index]['qtd']);
                                                           },
                                                           child: Align(
                                                             alignment: Alignment.centerLeft,
@@ -385,13 +370,9 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                                 return;
                                                               }
 
-                                                              snapshot.data['cart'][index]['qtd']++;
-                                                                print(snapshot.data['cart'][index]['qtd']);
-                                                              //Chamar o PUT
-                                                              //snapshot.data['cart'][index]['id']
-                                                              //snapshot.data['cart'][index]['qtd']    
-                                                            });
-                                                             // atualizar(productId, snapshot.data['cart'][index]['qtd']);                                                    
+                                                              snapshot.data['cart'][index]['qtd']++; 
+                                                              atualizar(snapshot.data['cart'][index]['id'], snapshot.data['cart'][index]['qtd']);
+                                                            });                                                                                                           
                                                           },
                                                           child: Align(
                                                             alignment: Alignment.centerRight,
@@ -453,7 +434,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                     fit: BoxFit.scaleDown,
                                                     alignment: Alignment.centerRight,
                                                     child: Text(
-                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(77),
+                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(snapshot.data['sub_total']),
                                                         style: const TextStyle(
                                                           color: Color(0xFF1E1E1E),
                                                           fontWeight: FontWeight.bold,
@@ -504,7 +485,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                                     fit: BoxFit.scaleDown,
                                                     alignment: Alignment.centerRight,
                                                     child: Text(
-                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(77),
+                                                        intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(snapshot.data['total_price']),
                                                         style: const TextStyle(
                                                           color: Color(0xFF1E1E1E),
                                                           fontWeight: FontWeight.bold,
@@ -523,34 +504,33 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                 ),
                               ]
                 ),
-                  SizedBox(
-                    height: screenHeight - 850,
-                        child: Center(
-                          child: ElevatedButton(               
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: GlobalColors.blue,
-                              foregroundColor: GlobalColors.white,
-                              padding: const EdgeInsets.all(10.0),
-                              fixedSize: Size(screenWidth * 0.85, 55.0),
-                              textStyle: const TextStyle(
-                                fontSize: 24.0,
-                                  fontWeight: FontWeight.w700,
+                      SizedBox(
+                        height: screenHeight - 850,
+                            child: Center(
+                              child: ElevatedButton(               
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: GlobalColors.blue,
+                                  foregroundColor: GlobalColors.white,
+                                  padding: const EdgeInsets.all(10.0),
+                                  fixedSize: Size(screenWidth * 0.85, 55.0),
+                                  textStyle: const TextStyle(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  elevation: 20.0,
+                                  shadowColor: const Color(0xD2000000),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                                ),
+                                onPressed: () { Navigator.of(context).pushNamed('/checkout'); },
+                                child: const Text('Ir para Checkout')
                               ),
-                              elevation: 20.0,
-                              shadowColor: const Color(0xD2000000),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
-                            ),
-                            onPressed: () { Navigator.of(context).pushNamed('/Checkout'); },
-                            child: const Text('Ir para Checkout')
-                          ),
-                        )
-                      )
-
-                        ],
+                            )
+                          )
+                        ]
                       );
                     }
                   }
-                ),
+                )
               ]
             )
           )
@@ -581,7 +561,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
     throw Exception('Ocorreu um erro ao carregar o carrinho');
   }
 
-  /* Future<void> atualizar(int id, int qtd) async {
+  Future<void> atualizar(int id, int qtd) async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
     var url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
     final headers = {
@@ -591,8 +571,8 @@ class CarrinhoPageState extends State<CarrinhoPage> {
     var response = await http.patch(
       url, 
       body: {
-        'product' : id,
-        'qtd'     : qtd
+        'product' : id.toString(),
+        'qtd'     : qtd.toString()
       },
       headers: headers
     );
@@ -608,6 +588,6 @@ class CarrinhoPageState extends State<CarrinhoPage> {
       WidgetsBinding.instance.addPostFrameCallback((_) { snackBar(context, error['message']); });
     }
 
-    throw Exception('Ocorreu um erro ao carregar o carrinho');
-  } */
+   // throw Exception('Ocorreu um erro ao carregar o carrinho');
+  }
 }

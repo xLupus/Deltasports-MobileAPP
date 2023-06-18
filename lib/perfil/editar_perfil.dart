@@ -7,14 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../partials/footer.dart';
 import '../partials/header.dart';
 
-class EditperfilPage extends StatefulWidget {
-  const EditperfilPage({Key? key}) : super(key: key);
+class EditarPerfilPage extends StatefulWidget {
+  const EditarPerfilPage({Key? key}) : super(key: key);
 
   @override
-  State<EditperfilPage> createState() => _EditperfilPageState();
+  State<EditarPerfilPage> createState() => EditarPerfilPageState();
 }
 
-class _EditperfilPageState extends State<EditperfilPage> {
+class EditarPerfilPageState extends State<EditarPerfilPage> {
   final _formkey = GlobalKey<FormState>();
 
   String? _nomeController;
@@ -187,13 +187,7 @@ class _EditperfilPageState extends State<EditperfilPage> {
       bottomNavigationBar: const Footer()
     );
   }
-
-  Future<bool> sair() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.clear();
-    return true;
-  }
-
+  
   Future<dynamic> dadosDoUsuario() async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
 

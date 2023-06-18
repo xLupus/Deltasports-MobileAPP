@@ -190,7 +190,7 @@ class _PerfilPageState extends State<PerfilPage> {
                                         fit: BoxFit.scaleDown,
                                         alignment: Alignment.centerRight,
                                         child: GestureDetector(
-                                          onTap: () => { Navigator.of(context).pushNamed('/Editperfil') },
+                                          onTap: () => { Navigator.of(context).pushNamed('/editarPerfil') },
                                           child: const Icon(
                                             Icons.arrow_forward_ios_outlined,
                                             color: Color(0xFF000000),
@@ -249,7 +249,7 @@ class _PerfilPageState extends State<PerfilPage> {
                                         fit: BoxFit.scaleDown,
                                         alignment: Alignment.centerRight,
                                         child: GestureDetector(
-                                          onTap: () => { Navigator.of(context).pushNamed('/MeusPedidos') },
+                                          onTap: () => { Navigator.of(context).pushNamed('/pedidos') },
                                           child: const Icon(
                                             Icons.arrow_forward_ios_outlined,
                                             color: Color(0xFF000000),
@@ -309,7 +309,7 @@ class _PerfilPageState extends State<PerfilPage> {
                                           fit: BoxFit.scaleDown,
                                           alignment: Alignment.centerRight,
                                           child: GestureDetector(
-                                            onTap: () => { Navigator.of(context).pushNamed('/Enderecos') },
+                                            onTap: () => { Navigator.of(context).pushNamed('/enderecos') },
                                             child: const Icon(
                                               Icons.arrow_forward_ios_outlined,
                                               color: Color(0xFF000000),

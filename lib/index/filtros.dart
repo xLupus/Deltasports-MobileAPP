@@ -9,14 +9,14 @@ import 'package:http/http.dart' as http;
 
 import '../partials/header.dart';
 
-class FiltroPage extends StatefulWidget {
-  const FiltroPage({Key? key}) : super(key: key);
+class FiltrosPage extends StatefulWidget {
+  const FiltrosPage({Key? key}) : super(key: key);
 
   @override
-  State<FiltroPage> createState() => FiltroPageState();
+  State<FiltrosPage> createState() => FiltrosPageState();
 }
 
-class FiltroPageState extends State<FiltroPage> {
+class FiltrosPageState extends State<FiltrosPage> {
   late Future<dynamic> _data;
 
   @override

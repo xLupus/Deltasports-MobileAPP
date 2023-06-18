@@ -1,9 +1,9 @@
 import 'package:deltasports_app/carrinho/carrinho.dart';
 import 'package:deltasports_app/index/index.dart';
-import 'package:deltasports_app/index/listagem.dart';
+import 'package:deltasports_app/produto/produtos.dart';
 import 'package:deltasports_app/perfil/perfil.dart';
 
-import '../endereco/endereco.dart';
+import '../endereco/enderecos.dart';
 import '../partials/footer.dart';
 import '../partials/header.dart';
 import 'package:flutter/material.dart';

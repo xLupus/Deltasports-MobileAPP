@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,6 +10,7 @@ import 'package:intl/intl.dart' as intl;
 import '../carrinho/carrinho.dart';
 import '../partials/footer.dart';
 import '../utilis/obter_imagem.dart';
+import '../utilis/snack_bar.dart';
 
 class ProdutoPage extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -283,7 +286,7 @@ class ProdutoPageState extends State<ProdutoPage> {
                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                                          ),
                                          onPressed: () { 
-                                           AdicionarCart();
+                                           adicionar();
                                          //  Navigator.of(context).pushNamed('/Carrinho'); 
                                            }, 
                                          child: const Text('Adicionar ao Carrinho')
@@ -294,7 +297,7 @@ class ProdutoPageState extends State<ProdutoPage> {
                                          Expanded(
                                            child: GestureDetector(
                                              onTap: () {
-                                               Navigator.of(context).pushNamed('/Produtos');
+                                               Navigator.of(context).pushNamed('/produtos');
                                              },
                                              child: LayoutBuilder(
                                                    builder: (BuildContext context, BoxConstraints constraints) {
@@ -335,7 +338,7 @@ class ProdutoPageState extends State<ProdutoPage> {
     );
   }
 
-  Future<bool> AdicionarCart() async {
+  Future<void> adicionar() async {
     SharedPreferences sharedPreference = await SharedPreferences.getInstance();
     var client = http.Client();
     final headers = {
@@ -345,26 +348,24 @@ class ProdutoPageState extends State<ProdutoPage> {
 
     print([widget.data['id'], widget.data['stock']]);
 
-    var resposta = await client.post(url,
-        body: {
-          'product': widget.data['id'].toString(),
-          'qtd': _qtdController.toString()
-        },
-        headers: headers);
+    var response = await client.post(url,
+      body: {
+        'product' : widget.data['id'].toString(),
+        'qtd'     : _qtdController.toString()
+      },
+      headers: headers
+    );
 
-    print(resposta);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
 
-    if (resposta.statusCode == 200) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => CarrinhoPage()),
-      );
-
-      print(convert.jsonDecode(resposta.body));
-
-      return true;
-    } else {
-      return false;
+      WidgetsBinding.instance.addPostFrameCallback((_) { 
+        Navigator.pushNamed(context, '/carrinho');
+        snackBar(context, data['message']);
+      });
+    } else if(response.statusCode == 500) {
+     Map<String, dynamic> error = json.decode(response.body);
+      return error['message'];
     }
   }
 }

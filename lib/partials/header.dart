@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../produto/pesquisa.dart';
-import '../produto/produtos.dart';
+import '../index/home.dart';
 import '../utilis/global_colors.dart';
 /* 
 class HeaderOne extends StatefulWidget {
@@ -45,7 +45,7 @@ class HeaderTwoState extends State<HeaderTwo> {
                   onTap: () { 
                   Navigator.pushReplacement(
                     context,
-                  MaterialPageRoute(builder: (context) => const ProdutosPage())
+                  MaterialPageRoute(builder: (context) => const HomePage())
                 );
               },
               child: Image.network('https://i.imgur.com/ell1sHu.png')
@@ -85,7 +85,7 @@ class HeaderThreeState extends State<HeaderThree> {
                   onTap: () { 
                   Navigator.pushReplacement(
                     context,
-                  MaterialPageRoute(builder: (context) => const ProdutosPage())
+                  MaterialPageRoute(builder: (context) => const HomePage())
                 );
               },
               child: Image.network('https://i.imgur.com/ell1sHu.png')

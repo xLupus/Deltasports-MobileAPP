@@ -1,6 +1,6 @@
 import '../partials/footer.dart';
 import '../partials/header.dart';
-import 'endereco.dart';
+import 'enderecos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
@@ -22,13 +22,13 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
   final _formkey = GlobalKey<FormState>();
 
   dynamic complementoController;
-  setComplemento(String value)    => complementoController = value;
+  setComplemento(String value)  => complementoController  = value;
 
   dynamic numeroController;
-  setNumero(String value)         => numeroController = value;
+  setNumero(String value)       => numeroController       =  value;
 
-   dynamic tipoController;
-  setTipo(String value)           => tipoController = value;
+  dynamic tipoController;
+  setTipo(String value)         => tipoController         = value;
 
 
   TextEditingController cepController         = TextEditingController();
@@ -75,7 +75,7 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                   fit: BoxFit.scaleDown,
                                   alignment: Alignment.center,
                                   child: Text(
-                                    'Novo Endereço:',
+                                    'Novo Endereço',
                                     style: TextStyle(
                                       color: Color(0xFF1E1E1E),
                                       fontWeight: FontWeight.bold,
@@ -300,8 +300,7 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                                     side: BorderSide(color: GlobalColors.blue, width: 3)
                                   ),
-                                  onPressed: () { 
-                                    
+                                  onPressed: () {                                 
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(builder: (context) => const EnderecoPage()),

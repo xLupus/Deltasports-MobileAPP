@@ -279,7 +279,7 @@ class PedidoPageState extends State<PedidoPage> {
                                                   child: Align(
                                                     alignment: Alignment.centerLeft,
                                                     child: Text(
-                                                      '${snapshot.data['address']['zip_code']}',                            
+                                                      '${snapshot.data['address']['zip_code'].substring(0, 5)}-${snapshot.data['address']['zip_code'].substring(5)}',                       
                                                       overflow: TextOverflow.ellipsis,
                                                       style: const TextStyle(
                                                         color: Color(0xFF848484),

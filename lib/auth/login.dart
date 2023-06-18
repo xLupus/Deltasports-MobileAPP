@@ -223,7 +223,7 @@ class LoginPageState extends State<Login> {
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Navigator.of(context).pushNamedAndRemoveUntil(
-            '/Produtos',
+            '/home',
             (route) => false,
           );
         });

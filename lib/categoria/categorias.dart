@@ -59,7 +59,7 @@ class CategoriasPageState extends State<CategoriasPage> {
                                   fit: BoxFit.scaleDown,
                                   alignment: Alignment.center,
                                   child: Text(
-                                    'Categorias:',
+                                    'Categorias',
                                     style: TextStyle(
                                       color: Color(0xFF1E1E1E),
                                       fontWeight: FontWeight.bold,
