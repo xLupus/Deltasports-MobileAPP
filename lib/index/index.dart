@@ -5,10 +5,10 @@ class IndexPage extends StatefulWidget {
   const IndexPage({Key? key}) : super(key: key);
 
   @override
-  State<IndexPage> createState() => _IndexPageState();
+  State<IndexPage> createState() => IndexPageState();
 }
 
-class _IndexPageState extends State<IndexPage> {
+class IndexPageState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -17,70 +17,69 @@ class _IndexPageState extends State<IndexPage> {
     return Scaffold(
       backgroundColor: GlobalColors.white,
       body: SafeArea(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Center(
-              child: Column(
-                children: [
-                  SizedBox(height: screenHeight < 800 ? screenHeight * 0.3 : screenHeight * 0.35),
-
-                  Image.network('https://i.imgur.com/aSEadiB.png'),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: 20,
-              child: SizedBox(
-                width: screenWidth * 0.75,
-                child: Column(
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: GlobalColors.red,
-                        padding: const EdgeInsets.all(10.0),
-                        fixedSize: Size(screenWidth * 0.75, 55.0),
-                        foregroundColor: GlobalColors.white,
-                        textStyle: const TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        elevation: 20.0,
-                        shadowColor: const Color(0xD2000000),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
-                      ),
-                      onPressed: () { Navigator.of(context).pushNamed('/login');  }, 
-                      child: const Text('Login'),
-                    ),
-                    
-                    SizedBox(height: screenHeight * 0.045),
-
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 20.0),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: GlobalColors.blue,
-                          padding: const EdgeInsets.all(10.0),
-                          fixedSize: Size(screenWidth * 0.75, 55.0),
-                          foregroundColor: GlobalColors.white,
-                          textStyle: const TextStyle(
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          elevation: 20.0,
-                          shadowColor: const Color(0xD2000000),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
-                        ),
-                        onPressed: () { Navigator.of(context).pushNamed('/registrar');  }, 
-                        child: const Text('Registrar'),
-                      )
-                    )
-                  ],
+        child: Center(
+          child: SizedBox(
+            width: screenWidth * 0.85,
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Image.network('https://i.imgur.com/aSEadiB.png')
                 ),
-              )
+                const SizedBox(height: 10),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 20.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: GlobalColors.red,
+                            padding: const EdgeInsets.all(10.0),
+                            fixedSize: Size(screenWidth * 0.85, 55.0),
+                            foregroundColor: GlobalColors.white,
+                            textStyle: const TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            elevation: 20.0,
+                            shadowColor: const Color(0xD2000000),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                          ),
+                          onPressed: () { Navigator.of(context).pushNamed('/login');  }, 
+                          child: const Text('Entrar'),
+                        )
+                      ),
+                        
+                      const SizedBox(height: 10),
+
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 20.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: GlobalColors.blue,
+                            padding: const EdgeInsets.all(10.0),
+                            fixedSize: Size(screenWidth * 0.85, 55.0),
+                            foregroundColor: GlobalColors.white,
+                          textStyle: const TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            elevation: 20.0,
+                            shadowColor: const Color(0xD2000000),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                          ),
+                          onPressed: () { Navigator.of(context).pushNamed('/registrar');  }, 
+                          child: const Text('Registrar'),
+                        )
+                      )
+                    ]
+                  )
+                )
+              ]
             )
-          ]
-        ),
+          )
+        )
       )
     );
   }

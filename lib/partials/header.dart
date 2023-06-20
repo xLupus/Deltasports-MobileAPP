@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../produto/pesquisa.dart';
 import '../index/home.dart';
 import '../utilis/global_colors.dart';
-/* 
+
 class HeaderOne extends StatefulWidget {
   const HeaderOne({Key? key}) : super(key: key);
 
@@ -11,19 +11,16 @@ class HeaderOne extends StatefulWidget {
   State<HeaderOne> createState() => HeaderOneState();
 }
 
-class HeaderOneState extends State<HeaderTwo> {
+class HeaderOneState extends State<HeaderOne> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          //
-        ]
+      body: Center(
+        child: Image.network('https://i.imgur.com/aSEadiB.png')
       )
     );
   }
-} */
+}
 //
 class HeaderTwo extends StatefulWidget {
   const HeaderTwo({Key? key}) : super(key: key);

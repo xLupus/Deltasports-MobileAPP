@@ -51,10 +51,10 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
               width: screenWidth * 0.85,
               child: Column(
                 children: [
-                   const SizedBox(
-                      height: 135,
-                      child: HeaderThree(),
-                    ),
+                  const SizedBox(
+                    height: 135,
+                    child: HeaderThree(),
+                  ),
                   Row(
                     children: [
                       Expanded(

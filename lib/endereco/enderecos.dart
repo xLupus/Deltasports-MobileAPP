@@ -34,7 +34,7 @@ class EnderecoPageState extends State<EnderecoPage> {
         child: SingleChildScrollView(
           child: Center(
             child: SizedBox(
-              width: screenWidth * 0.8,
+              width: screenWidth * 0.85,
               child: Column(
                 children: [
                   const SizedBox(
@@ -105,7 +105,7 @@ class EnderecoPageState extends State<EnderecoPage> {
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.center,
                               child: SizedBox(
-                                height: screenHeight - 259,
+                                height: screenHeight - 58,
                                 child: const Center(
                                   child: CircularProgressIndicator(
                                     color: Color(0xFFBABABA),
@@ -114,15 +114,15 @@ class EnderecoPageState extends State<EnderecoPage> {
                               )
                             );
                           }
-                        );
+                        );  
                       } else if(snapshot.hasError) {
-                        return LayoutBuilder(
+                       return LayoutBuilder(
                           builder: (BuildContext context, BoxConstraints constraints) {
                             return FittedBox(
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.center,
                               child: SizedBox(
-                                height: screenHeight - 259,
+                                height: screenHeight - 58,
                                 child: Center(
                                   child: Text(
                                     snapshot.error.toString().substring(11),
@@ -130,12 +130,12 @@ class EnderecoPageState extends State<EnderecoPage> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20
                                     )
-                                  ),
+                                  )
                                 )
                               )
                             );
                           }
-                        );                    
+                        );
                       } else {
                         return  ListView.builder(
                             shrinkWrap: true,

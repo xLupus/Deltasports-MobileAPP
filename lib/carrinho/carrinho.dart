@@ -581,6 +581,11 @@ class CarrinhoPageState extends State<CarrinhoPage> {
       setState(() { _data = mostrar(); });
     
       Map<String, dynamic> data = json.decode(response.body);
+      
+      if(data['data']['qtd'] == 0) {
+        WidgetsBinding.instance.addPostFrameCallback((_) { snackBar(context, 'Produto removido do carrinho com sucesso!'); });
+      }
+    
       WidgetsBinding.instance.addPostFrameCallback((_) { snackBar(context, data['message']); });
     } else if(response.statusCode == 404) {
       Map<String, dynamic> error = json.decode(response.body);

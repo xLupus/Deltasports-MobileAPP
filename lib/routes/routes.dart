@@ -19,7 +19,7 @@ class AppPage {
   static final Map<String, WidgetBuilder> routes = {
     '/'             : (context) => const IndexPage(),
     '/home'         : (context) => const HomePage(),
-    '/registrar'    : (context) => const RegisterPage(),
+    '/registrar'    : (context) => const RegistroPage(),
     '/produtos'     : (context) => const ProdutosPage(),
     '/login'        : (context) => const Login(),
     '/produto'      : (context) => const ProdutoPage(data: {}),

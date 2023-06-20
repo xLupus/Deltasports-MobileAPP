@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../partials/header.dart';
 import '../utilis/snack_bar.dart';
 
 class Login extends StatefulWidget {
@@ -35,34 +36,27 @@ class LoginPageState extends State<Login> {
       backgroundColor: GlobalColors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Shortcuts(
-            shortcuts: const <ShortcutActivator, Intent>{
-                  // Pressing space in the field will now move to the next field.
-                SingleActivator(LogicalKeyboardKey.enter): NextFocusIntent(),
-            },
-            child: FocusTraversalGroup(
-              child: Center(
-                child:  FractionallySizedBox(
-                widthFactor: 0.8,  
-                child: Stack(
-                    children: [         
-                      Container(
-                        height: screenHeight,
-                      ), 
-                      SizedBox(
-                        width: screenWidth,
-                        child: Image.network('https://i.imgur.com/aSEadiB.png'),
-                      ),
-                      SizedBox(
-                        child: Form(
-                          key: _formkey,
-                          child:  Container(
-                            margin: const EdgeInsets.only(top: 250),
-                            child: Column(
-                              children: [
-                                const Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
+          child: Center(
+            child: SizedBox(
+              width: screenWidth * 0.85,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 135,
+                    child: HeaderOne()
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                        alignment: Alignment.centerLeft,
+                          child: LayoutBuilder(
+                           builder: (BuildContext context, BoxConstraints constraints) {
+                             return const FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.center,
+                                child: Text(
                                     'Bem-vindo(a)',
                                     style: TextStyle(
                                       color: Color(0xFF3D3D3D),
@@ -70,136 +64,180 @@ class LoginPageState extends State<Login> {
                                       fontSize: 24
                                     )
                                   )
-                                ),
-
-                                SizedBox(height: screenHeight * 0.01),
-
-                                const Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Faça o login ou cadastre-se para continuar',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 16
-                                    )
-                                  )
-                                ),
-
-                                SizedBox(height: screenHeight * 0.025),
-
-                                TextFormField(
-                                  onChanged: setLogin,
-                                  validator: (email) {
-                                    if (email == null || email.isEmpty) {
-                                      return 'Preencha este campo';
-                                    } else if (!RegExp(
-                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(_emailController.toString())) {
-                                      return 'O E-mail informado é inválido';
-                                    }
-                                    return null;
-                                  },
-                                  initialValue: 'teste@teste.com',
-                                  keyboardType: TextInputType.emailAddress,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Email'
-                                  )
-                                ),
-
-                                const SizedBox(height: 18),
-
-                                //Senha
-                                TextFormField(
-                                  onChanged: setSenha,
-                                  validator: (senha) {
-                                    if (senha == null || senha.isEmpty) {
-                                      return 'Preencha este campo';
-                                    }
-                                    return null;                                  
-                                  },
-                                  initialValue: '12345678',
-                                  obscureText: true,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Senha',
-                                  )
-                                )
-                              ]
-                            )
-                          )
+                              );
+                            }
+                          )  
                         )
                       ),
-                      Positioned(
-                        bottom: 20,
-                        child: SizedBox(
-                          child: Column(
-                            children: [
-                            ElevatedButton(               
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: isLoading ? const Color(0xFF919191) : GlobalColors.red,
-                                  foregroundColor: GlobalColors.white,
-                                  padding: const EdgeInsets.all(10.0),
-                                  fixedSize: Size(screenWidth * 0.75, 55.0),
-                                  textStyle: const TextStyle(
-                                    fontSize: 24.0,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  elevation: 20.0,
-                                  shadowColor: const Color(0xD2000000),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
-                                ),
-                                onPressed: () { 
-                                    if (_formkey.currentState!.validate()) {
-                                        login();
-                                      }
-                                }, 
-                                child: isLoading ? const SizedBox(
-                                  width: 25,
-                                  height: 25,
-                                  child: CircularProgressIndicator(
-                                    color: Color(0xFFBABABA)
-                                  ),
-                                ) : const Text('Entrar'),
-                              ),
-                              
-                              SizedBox(height: screenHeight * 0.045),
-
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 20.0),
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: GlobalColors.white,
-                                    padding: const EdgeInsets.all(10.0),
-                                    fixedSize: Size(screenWidth * 0.75, 55.0),
-                                    foregroundColor: GlobalColors.blue,
-                                    textStyle: const TextStyle(
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                    elevation: 20.0,            
-                                    shadowColor: const Color(0xD2000000),                
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                                    side: BorderSide(color: GlobalColors.blue, width: 3)
-                                  ),
-                                  onPressed: () { Navigator.of(context).pushNamed('/'); }, 
-                                  child: const Text('Voltar')
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      )
-                    ] 
+                    ]
                   ),
-                
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                        alignment: Alignment.centerLeft,
+                          child: LayoutBuilder(
+                           builder: (BuildContext context, BoxConstraints constraints) {
+                             return const FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Faça o login ou cadastre-se para continuar',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 16
+                                  )
+                                )
+                              );
+                            }
+                          )  
+                        )
+                      ),
+                    ]
+                  ),
+                  const SizedBox(height: 30),
+                  Shortcuts(
+                          shortcuts: const <ShortcutActivator, Intent> {
+                        // Pressing space in the field will now move to the next field.
+                          SingleActivator(LogicalKeyboardKey.enter): NextFocusIntent()
+                          },
+                          child: FocusTraversalGroup(
+                            child:  Form(
+                              key: _formkey,
+                              child: SizedBox(
+                                width: screenWidth * 0.85,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 85,
+                                          width: screenWidth * 0.85,
+                                          child: TextFormField(
+                                            onChanged: setLogin,
+                                            validator: (email) {
+                                              if (email == null || email.isEmpty) {
+                                                return 'Preencha este campo';
+                                              } else if (!RegExp(
+                                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                .hasMatch(_emailController.toString())) {
+                                                return 'O E-mail informado é inválido';
+                                              }
+                                              return null;
+                                            },
+                                            initialValue: 'teste@teste.com',
+                                            keyboardType: TextInputType.emailAddress,
+                                            decoration: const InputDecoration(
+                                              labelText: 'Email'
+                                            )
+                                          )
+                                        ),
+                                      ],
+                                    ),
+                  
+                                    SizedBox(height: screenHeight * 0.001),
+                  
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 85,
+                                          width: screenWidth * 0.85,
+                                          child: TextFormField(
+                                            onChanged: setSenha,
+                                            validator: (senha) {
+                                              if (senha == null || senha.isEmpty) {
+                                                return 'Preencha este campo';
+                                              }
+                                              return null;                                  
+                                            },
+                                            initialValue: '12345678',
+                                            obscureText: true,
+                                            decoration: const InputDecoration(
+                                              labelText: 'Senha',
+                                            )
+                                          )
+                                        ),
+                                      ]
+                                    ),
+  
+                                  ]
+                                )
+                              )
+                      )
+                    )
+                  ),
+                  const SizedBox(height: 50),
 
-              ),
-              ),
-                
+                                    SizedBox(
+                                      height: screenHeight - 480,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.only(bottom: 20.0),
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: isLoading ? const Color(0xFF919191) : GlobalColors.red,
+                                                foregroundColor: GlobalColors.white,
+                                                padding: const EdgeInsets.all(10.0),
+                                                fixedSize: Size(screenWidth * 0.85, 55.0),
+                                                textStyle: const TextStyle(
+                                                  fontSize: 24.0,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                                elevation: 20.0,
+                                                shadowColor: const Color(0xD2000000),
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                                              ),
+                                              onPressed: () { 
+                                                  if (_formkey.currentState!.validate()) {
+                                                      login();
+                                                    }
+                                              }, 
+                                              child: isLoading ? const SizedBox(
+                                                width: 25,
+                                                height: 25,
+                                                child: CircularProgressIndicator(
+                                                  color: Color(0xFFBABABA)
+                                                ),
+                                              ) : const Text('Entrar'),
+                                            ),
+                                          ),   
+                                                                    
+                                          const SizedBox(height: 10),
+                                                            
+                                          Container(
+                                            margin: const EdgeInsets.only(bottom: 20.0),
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: GlobalColors.white,
+                                                padding: const EdgeInsets.all(10.0),
+                                                fixedSize: Size(screenWidth * 0.85, 55.0),
+                                                foregroundColor: GlobalColors.blue,
+                                                textStyle: const TextStyle(
+                                                  fontSize: 24.0,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                                elevation: 20.0,            
+                                                shadowColor: const Color(0xD2000000),                
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                side: BorderSide(color: GlobalColors.blue, width: 3)
+                                              ),
+                                              onPressed: () { Navigator.of(context).pushNamed('/'); }, 
+                                              child: const Text('Voltar')
+                                            )
+                                          )
+                                        ]
+                                      )
+                                    ),
+                                    const SizedBox(height: 27),
+                ]
               )
             )
           )
         )
-      );
+      )
+    );
   }
 
   Future<void> login() async {
@@ -215,7 +253,6 @@ class LoginPageState extends State<Login> {
       'email'   : _emailController,
       'password': _senhaController
     });
-    var data = jsonDecode(response.body);
 
     switch (response.statusCode) {
       case 200:
