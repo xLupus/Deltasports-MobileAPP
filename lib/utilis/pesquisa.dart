@@ -6,15 +6,17 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'obter_imagem.dart';
+
 class PesquisaPage extends SearchDelegate<String> {
   @override
   String get searchFieldLabel => 'Pesquise por nome, marca ou categoria ...';
 
   @override
   List<Widget>? buildActions(BuildContext context) {
-    // TODO: implement buildActions
     return [
       IconButton(
+        padding: const EdgeInsets.only(left: 5),
         onPressed: () { query = ''; },
         icon: const Icon(Icons.clear),
       ),
@@ -23,16 +25,15 @@ class PesquisaPage extends SearchDelegate<String> {
 
   @override
   Widget? buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
     return IconButton(
       onPressed: () { close(context, ''); },
       icon: const Icon(Icons.arrow_back),
+      padding: const EdgeInsets.only(right:20)
     );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
     return FutureBuilder<Map<dynamic, dynamic>>(
       future: resultado(query),
       builder: (context, snapshot) {          
@@ -83,36 +84,47 @@ class PesquisaPage extends SearchDelegate<String> {
     return FutureBuilder<List>(
         future: sugestoes(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+             return const Center(  
+                    child: CircularProgressIndicator(
+                      color: Color(0xFFBABABA),
+                    ),
+                  );
+          } else if (snapshot.hasError) {
+            
+              return const Text(
+               'Nenhum produto encontrado ...',
+          style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    fontSize: 20
+            )
+            );
+          } else {
             return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
                   return ListTile(
-                    //erro aqui
-                    //leading: Image.network(snapshot.data![index]['images'][0]['url'].toString()),
-                    leading: obterImagem(snapshot.data![index]['images']),
+                    leading: obterImagemPesquisa(snapshot.data![index]['images']),
                     title: Text(snapshot.data![index]['name'].toString()),
                     subtitle: Text(snapshot.data![index]['category']['name'].toString()), 
-                    trailing: Text('R\$ ${snapshot.data![index]['price'].toString()}'),
+                    trailing: Text(intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(snapshot.data![index]['price']))),
                     onTap: () {
                       Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ProdutoPage(data: snapshot.data![index])));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                            ProdutoPage(data: snapshot.data![index])
+                        )
+                      );
                       query = snapshot.data![index]['id'];
                       showResults(context);
                     },
                   );
-                });
-          } else if (snapshot.hasError) {
-            return const Center(
-              child: Text('Nenhum produto encontrado ...'),
-            );
-          }
-          return const Center( child: CircularProgressIndicator(),);
+            }
+          );
+        }
       }
-      );
+    );
   }
 
   Future<List> sugestoes() async {
@@ -156,13 +168,5 @@ class PesquisaPage extends SearchDelegate<String> {
       return pesquisa;
     }
     throw Exception('Erro ao solicitar o produto presquisa');
-  }
-
-  dynamic obterImagem(dynamic url) {
-    if (url.length > 0 && url[0] != null && url[0]['url'] != '') {
-      return Image(image: NetworkImage(url[0]['url']));
-    } else {
-      return const Image(image: AssetImage('images/no_image.png'));
-    }
   }
 }

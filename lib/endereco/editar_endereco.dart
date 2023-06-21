@@ -10,7 +10,6 @@ import '../../utilis/snack_bar.dart';
 import '../partials/footer.dart';
 import '../partials/header.dart';
 
-//TODO: VALIDAÇÕES
 class EditarEnderecoPage extends StatefulWidget {
   final int id;
   const EditarEnderecoPage(this.id, {Key? key}) : super(key: key);
@@ -28,9 +27,8 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
   dynamic numeroController;
   setNumero(String value)         => numeroController = value;
 
-   dynamic tipoController;
+  dynamic tipoController;
   setTipo(String value)           => tipoController = value;
-
 
   TextEditingController cepController         = TextEditingController();
   TextEditingController logradouroController  = TextEditingController();
@@ -100,12 +98,14 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                       child:  Form(
                         key: _formkey,
                         child: SizedBox(
-                          width: screenWidth * 0.80,
+                          width: screenWidth * 0.85,
                           child: Column(
                             children: [
                               Row(
                                 children: [
-                                  Expanded(
+                                  SizedBox(
+                                    height: 85,
+                                    width: screenWidth * 0.85,
                                     child: TextFormField(
                                       controller: logradouroController,
                                       autofocus: true,
@@ -119,17 +119,18 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                       decoration: const InputDecoration(
                                         labelText: 'Logradouro',
                                       ),
-                                    )
+                                    ),
                                   ),
                                 ],
                               ),
 
-                              SizedBox(height: screenHeight * 0.025),
+                              SizedBox(height: screenHeight * 0.001),
 
                               Row(
                                 children: [
-                                  Expanded(
-                                    flex: 5,
+                                  SizedBox(
+                                    height: 85,
+                                    width: 300,
                                     child: TextFormField(
                                       autofocus: true,
                                       onChanged: setComplemento,
@@ -142,11 +143,12 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                       decoration: const InputDecoration(
                                           labelText: 'Complemento',
                                       ),
-                                    )
+                                    ),
                                   ),
                                   const Spacer(),
-                                  Expanded(
-                                    flex: 2,
+                                  SizedBox(
+                                    height: 85,
+                                    width: 100,
                                     child: TextFormField(
                                       autofocus: true,
                                       keyboardType: TextInputType.number,
@@ -160,17 +162,18 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                       decoration: const InputDecoration(
                                         labelText: 'Nº',
                                       )
-                                    )
+                                    ),
                                   )
                                 ]
                               ),
 
-                              SizedBox(height: screenHeight * 0.025),
+                              SizedBox(height: screenHeight * 0.001),
 
                               Row(
                                 children: [
-                                  Expanded(
-                                    flex: 4,
+                                  SizedBox(
+                                    height: 85,
+                                    width: 120,
                                     child: TextFormField(
                                       maxLength: 8,
                                       controller: cepController,
@@ -185,11 +188,12 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                       decoration: const InputDecoration(
                                         labelText: 'CEP'
                                       ),
-                                    )
+                                    ),
                                   ),
                                   const Spacer(),
-                                  Expanded(
-                                    flex: 4,
+                                  SizedBox(
+                                    height: 85,
+                                    width: 120,
                                     child: TextFormField(
                                       controller: cidadeController,
                                       autofocus: true,
@@ -203,12 +207,13 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                       decoration: const InputDecoration(
                                         labelText: 'Cidade'
                                       ),
-                                    )
+                                    ),
                                   ),
                                   const Spacer(),
-                                  Expanded(
-                                    flex: 2,
-                                    child:  TextFormField(
+                                  SizedBox(
+                                    height: 85,
+                                    width: 120,
+                                    child: TextFormField(
                                       controller: estadoController,
                                       autofocus: true,
                                       keyboardType: TextInputType.text,
@@ -226,14 +231,14 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                 ],
                               ),
 
-                              SizedBox(height: screenHeight * 0.025),
+                              SizedBox(height: screenHeight * 0.001),
 
                               Row(
                                 children: [
-                                  SizedBox(height: screenHeight * 0.025),
-                                  Expanded(
-                                    flex: 3,
-                                    child:  TextFormField(
+                                  SizedBox(
+                                    height: 85,
+                                    width: screenWidth * 0.85,
+                                    child: TextFormField(
                                       autofocus: true,
                                       onChanged: setTipo,
                                       keyboardType: TextInputType.text,
@@ -246,7 +251,7 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                       decoration: const InputDecoration(
                                         labelText: 'Tipo'
                                       )
-                                    )
+                                    ),
                                   )
                                 ]
                               ),
@@ -258,7 +263,7 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: GlobalColors.blue,
                                     padding: const EdgeInsets.all(10.0),
-                                    fixedSize: const Size(200, 55.0),
+                                    fixedSize: Size(screenWidth * 0.85, 55.0),
                                     foregroundColor: GlobalColors.white,
                                     textStyle: const TextStyle(
                                       fontSize: 24.0,
@@ -269,10 +274,10 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                                   ),
                                   onPressed: buscarDadosCEP, 
-                                  child: const Text('Buscar')
+                                  child: const Text('Buscar CEP')
                                 )
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 10),
 
                               WillPopScope(
                               onWillPop: () async {
@@ -288,7 +293,7 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: GlobalColors.white,
                                     padding: const EdgeInsets.all(10.0),
-                                    fixedSize: Size(screenWidth * 0.75, 55.0),
+                                    fixedSize: Size(screenWidth * 0.85, 55.0),
                                     foregroundColor: GlobalColors.blue,
                                     textStyle: const TextStyle(
                                       fontSize: 24.0,
@@ -317,7 +322,7 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: GlobalColors.blue,
                                     padding: const EdgeInsets.all(10.0),
-                                    fixedSize: Size(screenWidth * 0.75, 55.0),
+                                    fixedSize: Size(screenWidth * 0.85, 55.0),
                                     foregroundColor: GlobalColors.white,
                                     textStyle: const TextStyle(
                                       fontSize: 24.0,
