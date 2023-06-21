@@ -62,7 +62,7 @@ class ProdutoPageState extends State<ProdutoPage> {
                    child: ClipRRect(
                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
                        child: Container(
-                        color: const Color(0xFFB4B4B4),
+                        color: Color.fromARGB(255, 243, 243, 243),
                          width: screenWidth,
                          height: screenHeight - 550,
                          child: Column(

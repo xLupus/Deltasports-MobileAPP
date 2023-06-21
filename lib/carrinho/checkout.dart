@@ -33,7 +33,7 @@ class CheckoutPageState extends State<CheckoutPage> {
   initState() {  
     super.initState();
     _data     = mostrar();
-    _address  = endereco(80);
+    _address  = endereco(101);
   }
 
   @override

@@ -223,7 +223,7 @@ class EditarPerfilPageState extends State<EditarPerfilPage> {
                                             margin: const EdgeInsets.only(bottom: 20.0),
                                             child: ElevatedButton(
                                               style: ElevatedButton.styleFrom(
-                                                backgroundColor: GlobalColors.blue,
+                                                backgroundColor: GlobalColors.red,
                                                 padding: const EdgeInsets.all(10.0),
                                                 fixedSize: Size(screenWidth * 0.85, 55.0),
                                                 foregroundColor: GlobalColors.white,
