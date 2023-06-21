@@ -306,7 +306,6 @@ class PedidosPageState extends State<PedidosPage> {
     };
     var response = await http.get(url, headers: headers);
 
-      print(response.body);
     if (response.statusCode == 200) {
       Map<String, dynamic> orders = jsonDecode(response.body);      
       return orders['data'];

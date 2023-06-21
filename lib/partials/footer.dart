@@ -10,9 +10,9 @@ class Footer extends StatefulWidget {
 }
 
 class FooterState extends State<Footer> {
+  late PageController _pageController;
   int _selectedIndex = 0;
   final Color backgroundColor = GlobalColors.red;
-  //PageController _pageController = PageController();
   
   final List<String> _screens = [
     '/home',
@@ -25,6 +25,13 @@ class FooterState extends State<Footer> {
   void initState() {
     super.initState();
     _selectedIndex = widget.currentPageIndex;
+    _pageController = PageController(initialPage: _selectedIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   void _onItemTapped(int index) {
@@ -32,7 +39,9 @@ class FooterState extends State<Footer> {
       _selectedIndex = index;
     });
 
-    Navigator.of(context).pushNamed(_screens[index]);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.of(context).pushNamed(_screens[index]);
+    });
   }
 
   @override
@@ -41,13 +50,13 @@ class FooterState extends State<Footer> {
       decoration: const BoxDecoration(
         boxShadow: [
           BoxShadow(
-                color: Color(0x6D000000),
-                offset: Offset(0, 4),
-                blurRadius: 14,
-                spreadRadius: 6
-              )
-            ],
-          borderRadius: BorderRadius.only(
+            color: Color(0x6D000000),
+            offset: Offset(0, 4),
+            blurRadius: 14,
+            spreadRadius: 6
+          )
+        ],
+        borderRadius: BorderRadius.only(
           topRight: Radius.circular(20.0),
           topLeft: Radius.circular(20.0),
         ),

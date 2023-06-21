@@ -723,7 +723,6 @@ class HomePageState extends State<HomePage> {
     };
     var response = await client.get(url, headers: headers);
 
-    print([response.statusCode, sharedPreference.getString("token")]);
      if (response.statusCode == 200) {
       Map<String, dynamic> products = jsonDecode(response.body);      
       return products['data'];

@@ -131,10 +131,9 @@ class PesquisaPage extends SearchDelegate<String> {
 
       Map<String, dynamic> r = json.decode(response.body);
       var products = r['data'];
-       print(products);
       return products;
     } else {
-      print('erro');
+     // print('erro');
     }
 
     throw Exception('Erro ao solicitar o produto presquisa');

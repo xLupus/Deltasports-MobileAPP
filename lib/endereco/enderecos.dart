@@ -341,38 +341,105 @@ class EnderecoPageState extends State<EnderecoPage> {
                                                       onTap: () { 
                                                         showDialog(
                                                           context: context, 
-                                                          builder: (BuildContext context) => AlertDialog(
-                                                            title: const Text(
-                                                              'Aviso!',
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.bold
-                                                              )
-                                                            ),
-                                                            content: const Text('Deseja remover o endereço selecionado ?'),
-                                                            actions: [
-                                                              Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                    child: MaterialButton(
-                                                                      onPressed: () => {
-                                                                        Navigator.pop(context, 'Sim'),
-                                                                        remover(snapshot.data![index]['id'])
-                                                                      },                                                      
-                                                                      child: const Text('Sim')
-                                                                    )
-                                                                  ),
-                                                                  Expanded(
-                                                                    child:  MaterialButton(
-                                                                      onPressed: () => Navigator.pop(context, 'Não'),                                                             
-                                                                      child: const Text('Não')
-                                                                    )
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ],
+                                                          builder: (BuildContext context) => Dialog(                            
                                                             elevation: 20.0,            
                                                             shadowColor: const Color(0xD2000000),                
-                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0))
+                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                color: GlobalColors.white,
+                                                                borderRadius: BorderRadius.circular(25.0)  
+                                                              ),
+                                                              height: 200,
+                                                              padding: const EdgeInsets.all(20),
+                                                              child: Column(
+                                                                children: [
+                                                                  const Row(
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child: Center(
+                                                                          child: Text(
+                                                                            'Aviso!',
+                                                                            style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 24
+                                                                            )
+                                                                          ),
+                                                                          
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  const SizedBox(height: 15),
+                                                                  const Row(
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child: Center(
+                                                                          child: Text(
+                                                                            'Deseja remover o endereço selecionado ?',
+                                                                            style: TextStyle(
+                                                                              color: Color(0xFF3A3A3A),
+                                                                              fontWeight: FontWeight.w400,
+                                                                              fontSize: 16
+                                                                            )
+                                                                          ) 
+                                                                        )
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  const SizedBox(height: 40),
+                                                                  Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    children: [
+                                                                      Flexible(
+                                                                        child: ElevatedButton(
+                                                                          style: ElevatedButton.styleFrom(
+                                                                            backgroundColor: GlobalColors.blue,
+                                                                            foregroundColor: GlobalColors.white,
+                                                                            padding: const EdgeInsets.all(10.0),
+                                                                            fixedSize: Size(screenWidth * 0.30, 42),
+                                                                            textStyle: const TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontWeight: FontWeight.w700,
+                                                                            ),
+                                                                            elevation: 20.0,
+                                                                            shadowColor: const Color(0xD2000000),
+                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                                                                          ),
+                                                                          onPressed: () { 
+                                                                            Navigator.pop(context, 'Sim');
+                                                                            remover(snapshot.data![index]['id']);
+                                                                          }, 
+                                                                          child: const Text('Sim'),
+                                                                        ),
+                                                                      ),
+                                                                      const SizedBox(width: 40),
+                                                                      Flexible(
+                                                                        child: ElevatedButton(
+                                                                          style: ElevatedButton.styleFrom(
+                                                                            backgroundColor: GlobalColors.blue,
+                                                                            foregroundColor: GlobalColors.white,
+                                                                            padding: const EdgeInsets.all(10.0),
+                                                                            fixedSize: Size(screenWidth * 0.30, 42),
+                                                                            textStyle: const TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontWeight: FontWeight.w700,
+                                                                            ),
+                                                                            elevation: 20.0,
+                                                                            shadowColor: const Color(0xD2000000),
+                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                                                                          ),
+                                                                          onPressed: () { 
+                                                                            Navigator.pop(context, 'Não');
+                                                                          }, 
+                                                                          child: const Text('Não'),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
                                                           )
                                                         );
                                                       },

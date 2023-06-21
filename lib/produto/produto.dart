@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 import 'package:intl/intl.dart' as intl;
 
 import '../carrinho/carrinho.dart';
 import '../partials/footer.dart';
+import '../utilis/dialog.dart';
 import '../utilis/obter_imagem.dart';
-import '../utilis/snack_bar.dart';
+import 'produtos.dart';
 
 class ProdutoPage extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -33,7 +33,7 @@ class ProdutoPageState extends State<ProdutoPage> {
       _qtdController = value;
     });
 
-    final double _priceTotal = double.parse(widget.data['price']) - double.parse(widget.data['discount']);
+    final double priceTotal = double.parse(widget.data['price']) - double.parse(widget.data['discount']);
 
     return Scaffold(
       backgroundColor: GlobalColors.white,
@@ -62,7 +62,7 @@ class ProdutoPageState extends State<ProdutoPage> {
                    child: ClipRRect(
                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
                        child: Container(
-                        color: Color.fromARGB(255, 180, 180, 180),
+                        color: const Color(0xFFB4B4B4),
                          width: screenWidth,
                          height: screenHeight - 550,
                          child: Column(
@@ -225,7 +225,7 @@ class ProdutoPageState extends State<ProdutoPage> {
                                                          intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(double.parse(widget.data['price'])),   
                                                          maxLines: 2,           
                                                          overflow: TextOverflow.ellipsis,
-                                                         style:  _priceTotal != double.parse(widget.data['price']) ? 
+                                                         style:  priceTotal != double.parse(widget.data['price']) ? 
                                                                       const TextStyle(
                                                                         decoration: TextDecoration.lineThrough,
                                                                         color: Color(0xFF000000),
@@ -245,7 +245,7 @@ class ProdutoPageState extends State<ProdutoPage> {
                                  ),
                                ),
                                const SizedBox(width: 20),
-                               _priceTotal < double.parse(widget.data['price']) ? 
+                               priceTotal < double.parse(widget.data['price']) ? 
                                                           Flexible(
                                                             child: LayoutBuilder(
                                                             builder: (BuildContext context, BoxConstraints constraints) {
@@ -253,7 +253,7 @@ class ProdutoPageState extends State<ProdutoPage> {
                                                                 constraints: const BoxConstraints(),
                                                                   alignment: Alignment.centerLeft,
                                                                   child: Text(
-                                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(_priceTotal),                
+                                                                    intl.NumberFormat.currency(locale: 'pt_BR', name: 'R\$').format(priceTotal),                
                                                                     overflow: TextOverflow.ellipsis,
                                                                     style: const TextStyle(
                                                                       color: Color(0xFF000000),
@@ -346,8 +346,6 @@ class ProdutoPageState extends State<ProdutoPage> {
     };
     final url = Uri.parse('http://127.0.0.1:8000/api/user/cart');
 
-    print([widget.data['id'], widget.data['stock']]);
-
     var response = await client.post(url,
       body: {
         'product' : widget.data['id'].toString(),
@@ -357,14 +355,14 @@ class ProdutoPageState extends State<ProdutoPage> {
     );
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> data = json.decode(response.body);
-
       WidgetsBinding.instance.addPostFrameCallback((_) { 
-        Navigator.pushNamed(context, '/carrinho');
-        snackBar(context, data['message']);
+        WidgetsBinding.instance.addPostFrameCallback((_) { 
+          dialog(context, 'Produto adicionado ao Carrinho!', 'Ir para Carrinho', 'Continuar Comprando', const CarrinhoPage(), const ProdutosPage());
+        });
+        //Navigator.pushNamed(context, '/carrinho');
       });
     } else if(response.statusCode == 500) {
-     Map<String, dynamic> error = json.decode(response.body);
+      Map<String, dynamic> error = json.decode(response.body);
       return error['message'];
     }
   }

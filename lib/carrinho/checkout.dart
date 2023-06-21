@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:deltasports_app/pedido/pedidos.dart';
 import 'package:deltasports_app/utilis/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,8 +8,10 @@ import 'package:intl/intl.dart' as intl;
 
 import '../partials/footer.dart';
 import '../partials/header.dart';
+import '../pedido/pedidos.dart';
+import '../produto/produtos.dart';
+import '../utilis/dialog.dart';
 import '../utilis/obter_imagem.dart';
-import '../utilis/snack_bar.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({Key? key}) : super(key: key);
@@ -669,7 +670,113 @@ class CheckoutPageState extends State<CheckoutPage> {
                                 shadowColor: const Color(0xD2000000),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                               ),
-                              onPressed: () { checkout(); },
+                              onPressed: () { 
+                               showDialog(
+                                                          context: context, 
+                                                          builder: (BuildContext context) => Dialog(                            
+                                                            elevation: 20.0,            
+                                                            shadowColor: const Color(0xD2000000),                
+                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                color: GlobalColors.white,
+                                                                borderRadius: BorderRadius.circular(25.0),
+                                                                
+                                                              
+                                                              ),
+                                                              height: 200,
+                                                              padding: const EdgeInsets.all(20),
+                                                              child: Column(
+                                                                children: [
+                                                                  const Row(
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child: Center(
+                                                                          child: Text(
+                                                                            'Aviso!',
+                                                                            style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 24
+                                                                            )
+                                                                          ),
+                                                                          
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  const SizedBox(height: 15),
+                                                                  const Row(
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child: Center(
+                                                                          child: Text(
+                                                                            'Deseja proceder a compra ?',
+                                                                            style: TextStyle(
+                                                                              color: Color(0xFF3A3A3A),
+                                                                              fontWeight: FontWeight.w400,
+                                                                              fontSize: 16
+                                                                            )
+                                                                          ),                    
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  const SizedBox(height: 40),
+                                                                  Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    children: [
+                                                                      Flexible(
+                                                                        child: ElevatedButton(
+                                                                          style: ElevatedButton.styleFrom(
+                                                                            backgroundColor: GlobalColors.blue,
+                                                                            foregroundColor: GlobalColors.white,
+                                                                            padding: const EdgeInsets.all(10.0),
+                                                                            fixedSize: Size(screenWidth * 0.30, 42),
+                                                                            textStyle: const TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontWeight: FontWeight.w700,
+                                                                            ),
+                                                                            elevation: 20.0,
+                                                                            shadowColor: const Color(0xD2000000),
+                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                                                                          ),
+                                                                          onPressed: () { 
+                                                                            Navigator.pop(context, 'Sim');
+                                                                            checkout();
+                                                                          }, 
+                                                                          child: const Text('Sim'),
+                                                                        ),
+                                                                      ),
+                                                                      const SizedBox(width: 40),
+                                                                      Flexible(
+                                                                        child: ElevatedButton(
+                                                                          style: ElevatedButton.styleFrom(
+                                                                            backgroundColor: GlobalColors.blue,
+                                                                            foregroundColor: GlobalColors.white,
+                                                                            padding: const EdgeInsets.all(10.0),
+                                                                            fixedSize: Size(screenWidth * 0.30, 42),
+                                                                            textStyle: const TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontWeight: FontWeight.w700,
+                                                                            ),
+                                                                            elevation: 20.0,
+                                                                            shadowColor: const Color(0xD2000000),
+                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                                                                          ),
+                                                                          onPressed: () { 
+                                                                            Navigator.pop(context, 'Não');
+                                                                          }, 
+                                                                          child: const Text('Não'),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          )
+                                                        );
+                              },
                               child: isLoading ? const SizedBox(
                                 width: 25,
                                 height: 25,
@@ -710,20 +817,14 @@ class CheckoutPageState extends State<CheckoutPage> {
     var response = await client.post(url, body: {}, headers: headers);
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> data = json.decode(response.body);
-
       WidgetsBinding.instance.addPostFrameCallback((_) { 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const PedidosPage()),
-        );
-        snackBar(context, data['message']); 
+        dialog(context, 'Compra realizada com sucesso! :D Obrigado!', 'Ir para meus pedidos', 'Continuar Comprando', const PedidosPage(), const ProdutosPage());
       });
     } else if(response.statusCode == 404) {
       Map<String, dynamic> data = json.decode(response.body);
       return data['message'];
     }
-
+ 
     setState(() {
       isLoading = false;
     });

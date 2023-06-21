@@ -44,7 +44,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                   children: [
                     const SizedBox(
                       height: 135,
-                      child: HeaderThree(),
+                      child: HeaderTwo(),
                     ),
                     Row(
                       children: [
@@ -223,7 +223,7 @@ class ProdutosPageState extends State<ProdutosPage> {
                               itemCount: snapshot.data![1].length,
                               itemBuilder: (context, index) {
                                 final double priceTotal = double.parse(snapshot.data![1][index]['price']) - double.parse(snapshot.data![1][index]['discount']);
-                                                          print(snapshot.data![1][index]);
+  
                                 return Column(
                                   children: [
                                     GestureDetector(
@@ -369,8 +369,7 @@ class ProdutosPageState extends State<ProdutosPage> {
     };
     var response = await client.get(url, headers: headers);
 
-    print([response.statusCode, sharedPreference.getString("token")]);
-     if (response.statusCode == 200) {
+    if (response.statusCode == 200) {
       Map<String, dynamic> products = jsonDecode(response.body);      
       return products['data'];
     } else if(response.statusCode == 404) {

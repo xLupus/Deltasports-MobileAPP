@@ -258,7 +258,7 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: GlobalColors.blue,
                                     padding: const EdgeInsets.all(10.0),
-                                    fixedSize: Size(200, 55.0),
+                                    fixedSize: const Size(200, 55.0),
                                     foregroundColor: GlobalColors.white,
                                     textStyle: const TextStyle(
                                       fontSize: 24.0,
@@ -327,7 +327,11 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
                                     shadowColor: const Color(0xD2000000),                
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                                   ),
-                                  onPressed: () { editar(widget.id); }, 
+                                  onPressed: () { 
+                                    if (_formkey.currentState!.validate()) {
+                                        editar(widget.id); 
+                                     }
+                                  }, 
                                   child: const Text('Salvar')
                                 )
                               )
