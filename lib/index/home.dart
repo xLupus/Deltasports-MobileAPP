@@ -709,7 +709,7 @@ class HomePageState extends State<HomePage> {
           )
         )
       ),
-      bottomNavigationBar: const Footer()
+      bottomNavigationBar: const Footer(currentPageIndex: 0)
     );
   }
 

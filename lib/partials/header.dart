@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../produto/pesquisa.dart';
+import '../utilis/pesquisa.dart';
 import '../index/home.dart';
 import '../utilis/global_colors.dart';
 

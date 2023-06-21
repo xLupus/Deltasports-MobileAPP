@@ -355,7 +355,7 @@ class ProdutosPageState extends State<ProdutosPage> {
           )
         )
       ),
-      bottomNavigationBar: const Footer()
+      bottomNavigationBar: const Footer(currentPageIndex: 1)
     );
   }
 

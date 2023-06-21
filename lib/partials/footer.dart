@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../utilis/global_colors.dart';
 
 class Footer extends StatefulWidget {
-  const Footer({Key? key}) : super(key: key);
+  final int currentPageIndex;
+  const Footer({Key? key,  required this.currentPageIndex}) : super(key: key);
 
   @override
   State<Footer> createState() => FooterState();
@@ -19,6 +20,12 @@ class FooterState extends State<Footer> {
     '/carrinho',
     '/perfil'
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.currentPageIndex;
+  }
 
   void _onItemTapped(int index) {
     setState(() {

@@ -184,7 +184,7 @@ class CategoriasPageState extends State<CategoriasPage> {
         )
       ),
 
-       bottomNavigationBar: const Footer(), 
+       bottomNavigationBar: const Footer(currentPageIndex: 1), 
     );
   }
 

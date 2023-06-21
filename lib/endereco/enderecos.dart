@@ -105,7 +105,7 @@ class EnderecoPageState extends State<EnderecoPage> {
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.center,
                               child: SizedBox(
-                                height: screenHeight - 58,
+                                height: screenHeight - 259,
                                 child: const Center(
                                   child: CircularProgressIndicator(
                                     color: Color(0xFFBABABA),
@@ -122,7 +122,7 @@ class EnderecoPageState extends State<EnderecoPage> {
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.center,
                               child: SizedBox(
-                                height: screenHeight - 58,
+                                height: screenHeight - 259,
                                 child: Center(
                                   child: Text(
                                     snapshot.error.toString().substring(11),
@@ -404,7 +404,7 @@ class EnderecoPageState extends State<EnderecoPage> {
           )
         )
       ),
-      bottomNavigationBar: const Footer(),
+      bottomNavigationBar: const Footer(currentPageIndex: 3),
     );
   }
 

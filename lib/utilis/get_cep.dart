@@ -354,7 +354,7 @@ String? complementoController;
         )
       ),
 
-      bottomNavigationBar: const Footer(),
+
     )
    );
   }

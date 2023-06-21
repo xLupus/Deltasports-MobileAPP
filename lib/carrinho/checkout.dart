@@ -690,7 +690,7 @@ class CheckoutPageState extends State<CheckoutPage> {
           )
         )
       ),
-      bottomNavigationBar: const Footer()
+      bottomNavigationBar: const Footer(currentPageIndex: 2)
     );
   }
 

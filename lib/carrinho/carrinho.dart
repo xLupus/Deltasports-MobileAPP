@@ -536,7 +536,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
           )
         )
       ),
-      bottomNavigationBar: const Footer()
+      bottomNavigationBar: const Footer(currentPageIndex: 2)
     );
   }
 

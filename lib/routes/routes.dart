@@ -1,6 +1,6 @@
 import 'package:deltasports_app/carrinho/checkout.dart';
 import 'package:deltasports_app/categoria/categorias.dart';
-import 'package:deltasports_app/index/filtros.dart';
+import 'package:deltasports_app/produto/filtros.dart';
 import 'package:flutter/material.dart';
 
 import 'package:deltasports_app/pedido/pedidos.dart';

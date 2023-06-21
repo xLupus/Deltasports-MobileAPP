@@ -597,7 +597,7 @@ class PedidoPageState extends State<PedidoPage> {
             )
           )
         ),
-      bottomNavigationBar: const Footer()
+      bottomNavigationBar: const Footer(currentPageIndex: 3)
     );
   }
 

@@ -345,7 +345,7 @@ class CriarEnderecoPageState extends State<CriarEnderecoPage> {
         )
       ),
 
-      bottomNavigationBar: const Footer(),
+      bottomNavigationBar: const Footer(currentPageIndex: 3),
     );
   }
 

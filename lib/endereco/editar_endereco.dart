@@ -343,7 +343,7 @@ class EditarEnderecoPageState extends State<EditarEnderecoPage> {
           )
         )
       ),
-      bottomNavigationBar: const Footer(),
+      bottomNavigationBar: const Footer(currentPageIndex: 3),
     );
   }
 

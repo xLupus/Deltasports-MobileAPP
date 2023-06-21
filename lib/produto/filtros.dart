@@ -482,7 +482,7 @@ class FiltrosPageState extends State<FiltrosPage> {
           )
         )
       ),
-      bottomNavigationBar: const Footer(),
+      bottomNavigationBar: const Footer(currentPageIndex: 1)
     );
   }
 

@@ -261,7 +261,7 @@ class EditarPerfilPageState extends State<EditarPerfilPage> {
           )
         )
       ),
-      bottomNavigationBar: const Footer()
+      bottomNavigationBar: const Footer(currentPageIndex: 3)
     );
   }
 
